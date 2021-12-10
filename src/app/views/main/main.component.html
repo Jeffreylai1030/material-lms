@@ -1,0 +1,56 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <img src="assets/images/library-app.png" style="height: 40px" />
+    <h1 class="example-app-name">Library Management System</h1>
+    <span class="example-spacer"></span>
+    <button mat-icon-button (click)="onLogout()">
+      <mat-icon class="example-icon">exit_to_app</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+  >
+    <mat-sidenav
+      #snav
+      [opened]="!mobileQuery.matches"
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56"
+      class="sidebar"
+    >
+      <mat-nav-list>
+        <!-- <a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a> -->
+        <a mat-list-item routerLink="dashboard" routerLinkActive="active-link">
+          <mat-icon>dashboard</mat-icon><span class="sidebar-list">Dashboard</span>
+        </a>
+        <a mat-list-item routerLink="book" routerLinkActive="active-link">
+          <mat-icon>book</mat-icon><span class="sidebar-list">Books</span>
+        </a>
+        <a mat-list-item routerLink="employee" routerLinkActive="active-link">
+          <mat-icon>people_alt</mat-icon><span class="sidebar-list">Employee</span>
+        </a>
+        <a mat-list-item routerLink="member" routerLinkActive="active-link">
+          <mat-icon>card_giftcard</mat-icon><span class="sidebar-list">Member</span>
+        </a>
+        <a mat-list-item routerLink="borrow" routerLinkActive="active-link">
+          <mat-icon>folder_open</mat-icon><span class="sidebar-list">Borrow</span>
+        </a>
+        <a mat-list-item routerLink="return" routerLinkActive="active-link">
+          <mat-icon>assignment_return</mat-icon><span class="sidebar-list">Return</span>
+        </a>
+        <a mat-list-item routerLink="code" routerLinkActive="active-link">
+          <mat-icon>code</mat-icon><span class="sidebar-list">Code</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

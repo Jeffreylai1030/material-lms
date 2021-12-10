@@ -1,0 +1,38 @@
+<div class="main-layout">
+  <mat-toolbar color="primary" class="app-header">
+    <span class="nav-tool-items">
+      <a mat-button routerLink="login" routerLinkActive="active">Log in</a>
+      <a mat-button mat-raised-button routerLink="register" routerLinkActive="active">Register</a>
+    </span>
+  </mat-toolbar>
+
+  <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="box" style="margin: 14% 33%">
+      <mat-card-header>
+        <mat-card-title>Log in</mat-card-title>
+      </mat-card-header>
+
+      <form class="example-form">
+        <mat-card-content>
+          <mat-form-field class="example-full-width" [formGroup]="loginForm">
+            <input matInput placeholder="Email Address" type="email" formControlName="email" />
+            <mat-error *ngIf="errorHandling('email','required')">
+                Email is required
+            </mat-error>
+            <mat-error *ngIf="errorHandling('email','email')">
+                Invalid Email Address
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" [formGroup]="loginForm">
+            <input matInput placeholder="Password" type="password" formControlName="password"/>
+            <mat-error>
+                Invalid password pattern
+            </mat-error>
+          </mat-form-field>
+        </mat-card-content>
+        <button mat-stroked-button color="warn" class="btn-block" (click)="login()" [disabled]="loginForm.invalid">LOGIN</button>
+      </form>
+    </mat-card>
+  </div>
+</div>

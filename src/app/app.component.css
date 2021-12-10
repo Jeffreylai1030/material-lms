@@ -1,0 +1,67 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.example-is-mobile .example-toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+.example-toolbar {
+  background: linear-gradient(to right, #8360c3, #2ebf91);
+  color: white;
+}
+
+h1.example-app-name {
+  margin-left: 8px;
+}
+
+.sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+}
+
+.example-is-mobile .sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}
+
+mat-nav-list > a {
+  width: 85%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 17px;
+  border-radius: 5px;
+  color: #3c4858;
+  text-transform: capitalize;
+}
+
+.sidebar {
+  width: 15rem;
+  box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),
+    0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-list {
+  margin-left: 1rem;
+}
+
+.active-link {
+  color: white !important;
+  background: linear-gradient(to right, #00b4db, #0083b0) !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 180, 219, 0.4) !important;
+}
+
+.active-link:hover, .active-link:hover::after {
+  background: linear-gradient(to right, #00b4db, #0083b0);
+}
+

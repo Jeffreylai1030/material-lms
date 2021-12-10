@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "lms-20190117": {
+      "hosting": {
+        "material-lms": [
+          "lms-20190117"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "lms-20190117"
+  }
+}

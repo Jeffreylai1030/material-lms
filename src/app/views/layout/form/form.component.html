@@ -1,0 +1,11 @@
+<h1 mat-dialog-title align="center">{{ data.title }}</h1>
+<div mat-dialog-content [formGroup]="formGroup" class="my-form">
+  <dynamic-material-form [group]="formGroup" [model]="data.formModel">
+  </dynamic-material-form>
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-flat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button (click)="onSubmit()" color="primary" [disabled]="formGroup.invalid">
+    Submit
+  </button>
+</div>

@@ -1,0 +1,29 @@
+h1.dialog-red {
+  font: 500 20px/32px Poppins, 'Helvetica Neue', sans-serif;
+  display: block;
+  background: linear-gradient(to left, #eb3349, #f45c43);
+  color: #fff;
+  padding: .6rem 1.5rem;
+  margin: -1.5rem -1.5rem 0;
+}
+
+h1.dialog-blue {
+  font: 500 20px/32px Poppins, 'Helvetica Neue', sans-serif;
+  display: block;
+  background: linear-gradient(to left, #56ccf2, #2f80ed);
+  color: #fff;
+  padding: .6rem 1.5rem;
+  margin: -1.5rem -1.5rem 0;
+}
+
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+mat-list-item {
+  height: 3rem !important;
+}
+
+.dialog-content {
+  margin: 2rem 0 1rem 0;
+}

@@ -1,0 +1,8 @@
+table {
+  width: 100%;
+}
+
+.mat-chip {
+  font-size: 11px;
+  max-width: 5rem;
+}

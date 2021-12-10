@@ -1,0 +1,38 @@
+table {
+  width: 100%;
+}
+
+.example-container {
+  overflow: auto;
+}
+
+
+.mat-chip {
+  font-size: 11px;
+}
+
+.profile {
+  margin-left: 0.5rem;
+}
+
+img {
+  vertical-align: middle;
+  width: 2rem;
+  height: auto;
+}
+
+.img-gender {
+  width: 16px;
+}
+
+th.mat-column-position, td.mat-column-position {
+  padding-left: 8px;
+}
+
+.mat-table-sticky:first-child {
+  border-right: 1px solid #e0e0e0;
+}
+
+.mat-table-sticky:last-child {
+  border-left: 1px solid #e0e0e0;
+}
