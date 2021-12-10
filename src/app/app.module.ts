@@ -68,6 +68,7 @@ import { MemberComponent } from './views/member/member.component';
 import { BookComponent } from './views/book/book.component';
 import { EmployeeComponent } from './views/employee/employee.component';
 import { LoginComponent } from './views/login/login.component';
+import { BorrowComponent } from './views/borrow/borrow.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { LoginComponent } from './views/login/login.component';
     MemberComponent,
     BookComponent,
     EmployeeComponent,
-    LoginComponent
+    LoginComponent,
+    BorrowComponent
   ],
   imports: [
     BrowserModule,

@@ -72,11 +72,11 @@ export class BookService {
     return collectionData(data);
   }
 
-  set(BookDto: BookDto) {
+  set(bookDto: BookDto) {
     const date = new Date();
 
-    if (!BookDto.id) {
-      BookDto.id = 'B100'
+    if (!bookDto.id) {
+      bookDto.id = 'B100'
         + date.getFullYear().toString()
         + (date.getMonth() + 1).toString().padStart(2, '0')
         + date.getDate().toString().padStart(2, '0')
@@ -86,12 +86,12 @@ export class BookService {
         + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
     }
 
-    if (!BookDto.addDate) {
-      BookDto.addDate = date;
+    if (!bookDto.addDate) {
+      bookDto.addDate = date;
     }
-    BookDto.editDate = date;
+    bookDto.editDate = date;
 
-    setDoc(doc(this.firestore, this.dbPath, BookDto.id), Object.assign({}, BookDto));
+    setDoc(doc(this.firestore, this.dbPath, bookDto.id), Object.assign({}, bookDto));
   }
 
   delete(id: string) {

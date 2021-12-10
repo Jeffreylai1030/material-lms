@@ -1,0 +1,21 @@
+table {
+  width: 100%;
+}
+
+.mat-chip {
+  font-size: 11px;
+}
+
+.header-image {
+  background-image: url('https://img.icons8.com/color/48/000000/book-shelf.png');
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container > * {
+  width: 100%;
+}

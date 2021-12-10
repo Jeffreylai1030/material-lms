@@ -176,11 +176,11 @@ export class BookComponent implements OnInit {
           },
           {
             label: 'Borrowed',
-            value: '1'
+            value: '9'
           },
           {
             label: 'Broken',
-            value: '2'
+            value: '5'
           }
         ]
       }),
