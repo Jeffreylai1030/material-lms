@@ -9,7 +9,7 @@ import { CodeService } from 'src/app/services/code.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogComponent } from '../layout/dialog/dialog.component';
 import { FormComponent } from '../layout/form/form.component';
-import { LoginService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { CodeDto } from 'src/app/models/code-dto';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
@@ -47,7 +47,7 @@ export class EmployeeComponent implements OnInit {
 
   constructor(
     private employeeService: EmployeeService,
-    private loginService: LoginService,
+    private loginService: AuthService,
     public codeService: CodeService,
     public dialog: MatDialog,
     private sanitizer: DomSanitizer,

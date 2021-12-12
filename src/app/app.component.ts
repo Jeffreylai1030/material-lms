@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  // constructor(private loginService: LoginService) {
-  //   this.loginService.authState();
-  // }
+  constructor(private authService: AuthService) {
+    this.authService.authState();
+  }
 }

@@ -10,6 +10,7 @@ export class MemberDto {
   fullName: string;
   gender: string;
   borrowed: number;
+  totalBorrowed: number;
   status: string;
   effDate: any;
   expDate: any;
@@ -30,6 +31,7 @@ export class MemberDto {
     fullName: string = '',
     gender: string = '',
     borrowed: number = 0,
+    totalBorrowed: number = 0,
     status: string = 'Activate',
     effDate: any = null,
     expDate: any = null,
@@ -49,6 +51,7 @@ export class MemberDto {
     this.fullName = fullName;
     this.gender = gender;
     this.borrowed = borrowed;
+    this.totalBorrowed = totalBorrowed;
     this.status = status;
     this.effDate = effDate;
     this.expDate = expDate;

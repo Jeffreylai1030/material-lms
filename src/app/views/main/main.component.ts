@@ -1,4 +1,4 @@
-import { LoginService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
@@ -14,7 +14,7 @@ export class MainComponent implements OnDestroy {
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    private auth: LoginService
+    private auth: AuthService
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 990px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();

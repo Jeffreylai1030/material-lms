@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Firestore, collectionData, collection, doc, setDoc, deleteDoc, query, where, orderBy } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection, doc, setDoc, deleteDoc, query, where, orderBy, limit } from '@angular/fire/firestore';
 import { BookDto } from '../models/book-dto';
 
 @Injectable({
@@ -66,6 +66,12 @@ export class BookService {
     return collectionData(data);
   }
 
+  getById(id: string) {
+    const myQuery = query(collection(this.firestore, this.dbPath), where('id', '==', id), limit(1));
+    const data = myQuery.withConverter(this.converter);
+    return collectionData(data);
+  }
+
   getByStatus(status: string) {
     const myQuery = query(collection(this.firestore, this.dbPath), where('status', '==', status));
     const data = myQuery.withConverter(this.converter);
@@ -93,7 +99,7 @@ export class BookService {
 
     setDoc(doc(this.firestore, this.dbPath, bookDto.id), Object.assign({}, bookDto));
   }
-
+  
   delete(id: string) {
     if (id) {
       deleteDoc(doc(this.firestore, this.dbPath, id));

@@ -23,7 +23,5 @@ export class CommonService {
     if (user) {
       return JSON.parse(user)?.email;
     }
-
-    return null;
   }
 }

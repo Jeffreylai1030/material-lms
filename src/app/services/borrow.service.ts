@@ -1,10 +1,10 @@
-import { CodeService } from 'src/app/services/code.service';
+import { MemberService } from 'src/app/services/member.service';
+import { MemberDto } from 'src/app/models/member-dto';
+import { BookDto } from './../models/book-dto';
+import { BookService } from 'src/app/services/book.service';
 import { CommonService } from './common.service';
-import { MemberDto } from './../models/member-dto';
-import { BookDto } from 'src/app/models/book-dto';
 import { Injectable } from '@angular/core';
-import { Firestore, collection, where, setDoc, doc, deleteDoc, query, orderBy } from 'firebase/firestore';
-import { collectionData } from 'rxfire/firestore';
+import { Firestore, collection, where, setDoc, doc, deleteDoc, query, orderBy, collectionData, limit } from '@angular/fire/firestore';
 import { BorrowDto } from '../models/borrow-dto';
 
 @Injectable({
@@ -12,6 +12,7 @@ import { BorrowDto } from '../models/borrow-dto';
 })
 export class BorrowService {
 
+  private username = this.commonService.getCurrentUserName;
   private dbPath = 'borrows';
 
   // Firestore data converter
@@ -25,9 +26,13 @@ export class BorrowService {
         editWho: item.editWho,
         borrowedDate: item.borrowedDate,
         dueDate: item.dueDate,
+        returnedDate: item.returnedDate,
+        fine: item.fine,
         status: item.status,
-        member: item.member,
-        book: item.book,
+        memberId: item.memberId,
+        memberFullName: item.memberFullName,
+        bookId: item.bookId,
+        bookTitle1: item.bookTitle1,
       };
     },
     fromFirestore: (snapshot: any, options: any) => {
@@ -40,16 +45,21 @@ export class BorrowService {
           item.editWho,
           item.borrowedDate,
           item.dueDate,
+          item.returnedDate,
+          item.fine,
           item.status,
-          item.member,
-          item.book,
+          item.memberId,
+          item.memberFullName,
+          item.bookId,
+          item.bookTitle1,
         );
     }
   };
 
   constructor(private firestore: Firestore,
     private commonService: CommonService,
-    private codeService: CodeService) { }
+    private memberService: MemberService,
+    private bookService: BookService) { }
 
   get() {
     const data = collection(this.firestore, this.dbPath).withConverter(this.converter);
@@ -62,34 +72,52 @@ export class BorrowService {
     return collectionData(data);
   }
 
-  async borrow(books: BookDto[], memberDto: MemberDto) {
+  set(borrowDto: BorrowDto) {
     const date = new Date();
-    const username = this.commonService.getCurrentUserName;
-    const expiredDay = await this.codeService.getByCode('member', 'expired');
 
-    console.log(expiredDay);
+    if (!borrowDto.id) {
+      borrowDto.id = 'B900'
+        + date.getFullYear().toString()
+        + (date.getMonth() + 1).toString().padStart(2, '0')
+        + date.getDate().toString().padStart(2, '0')
+        + date.getHours().toString().padStart(2, '0')
+        + date.getMinutes().toString().padStart(2, '0')
+        + date.getSeconds().toString().padStart(2, '0')
+        + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    }
 
-    // for (const book of books) {
-    //   let dueDate = 0;
+    if (!borrowDto.addDate) {
+      borrowDto.addDate = date;
+    }
+    borrowDto.editDate = date;
 
-    //   let id = 'B900'
-    //     + date.getFullYear().toString()
-    //     + (date.getMonth() + 1).toString().padStart(2, '0')
-    //     + date.getDate().toString().padStart(2, '0')
-    //     + date.getHours().toString().padStart(2, '0')
-    //     + date.getMinutes().toString().padStart(2, '0')
-    //     + date.getSeconds().toString().padStart(2, '0')
-    //     + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-    //   const borrowDto = new BorrowDto(id,
-    //     date,
-    //     username,
-    //     date,
-    //     username,
-    //     date, dueDate, '9', );
+    if (!borrowDto.addWho) {
+      borrowDto.addWho = this.commonService.getCurrentUserName();
+    }
+    borrowDto.editWho = this.commonService.getCurrentUserName();
 
-    // }
+    setDoc(doc(this.firestore, this.dbPath, borrowDto.id), Object.assign({}, borrowDto));
+  }
 
-    // setDoc(doc(this.firestore, this.dbPath, borrowDto.id), Object.assign({}, borrowDto));
+  borrowBook(borrowDto: BorrowDto, bookDto: BookDto, memberDto: MemberDto) {
+    this.set(borrowDto);
+
+    bookDto.status = '9';
+    this.bookService.set(bookDto);
+
+    memberDto.borrowed += 1;
+    memberDto.totalBorrowed += 1;
+    this.memberService.set(memberDto);
+  }
+
+  returnBook(borrowDto: BorrowDto, bookDto: BookDto, memberDto: MemberDto) {
+    this.set(borrowDto);
+
+    bookDto.status = '0';
+    this.bookService.set(bookDto);
+
+    memberDto.borrowed -= 1;
+    this.memberService.set(memberDto);
   }
 
   delete(id: string) {

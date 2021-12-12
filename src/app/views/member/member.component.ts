@@ -111,6 +111,12 @@ export class MemberComponent implements OnInit {
         hidden: true,
       }),
       new DynamicInputModel({
+        id: 'totalBorrowed',
+        label: 'totalBorrowed',
+        value: memberDto.totalBorrowed,
+        hidden: true,
+      }),
+      new DynamicInputModel({
         id: 'fullName',
         label: 'Name',
         value: memberDto.fullName,
@@ -277,7 +283,8 @@ export class MemberComponent implements OnInit {
 
   onSubmit(member: MemberDto) {
     // const memberDto = new MemberDto(
-    //   member.id, member.addDate,
+    //   member.id,
+    //   member.addDate,
     //   '',
     //   member.editDate,
     //   '',
@@ -287,6 +294,7 @@ export class MemberComponent implements OnInit {
     //   member.fullName,
     //   member.gender,
     //   member.borrowed,
+    //   member.totalBorrowed,
     //   member.status,
     //   member.effDate,
     //   member.expDate,

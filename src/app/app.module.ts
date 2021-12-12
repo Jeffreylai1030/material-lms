@@ -69,6 +69,7 @@ import { BookComponent } from './views/book/book.component';
 import { EmployeeComponent } from './views/employee/employee.component';
 import { LoginComponent } from './views/login/login.component';
 import { BorrowComponent } from './views/borrow/borrow.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { BorrowComponent } from './views/borrow/borrow.component';
     BookComponent,
     EmployeeComponent,
     LoginComponent,
-    BorrowComponent
+    BorrowComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -90,13 +92,15 @@ import { BorrowComponent } from './views/borrow/borrow.component';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
     DynamicFormsCoreModule,
     DynamicFormsMaterialUIModule,
-    NgxEchartsModule,
     A11yModule,
     CdkStepperModule,
     CdkTableModule,

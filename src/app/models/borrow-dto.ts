@@ -6,21 +6,29 @@ export class BorrowDto {
   editWho: string;
   borrowedDate: any;
   dueDate: any;
-  status: string;
-  member: memberInterface;
-  book: BookInterface;
+  returnedDate: any;
+  fine: number;
+  status: string; // 0: not return; 9: retured
+  memberId: string;
+  memberFullName: string;
+  bookId: string;
+  bookTitle1: string;
 
   constructor (
     id: string = '',
     addDate: any = null,
-    addWho: string = 'Test User',
+    addWho: string = '',
     editDate: any = null,
-    editWho: string = 'Test User',
+    editWho: string = '',
     borrowedDate: any,
     dueDate: any,
-    status: string,
-    member: memberInterface,
-    book: BookInterface,
+    returnedDate: any,
+    fine: number = 0,
+    status: string = '0',
+    memberId: string = '',
+    memberFullName: string = '',
+    bookId: string = '',
+    bookTitle1: string = '',
     ) {
     this.id = id;
     this.addDate = addDate;
@@ -29,20 +37,12 @@ export class BorrowDto {
     this.editWho = editWho;
     this.borrowedDate = borrowedDate;
     this.dueDate = dueDate;
+    this.returnedDate = returnedDate;
+    this.fine = fine;
     this.status = status;
-    this.member = member;
-    this.book = book;
+    this.memberId = memberId;
+    this.memberFullName = memberFullName;
+    this.bookId = bookId;
+    this.bookTitle1 = bookTitle1;
   }
 }
-
-interface BookInterface {
-  id: string;
-  title: string;
-}
-
-interface memberInterface {
-  id: string;
-  fullName: string;
-}
-
-

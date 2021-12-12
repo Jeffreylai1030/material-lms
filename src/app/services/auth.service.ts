@@ -8,7 +8,9 @@ import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAut
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class AuthService {
+
+  private localStorageUser = localStorage.getItem('lms_emp') ?? '';
 
   constructor(private firestore: Firestore,
     private auth: Auth,
@@ -16,19 +18,20 @@ export class LoginService {
     private employeeService: EmployeeService) { }
 
   authState() {
-    onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        // User is signed in
-        console.log('user is signed in');
-        const storageUser: any = localStorage.getItem('lms_emp');
-        if (storageUser.email !== user.email) {
-          this.logout();
+    if (this.localStorageUser !== '') {
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          // User is signed in
+          const user = JSON.parse(this.localStorageUser);
+
+          this.employeeService.getByEmail(user.email.toLowerCase()).subscribe((x: EmployeeDto[]) => {
+            localStorage.setItem('lms_emp', JSON.stringify({ email: user.email, username: x[0].username }))
+          });
         }
-      } else {
-        // User is signed out
-        console.log('user is signed out');
-      }
-    });
+      });
+    } else {
+      // this.logout();
+    }
   }
 
   login(email: string, password: string) {

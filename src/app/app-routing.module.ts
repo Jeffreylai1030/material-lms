@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BookComponent } from './views/book/book.component';
+import { BorrowComponent } from './views/borrow/borrow.component';
 import { CodeComponent } from './views/code/code.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { EmployeeComponent } from './views/employee/employee.component';
 import { LoginComponent } from './views/login/login.component';
 import { MainComponent } from './views/main/main.component';
@@ -15,13 +17,12 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       // { path: '', redirectTo: 'book', pathMatch: 'full' },
-      // { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard', component: DashboardComponent },
       { path: 'book', component: BookComponent },
       { path: 'employee', component: EmployeeComponent },
       { path: 'code', component: CodeComponent },
       { path: 'member', component: MemberComponent },
-      // { path: 'borrow', component: BorrowComponent },
-      // { path: 'return', component: ReturnComponent }
+      { path: 'borrow', component: BorrowComponent }
     ],
   },
 ];

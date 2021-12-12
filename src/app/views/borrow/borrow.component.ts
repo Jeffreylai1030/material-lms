@@ -23,7 +23,7 @@ import { MemberDto } from 'src/app/models/member-dto';
 export class BorrowComponent implements OnInit {
   displayedColumns = [
     'bookId',
-    'bookName',
+    'bookTitle1',
     'memberId',
     'borrowedDate',
     'dueDate',
@@ -32,16 +32,20 @@ export class BorrowComponent implements OnInit {
   ];
   dataSource!: MatTableDataSource<BorrowDto>;
   pipe = new DatePipe('en-US');
-  today = this.pipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-  priceForWeeks = 0;
-  priceForDays = 0;
-  filterUsersCtrl = new FormControl();
+  today = new Date();
+  selectedTab = 'borrowed'
+  filterMembersCtrl = new FormControl();
   filterBooksCtrl = new FormControl();
-  userCtrl = new FormControl();
+  memberCtrl = new FormControl();
   bookCtrl = new FormControl();
   finePerDay: number = 0;
-  availableBooks: any;
-  members: any;
+  books: BookDto[] = [];
+  Allbooks: BookDto[] = [];
+  filteredBooks: BookDto[] = [];
+  members: MemberDto[] = []
+  filteredMembers: MemberDto[] = []
+  borrows: BorrowDto[] = []
+  borrowsHistory: BorrowDto[] = [];
 
   @ViewChild(MatPaginator, { static: true })
   paginator!: MatPaginator;
@@ -53,7 +57,7 @@ export class BorrowComponent implements OnInit {
     public bookService: BookService,
     public memberService: MemberService,
     public codeService: CodeService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -61,12 +65,17 @@ export class BorrowComponent implements OnInit {
       this.dataSource = new MatTableDataSource(item);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.AllBorrow = item;
+      this.borrows = item;
+    });
+
+    this.borrowService.getByStatus('9').subscribe((item: BorrowDto[]) => {
+      this.borrowsHistory = item;
     });
 
     // Get available books
-    this.bookService.getByStatus('0').subscribe((item: BookDto[]) => {
-      this.availableBooks = item;
+    this.bookService.get().subscribe((item: BookDto[]) => {
+      this.books = item.filter(x => x.status === '0');
+      this.Allbooks = item;
     });
 
     // Get active members
@@ -74,49 +83,38 @@ export class BorrowComponent implements OnInit {
       this.members = item;
     });
 
-    this.codeService.getByCode('borrow', 'fine').subscribe((item: CodeDto[]) => {
+    this.codeService.getByCode('book', 'fine').subscribe((item: CodeDto[]) => {
       this.finePerDay = parseFloat(item[0]?.value1);
     });
 
-    this.filterUsersCtrl.valueChanges.pipe().subscribe(() => {
-      const search = this.filterUsersCtrl.value;
-
-      if (search) {
-        this.users = this.AllUsers.filter(item => item.id.includes(search.toLowerCase()));
-      } else {
-        this.users = this.AllUsers;
-      }
+    this.filterMembersCtrl.valueChanges.pipe().subscribe(() => {
+      const search = this.filterMembersCtrl.value?.toLowerCase();
+      this.filteredMembers = this.members.filter((item: MemberDto) => item.id.toLowerCase().indexOf(search) > -1 || item.fullName.toLowerCase().indexOf(search) > -1);
     });
 
     this.filterBooksCtrl.valueChanges.pipe().subscribe(() => {
-      const search = this.filterBooksCtrl.value;
-
-      if (search) {
-        this.books = this.AllBooks.filter(item => item.isbn.includes(search.toLowerCase()));
-      } else {
-        this.books = this.AllBooks;
-      }
+      const search = this.filterBooksCtrl.value?.toLowerCase();
+      this.filteredBooks = this.books.filter((item: BookDto) => item.id.toLowerCase().indexOf(search) > -1 || item.title.toLowerCase().indexOf(search) > -1);
     });
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(filterValue: any) {
+    this.dataSource.filter = filterValue.target.value.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
 
-  onShowBook(borrow: Borrow) {
+  onShowBook(borrow: BorrowDto) {
     console.log(borrow);
   }
 
-  onReturn(borrow: Borrow) {
-    const dueDate = new Date(borrow.dueDate);
+  onReturn(borrowDto: BorrowDto) {
+    const dueDate = new Date(borrowDto.dueDate.toDate());
     const diffDay = DaysBetween(dueDate, new Date());
-    const fine = (Math.floor(diffDay / 7) * this.priceForWeeks + (diffDay % 7) * this.priceForDays);
-    const content = diffDay < 0 ? `Return this book?` : `Return this book? The fine is RM ${fine.toFixed(2)}`;
-    const curUser: any = JSON.parse(localStorage.getItem('lms_emp'));
+    const fine = this.finePerDay * diffDay;
+    const content = diffDay < 0 ? `Return this book?` : `Return this book? The fine is RM ${fine.toFixed(2)}.`;
 
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '350px',
@@ -131,85 +129,69 @@ export class BorrowComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const today = Date.now();
-        const user = this.AllUsers.find(x => x.id === borrow.user.id);
-        const book = this.AllBooks.find(x => x.id === borrow.book.id);
-        const id = 'lms_ret_' + this.pipe.transform(today, 'yyyyMMddHHmmss');
+        borrowDto.fine = fine;
+        borrowDto.returnedDate = new Date();
+        borrowDto.status = '9';
+        const member = this.members.find((x: MemberDto) => x.id === borrowDto.memberId);
+        const book = this.Allbooks.find(x => x.id === borrowDto.bookId);
 
-        if (diffDay > 0) {
-          const ret: Return = {
-            id: id + Math.floor(Math.random() * 1000),
-            addDate: this.today,
-            editDate: this.today,
-            addWho: curUser.username,
-            editWho: curUser.username,
-            borrowId: borrow.id,
-            returnDate: this.today,
-            dueDate: borrow.dueDate,
-            overdue: borrow.dueDate < this.today,
-            fine
-          };
-          this.returnService.return(ret, user, borrow, book);
-        } else {
-          const ret: Return = {
-            id: id + Math.floor(Math.random() * 1000),
-            addDate: this.today,
-            editDate: this.today,
-            addWho: curUser.username,
-            editWho: curUser.username,
-            borrowId: borrow.id,
-            returnDate: this.today,
-            dueDate: borrow.dueDate,
-            overdue: borrow.dueDate < this.today,
-            fine: 0
-          };
-          this.returnService.return(ret, user, borrow, book);
+        if (book && member) {
+          this.borrowService.returnBook(borrowDto, book, member);
         }
       }
     });
   }
 
   onSubmit() {
-    if (!this.userCtrl.value || !this.bookCtrl.value) {
+    if (!this.memberCtrl.value || !this.bookCtrl.value) {
       return;
     }
 
-    const dueDate = this.pipe.transform(Date.now() + 7 * 86400000, 'yyyy-MM-dd');
-    const id = 'lms_bo_' + this.pipe.transform(Date.now(), 'yyyyMMddHHmmss');
-    const user = this.AllUsers.find(x => x.id === this.userCtrl.value);
-    const borrow: Borrow[] = [];
-    const nBorrowed = user.borrowed + this.bookCtrl.value.length;
-    const curUser: any = JSON.parse(localStorage.getItem('lms_emp'));
+    this.codeService.getByCode('member', 'privileges').subscribe((item: CodeDto[]) => {
+      const member = this.members.find((x: MemberDto) => x.id === this.memberCtrl.value);
+      const memberPrivileges = item.find(x => x.value1 === member?.privilege);
+      const totalBorrowed = member?.borrowed + this.bookCtrl.value.length;
+      const dueDate = new Date(Date.now() + parseInt(memberPrivileges?.value3 ?? '0') * 86400000);
 
-    if (nBorrowed > 5) {
-      this.dialog.open(DialogComponent, {
-        width: '350px',
-        panelClass: 'confirm-dialog-container',
-        data: {
-          title: 'Notices',
-          content: 'Reach the (5) limit number of borrowed',
-          theme: 'dialog-red'
+      if (totalBorrowed > parseInt(memberPrivileges?.value2 ?? '0')) {
+        this.dialog.open(DialogComponent, {
+          width: '350px',
+          panelClass: 'confirm-dialog-container',
+          data: {
+            title: 'Notices',
+            content: `Reach the ${memberPrivileges?.value2} limit number of borrowed`,
+            theme: 'dialog-red'
+          }
+        });
+        return;
+      }
+
+      this.bookCtrl.value.forEach((bookId: string) => {
+        const book = this.books.find(x => x.id === bookId);
+        const borrowDto = new BorrowDto(
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          new Date(),
+          dueDate,
+          null,
+          0,
+          '0',
+          member?.id,
+          member?.fullName,
+          book?.id,
+          book?.title);
+
+        if (book && member) {
+          this.borrowService.borrowBook(borrowDto, book, member);
+          this.bookCtrl.reset();
+          this.memberCtrl.reset();
         }
-      });
-      return;
-    }
 
-    this.bookCtrl.value.forEach((bookId: string) => {
-      const book = this.AllBooks.find(x => x.id === bookId);
-      borrow.push({
-        id: id + Math.floor(Math.random() * 1000),
-        addDate: this.today,
-        editDate: this.today,
-        borrowedDate: this.today.substring(0, 10),
-        addWho: curUser.username,
-        editWho: curUser.username,
-        dueDate,
-        book: { id: book.id, bookId: book.bookId, isbn: book.isbn, title: book.title },
-        user: { id: user.id, memberId: user.memberId, fullName: user.fullName }
       });
     });
-
-    this.borrowService.add(borrow, nBorrowed);
   }
 
   onDelete(id: string) {
@@ -218,7 +200,7 @@ export class BorrowComponent implements OnInit {
       panelClass: 'confirm-dialog-container',
       data: {
         title: 'Confirmation',
-        content: 'Do you want to delete this book?',
+        content: 'Do you want to delete this borrow instead of return?',
         btnType: 'form',
         theme: 'dialog-red'
       }
@@ -229,6 +211,20 @@ export class BorrowComponent implements OnInit {
         this.borrowService.delete(id);
       }
     });
+  }
+
+  onTabChange(value: string) {
+    console.log(value);
+
+    if (value === 'history') {
+      this.dataSource = new MatTableDataSource(this.borrowsHistory);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    } else {
+      this.dataSource = new MatTableDataSource(this.borrows);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 }
 

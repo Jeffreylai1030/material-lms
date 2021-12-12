@@ -60,8 +60,8 @@
         <td mat-cell *matCellDef="let row">
           <mat-chip-list>
             <mat-chip *ngIf="row.status === '0'" color="primary" selected>Available</mat-chip>
-            <mat-chip *ngIf="row.status === '1'" color="warn" selected>Borrowed</mat-chip>
-            <mat-chip *ngIf="row.status === '2'" color="accent" selected>Broken</mat-chip>
+            <mat-chip *ngIf="row.status === '9'" color="warn" selected>Borrowed</mat-chip>
+            <mat-chip *ngIf="row.status === '5'" color="accent" selected>Broken</mat-chip>
           </mat-chip-list>
         </td>
       </ng-container>
