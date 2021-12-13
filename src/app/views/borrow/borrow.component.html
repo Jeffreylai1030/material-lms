@@ -7,7 +7,7 @@
     </mat-card-header>
     <mat-card-content>
       <div class="container">
-        <mat-form-field>
+        <mat-form-field appearance="standard">
           <mat-select placeholder="Member" [formControl]="memberCtrl">
             <mat-option>
               <ngx-mat-select-search [formControl]="filterMembersCtrl" [noEntriesFoundLabel]="'No matching member(s) found'" placeholderLabel="Search by member ID or full name">
