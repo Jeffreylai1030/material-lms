@@ -54,6 +54,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
@@ -145,6 +146,7 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
     NgxMatSelectSearchModule,
     PortalModule,
     ScrollingModule,
+    FlexLayoutModule,
   ],
   providers: [
     DialogComponent,

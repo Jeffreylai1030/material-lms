@@ -99,7 +99,7 @@ export class BookService {
 
     setDoc(doc(this.firestore, this.dbPath, bookDto.id), Object.assign({}, bookDto));
   }
-  
+
   delete(id: string) {
     if (id) {
       deleteDoc(doc(this.firestore, this.dbPath, id));

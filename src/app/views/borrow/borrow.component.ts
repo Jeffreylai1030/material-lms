@@ -1,6 +1,5 @@
 import { MemberService } from 'src/app/services/member.service';
 import { CodeDto } from 'src/app/models/code-dto';
-import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -31,7 +30,6 @@ export class BorrowComponent implements OnInit {
     'action'
   ];
   dataSource!: MatTableDataSource<BorrowDto>;
-  pipe = new DatePipe('en-US');
   today = new Date();
   selectedTab = 'borrowed'
   filterMembersCtrl = new FormControl();
@@ -132,6 +130,7 @@ export class BorrowComponent implements OnInit {
         borrowDto.fine = fine;
         borrowDto.returnedDate = new Date();
         borrowDto.status = '9';
+        borrowDto.overdue = borrowDto.dueDate.toDate() <= this.today
         const member = this.members.find((x: MemberDto) => x.id === borrowDto.memberId);
         const book = this.Allbooks.find(x => x.id === borrowDto.bookId);
 
@@ -179,6 +178,7 @@ export class BorrowComponent implements OnInit {
           null,
           0,
           '0',
+          false,
           member?.id,
           member?.fullName,
           book?.id,
@@ -214,8 +214,6 @@ export class BorrowComponent implements OnInit {
   }
 
   onTabChange(value: string) {
-    console.log(value);
-
     if (value === 'history') {
       this.dataSource = new MatTableDataSource(this.borrowsHistory);
       this.dataSource.paginator = this.paginator;

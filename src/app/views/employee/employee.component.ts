@@ -10,7 +10,6 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogComponent } from '../layout/dialog/dialog.component';
 import { FormComponent } from '../layout/form/form.component';
 import { AuthService } from 'src/app/services/auth.service';
-import { CodeDto } from 'src/app/models/code-dto';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
 
@@ -71,7 +70,6 @@ export class EmployeeComponent implements OnInit {
 
     this.codeService.getByCode('staff_role', 'status').subscribe((item) => {
       this.statusOption = item.map(x => ({ label: x.value1, value: x.value2 }));
-      console.log(this.statusOption);
     });
   }
 
@@ -84,7 +82,6 @@ export class EmployeeComponent implements OnInit {
   }
 
   openDialog(emp: EmployeeDto = new EmployeeDto()) {
-    console.log(emp);
     const formModel: DynamicFormModel = [
       new DynamicInputModel({
         id: 'id',
@@ -299,7 +296,6 @@ export class EmployeeComponent implements OnInit {
       }
     } catch (error) {
       console.warn("File upload failed.");
-      console.error(error);
     }
   }
 
@@ -376,7 +372,6 @@ export class EmployeeComponent implements OnInit {
   }
 
   onSubmit(emp: EmployeeDto) {
-    console.log(emp);
     this.employeeService.set(emp);
   }
 

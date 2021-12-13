@@ -9,6 +9,7 @@ export class BorrowDto {
   returnedDate: any;
   fine: number;
   status: string; // 0: not return; 9: retured
+  overdue: boolean;
   memberId: string;
   memberFullName: string;
   bookId: string;
@@ -25,6 +26,7 @@ export class BorrowDto {
     returnedDate: any,
     fine: number = 0,
     status: string = '0',
+    overdue: boolean = false,
     memberId: string = '',
     memberFullName: string = '',
     bookId: string = '',
@@ -39,6 +41,7 @@ export class BorrowDto {
     this.dueDate = dueDate;
     this.returnedDate = returnedDate;
     this.fine = fine;
+    this.overdue = overdue;
     this.status = status;
     this.memberId = memberId;
     this.memberFullName = memberFullName;

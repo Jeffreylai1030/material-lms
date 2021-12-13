@@ -73,7 +73,8 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Overdue</th>
         <td mat-cell *matCellDef="let row">
           <mat-chip-list>
-            <mat-chip [color]="row.dueDate.toDate() <= today ? 'warn' : 'primary'" selected> {{ row.dueDate.toDate() <= today ? 'YES' : 'NO' }}</mat-chip>
+            <mat-chip *ngIf="!row.overdue" [color]="row.dueDate.toDate() <= today ? 'warn' : 'primary'" selected> {{ row.dueDate.toDate() <= today ? 'YES' : 'NO' }}</mat-chip>
+            <mat-chip *ngIf="row.overdue" [color]="row.overdue ? 'warn' : 'primary'" selected> {{ row.overdue ? 'YES' : 'NO' }}</mat-chip>
           </mat-chip-list>
         </td>
       </ng-container>

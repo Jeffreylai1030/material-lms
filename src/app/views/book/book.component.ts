@@ -41,6 +41,7 @@ export class BookComponent implements OnInit {
   languageOption: any;
   categoriesOption: any;
   tagsOption: any;
+  numberLimit = 3;
 
   @ViewChild(MatPaginator, { static: true })
   paginator!: MatPaginator;
@@ -60,7 +61,6 @@ export class BookComponent implements OnInit {
       this.dataSource = new MatTableDataSource(item);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(item);
     });
 
     this.codeService.getByCode('book', 'language').subscribe((item) => {

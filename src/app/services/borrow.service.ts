@@ -29,6 +29,7 @@ export class BorrowService {
         returnedDate: item.returnedDate,
         fine: item.fine,
         status: item.status,
+        overdue: item.overdue,
         memberId: item.memberId,
         memberFullName: item.memberFullName,
         bookId: item.bookId,
@@ -48,6 +49,7 @@ export class BorrowService {
           item.returnedDate,
           item.fine,
           item.status,
+          item.overdue,
           item.memberId,
           item.memberFullName,
           item.bookId,
@@ -129,6 +131,4 @@ export class BorrowService {
   insertSampleBorrows() {
 
   }
-
-
 }
