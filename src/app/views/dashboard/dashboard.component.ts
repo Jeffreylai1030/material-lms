@@ -55,7 +55,6 @@ export class DashboardComponent implements OnInit {
 
       this.onTabChange('lastWeek');
     })
-
   }
 
   onTabChange(value: string) {
@@ -119,12 +118,6 @@ export class DashboardComponent implements OnInit {
           }
         }
       },
-      // grid: {
-      //   left: '3%',
-      //   right: '4%',
-      //   bottom: '3%',
-      //   containLabel: true
-      // },
       xAxis: {
         type: 'category',
         data: xAxis, // Past 7 days Date
