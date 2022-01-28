@@ -68,6 +68,12 @@ export class BorrowService {
     return collectionData(data);
   }
 
+  getByBorrowedDateRange(startDate: Date, endDate: Date) {
+    const myQuery = query(collection(this.firestore, this.dbPath), where('borrowedDate', '>=', startDate), where('borrowedDate', '<=', endDate));
+    const data = myQuery.withConverter(this.converter);
+    return collectionData(data);
+  }
+
   getByStatus(status: string = '0') {
     const myQuery = query(collection(this.firestore, this.dbPath), where('status', '==', status), orderBy('dueDate'));
     const data = myQuery.withConverter(this.converter);

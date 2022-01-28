@@ -141,7 +141,7 @@ export class BorrowComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onBorrow() {
     if (!this.memberCtrl.value || !this.bookCtrl.value) {
       return;
     }
