@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private borrowService: BorrowService,
-    private datepipe: DatePipe,
+    private datePipe: DatePipe,
   ) {}
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -46,19 +46,25 @@ export class DashboardComponent implements OnInit {
       this.totalBooksNumber = item.length;
     })
 
-    this.borrowService.getByStatus('0').subscribe(item => {
-
+    this.borrowService.get().subscribe(item => {
       this.borrows = item;
       this.totalBorrowsNumber = item.length;
-      this.totalTodayBorrowsNumber = item.filter(x => x.addDate.toDate().toISOString().substring(0, 10) === new Date().toISOString().substring(0, 10)).length;
+      this.totalTodayBorrowsNumber = item.filter(x => this.datePipe.transform(x.addDate.toDate(), 'yyyy-MM-dd') === this.datePipe.transform(new Date(), 'yyyy-MM-dd'))?.length;
       this.totalBorrowsExpiredNumber = item.filter(x => x.dueDate.toDate().toISOString().substring(0, 10) <= new Date().toISOString().substring(0, 10)).length;
 
       this.onTabChange('lastWeek');
     })
   }
 
+  getByBorrowedDateRange(startDate: Date, endDate: Date) {
+    this.borrowService.getByBorrowedDateRange(startDate, endDate).subscribe(item => {
+      this.borrows = item;
+    })
+  }
+
+  // Trigger when change the tab for date range reports
   onTabChange(value: string) {
-    const endDate = new Date(new Date().setDate(new Date().getDate() + 1));
+    const endDate = new Date();
 
     if (value === 'lastWeek') {
       this.chartTitle = 'New Borrowed Last 7 Days';
@@ -72,34 +78,42 @@ export class DashboardComponent implements OnInit {
   }
 
   onChartChange() {
-    const start: Date = this.dateRange.value.start;
-    const end: Date = this.dateRange.value.end;
-    const startDate: Date = new Date(start.setDate(start.getDate() + 1));
-    const endDate: Date = new Date(end.setDate(end.getDate() + 2));
+    const startDate = this.dateRange.value.start;
+    const endDate = this.dateRange.value.end;
     this.selectedTab = '';
-    this.chartTitle = `New Borrowed ${this.datepipe.transform(startDate, 'mediumDate')} ~ ${this.datepipe.transform(endDate, 'mediumDate')}`;
+    this.chartTitle = `New Borrowed ${this.datePipe.transform(startDate, 'mediumDate')} ~ ${this.datePipe.transform(endDate, 'mediumDate')}`;
+
+    console.log(startDate, endDate);
+
     this.generateLineChart(startDate, endDate);
   }
 
   generateLineChart(startDate: Date, endDate: Date) {
+    this.getByBorrowedDateRange(startDate, endDate);
+
     let data: any = [];
     let xAxis: string[] = [];
     let yAxis: number[] = [];
+    let count = 0;
 
-    let startDateStr = startDate.toISOString().substring(0, 10);
-    let endDateStr = endDate.toISOString().substring(0, 10);
+    let startDateStr = this.datePipe.transform(startDate, 'yyyy-MM-dd');
+    let endDateStr = this.datePipe.transform(endDate, 'yyyy-MM-dd');
 
-    console.log('start: ' + startDateStr, 'end: ' + endDateStr);
+    console.log(`start: ${startDateStr}, end: ${endDateStr}`);
 
-    while (startDateStr !== endDateStr) {
-      const date = new Date(startDateStr);
-      const pastDate = date.toISOString().substring(0, 10);
-      const pastData = this.borrows.filter(x => x.addDate.toDate().toISOString().substring(0, 10) === pastDate).length;
+    while (startDate <= endDate) {
+      const pastDate = this.datePipe.transform(startDate, 'yyyy-MM-dd') || '';
+      const pastData = this.borrows.filter(x => this.datePipe.transform(x.borrowedDate.toDate(), 'yyyy-MM-dd') === pastDate).length;
+
       xAxis.push(pastDate);
       yAxis.push(pastData);
       data.push({ date: pastDate, number: pastData });
-      startDateStr = new Date(date.setDate(date.getDate() + 1)).toISOString().substring(0, 10);
+      count++;
+      startDate.setDate(startDate.getDate() + 1);
     }
+
+    // Restore the original startDate, else it will change the date range
+    startDate.setDate(startDate.getDate() - count);
 
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
