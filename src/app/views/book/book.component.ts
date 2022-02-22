@@ -1,22 +1,16 @@
+import { BookFormComponent } from './book-form/book-form.component';
 import { DialogComponent } from './../layout/dialog/dialog.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import {
-  DynamicDatePickerModel,
-  DynamicFormModel,
-  DynamicInputModel,
-  DynamicRadioGroupModel,
-  DynamicSelectModel,
-} from '@ng-dynamic-forms/core';
 import { CodeService } from 'src/app/services/code.service';
-import { FormComponent } from '../layout/form/form.component';
 import { BookDto } from 'src/app/models/book-dto';
 import { BookService } from 'src/app/services/book.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-book',
@@ -37,10 +31,6 @@ export class BookComponent implements OnInit {
     'action'
   ];
   dataSource!: MatTableDataSource<BookDto>;
-  title = '';
-  languageOption: any;
-  categoriesOption: any;
-  tagsOption: any;
   numberLimit = 3;
 
   @ViewChild(MatPaginator, { static: true })
@@ -50,10 +40,10 @@ export class BookComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private codeService: CodeService,
     public dialog: MatDialog,
     private sanitizer: DomSanitizer,
     private datepipe: DatePipe,
+    public translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -61,13 +51,6 @@ export class BookComponent implements OnInit {
       this.dataSource = new MatTableDataSource(item);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    });
-
-    this.codeService.getByCode('book', 'language').subscribe((item) => {
-      this.languageOption = item.map(x => ({ label: x.value1, value: x.value1 }));
-    });
-    this.codeService.getByCode('book', 'category').subscribe((item) => {
-      this.categoriesOption = item.map(x => ({ label: x.value1, value: x.value1 }));
     });
   }
 
@@ -80,129 +63,9 @@ export class BookComponent implements OnInit {
   }
 
   openDialog(bookDto: BookDto = new BookDto()) {
-    const formModel: DynamicFormModel = [
-      new DynamicInputModel({
-        id: 'id',
-        label: 'id',
-        value: bookDto.id,
-        hidden: true
-      }),
-      new DynamicInputModel({
-        id: 'addDate',
-        label: 'addDate',
-        value: bookDto.addDate,
-        hidden: true
-      }),
-      new DynamicInputModel({
-        id: 'addWho',
-        label: 'addWho',
-        value: bookDto.addWho,
-        hidden: true
-      }),
-      new DynamicInputModel({
-        id: 'title',
-        label: 'Title',
-        value: bookDto.title,
-        validators: {
-          required: null
-        },
-        errorMessages: {
-          required: '{{ label }} is required'
-        }
-      }),
-      new DynamicInputModel({
-        id: 'title2',
-        label: 'Title 2',
-        value: bookDto.title2,
-      }),
-      new DynamicInputModel({
-        id: 'isbn',
-        label: 'ISBN',
-        value: bookDto.isbn,
-        validators: {
-          required: null
-        },
-        errorMessages: {
-          required: '{{ label }} is required'
-        }
-      }),
-      new DynamicInputModel({
-        id: 'pageCount',
-        label: 'Page Count',
-        inputType: 'number',
-        value: bookDto.pageCount,
-      }),
-      new DynamicDatePickerModel({
-        id: 'publishedDate',
-        label: 'Publication Date',
-        inline: false,
-        value: bookDto.publishedDate?.toDate(),
-        placeholder: 'Date of Published',
-        // min: '1900-01-01',
-        max: new Date()
-      }),
-      new DynamicInputModel({
-        id: 'publisher',
-        label: 'Publisher',
-        value: bookDto.publisher,
-      }),
-      new DynamicInputModel({
-        id: 'thumbnailUrl',
-        label: 'Thumbnail Url',
-        value: bookDto.thumbnailUrl,
-      }),
-      new DynamicInputModel({
-        id: 'authors',
-        placeholder: 'Authors',
-        multiple: true,
-        value: bookDto.authors,
-      }),
-      new DynamicSelectModel({
-        id: 'language',
-        label: 'Language',
-        value: bookDto.language,
-        options: this.languageOption,
-      }),
-      new DynamicRadioGroupModel<string>({
-        id: 'status',
-        legend: "Status",
-        value: bookDto.status,
-        options: [
-          {
-            label: 'Available',
-            value: '0'
-          },
-          {
-            label: 'Borrowed',
-            value: '9'
-          },
-          {
-            label: 'Broken',
-            value: '5'
-          }
-        ]
-      }),
-      new DynamicSelectModel({
-        id: 'categories',
-        label: 'Categories',
-        value: bookDto.categories,
-        options: this.categoriesOption,
-      }),
-      new DynamicInputModel({
-        id: 'tags',
-        label: 'tags',
-        placeholder: 'Tags',
-        value: bookDto.tags,
-        multiple: true,
-      }),
-    ];
-
-    this.title = bookDto.title ? 'Update Book Information' : 'New Book Information';
-
-    const dialogRef = this.dialog.open(FormComponent, {
+    const dialogRef = this.dialog.open(BookFormComponent, {
       width: '450px',
-      panelClass: 'confirm-dialog-container',
-      data: { title: this.title, formModel }
+      data: bookDto,
     });
 
     dialogRef.afterClosed().subscribe(result => {

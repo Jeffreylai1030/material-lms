@@ -7,8 +7,19 @@
     <h1 class="example-app-name" fxHide fxShow.gt-xs>Library Management System</h1>
     <h1 class="example-app-name" fxHide.gt-xs>LMS</h1>
     <span class="example-spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>person</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onChangeLanguage('en')">
+        <span>English</span>
+      </button>
+      <button mat-menu-item (click)="onChangeLanguage('zh-CN')">
+        <span>Simplified Chinese</span>
+      </button>
+    </mat-menu>
     <button mat-icon-button (click)="onLogout()">
-      <mat-icon class="example-icon">exit_to_app</mat-icon>
+      <mat-icon class="example-icon">logout</mat-icon>
     </button>
   </mat-toolbar>
 

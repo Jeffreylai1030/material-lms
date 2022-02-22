@@ -1,0 +1,98 @@
+<h1 mat-dialog-title>Book</h1>
+<form [formGroup]="form" novalidate>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>{{'books.title' | translate }}</mat-label>
+      <input matInput formControlName="title" />
+      <mat-error *ngIf="errorHandling('title', 'required')">
+        {{'books.errorMsg_required' | translate: {title: 'books.title' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'books.title2' | translate }}</mat-label>
+      <input matInput formControlName="title2" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'books.isbn' | translate }}</mat-label>
+      <input matInput formControlName="isbn" />
+      <mat-error *ngIf="errorHandling('isbn', 'required')">
+        {{'books.errorMsg_required' | translate: {title: 'books.isbn' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'books.pageCount' | translate }}</mat-label>
+      <input matInput formControlName="pageCount" type="number"/>
+      <mat-error *ngIf="errorHandling('pageCount', 'min')">
+        Pages Count must more than 1.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'books.publishedDate' | translate }}</mat-label>
+      <input matInput [matDatepicker]="dp" formControlName="publishedDate">
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'books.publisher' | translate }}</mat-label>
+      <input matInput formControlName="publisher" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'books.thumbnailUrl' | translate }}</mat-label>
+      <input matInput formControlName="thumbnailUrl" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'books.author' | translate }}</mat-label>
+      <mat-chip-list #authors aria-label="authors">
+        <mat-chip *ngFor="let author of data.authors" (removed)="remove(data.authors, author)">
+          {{author}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input placeholder="authors"
+               [matChipInputFor]="authors"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add(data.authors, $event)">
+      </mat-chip-list>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'books.language' | translate }}</mat-label>
+      <mat-select formControlName="language">
+        <mat-option [value]="language.value" *ngFor="let language of languageOption">{{language.label}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div>
+      <mat-label>{{'books.status' | translate }}</mat-label>
+      <mat-radio-group class="example-radio-group" formControlName="status">
+        <mat-radio-button class="example-radio-button" [value]="status.value" *ngFor="let status of statusOption">{{status.label}}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <mat-form-field>
+      <mat-label>{{'books.categories' | translate }}</mat-label>
+      <mat-select formControlName="categories">
+        <mat-option [value]="category.value" *ngFor="let category of categoriesOption">{{category.label}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'books.tags' | translate }}</mat-label>
+      <mat-chip-list #tags aria-label="tags">
+        <mat-chip *ngFor="let tag of data.tags" (removed)="remove(data.tags, tag)">
+          {{tag}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input placeholder="tags"
+               [matChipInputFor]="tags"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add(data.tags, $event)">
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">{{'books.btnCancel' | translate }}</button>
+    <button mat-button (click)="onSubmit()" [disabled]="form.invalid" color="primary">{{'books.btnSubmit' | translate }}</button>
+  </div>
+</form>

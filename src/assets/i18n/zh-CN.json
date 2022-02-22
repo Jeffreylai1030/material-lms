@@ -1,0 +1,28 @@
+{
+  "books": {
+    "btnCancel": "取消",
+    "btnSubmit": "保存",
+    "btnNew": "新增",
+    "filtering": "搜索",
+    "insertSample": "新增样本书籍",
+    "title": "书名",
+    "title2": "书名2",
+    "author": "作者",
+    "isbn": "国际标准书号",
+    "language": "书籍语言",
+    "pageCount": "页数",
+    "publishedDate": "发布日期",
+    "publisher": "出版商",
+    "thumbnailUrl": "缩略图",
+    "categories": "类别",
+    "tags": "标签",
+    "status": "状态",
+    "actions": "操作",
+    "edit": "修改",
+    "remove": "删除",
+    "available": "空闲",
+    "borrowed": "借出",
+    "broken": "损坏",
+    "errorMsg_required": "{{title}}不能为空"
+  }
+}

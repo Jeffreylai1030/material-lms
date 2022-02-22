@@ -53,8 +53,10 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
@@ -71,6 +73,7 @@ import { EmployeeComponent } from './views/employee/employee.component';
 import { LoginComponent } from './views/login/login.component';
 import { BorrowComponent } from './views/borrow/borrow.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { BookFormComponent } from './views/book/book-form/book-form.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +87,8 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
     EmployeeComponent,
     LoginComponent,
     BorrowComponent,
-    DashboardComponent
+    DashboardComponent,
+    BookFormComponent
   ],
   imports: [
     BrowserModule,
@@ -95,6 +99,14 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
     provideStorage(() => getStorage()),
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
+    }),
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      }
     }),
     BrowserAnimationsModule,
     FormsModule,
@@ -156,3 +168,8 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+// AOT compilation support
+export function httpTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}

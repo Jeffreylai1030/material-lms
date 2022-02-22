@@ -1,0 +1,28 @@
+{
+  "books": {
+    "btnCancel": "Cancel",
+    "btnSubmit": "Submit",
+    "btnNew": "New",
+    "filtering": "Filtering",
+    "insertSample": "Insert Sample Books",
+    "title": "Title",
+    "title2": "Title2",
+    "author": "Author",
+    "isbn": "ISBN",
+    "language": "Language",
+    "pageCount": "Page Count",
+    "publishedDate": "Published Date",
+    "publisher": "Publisher",
+    "thumbnailUrl": "Thumbnail Url",
+    "categories": "Categories",
+    "tags": "Tags",
+    "status": "Status",
+    "actions": "Actions",
+    "edit": "Edit",
+    "remove": "Remove",
+    "available": "Available",
+    "borrowed": "Borrowed",
+    "broken": "Broken",
+    "errorMsg_required": "{{title}} is required"
+  }
+}
