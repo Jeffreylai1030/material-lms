@@ -5,12 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CodeService } from 'src/app/services/code.service';
 import { BookDto } from 'src/app/models/book-dto';
 import { BookService } from 'src/app/services/book.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-book',
@@ -43,7 +43,8 @@ export class BookComponent implements OnInit {
     public dialog: MatDialog,
     private sanitizer: DomSanitizer,
     private datepipe: DatePipe,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -112,7 +113,9 @@ export class BookComponent implements OnInit {
   }
 
   onSubmit(book: BookDto) {
-    this.bookService.set(book);
+    this.bookService.set(book).then(result =>
+      this.snackBar.open('Update successful', 'Close')
+    );
   }
 
   onDelete(id: string) {
@@ -129,7 +132,9 @@ export class BookComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.bookService.delete(id);
+        this.bookService.delete(id).then(result =>
+          this.snackBar.open('Delete successful', 'Close')
+        );;
       }
     });
   }

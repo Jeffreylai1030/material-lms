@@ -85,13 +85,11 @@ export class CodeService {
     }
     codeDto.editDate = date;
 
-    setDoc(doc(this.firestore, this.dbPath, codeDto.id), Object.assign({}, codeDto));
+    return setDoc(doc(this.firestore, this.dbPath, codeDto.id), Object.assign({}, codeDto));
   }
 
   delete(id: string) {
-    if (id) {
-      deleteDoc(doc(this.firestore, this.dbPath, id));
-    }
+    return deleteDoc(doc(this.firestore, this.dbPath, id));
   }
 
   getCountries() {

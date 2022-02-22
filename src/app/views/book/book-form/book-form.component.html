@@ -1,11 +1,11 @@
-<h1 mat-dialog-title>Book</h1>
+<h1 mat-dialog-title align="center">Book Information</h1>
 <form [formGroup]="form" novalidate>
   <div mat-dialog-content>
     <mat-form-field>
       <mat-label>{{'books.title' | translate }}</mat-label>
       <input matInput formControlName="title" />
       <mat-error *ngIf="errorHandling('title', 'required')">
-        {{'books.errorMsg_required' | translate: {title: 'books.title' | translate} }}
+        {{'errorMsg.required' | translate: {title: 'books.title' | translate} }}
       </mat-error>
     </mat-form-field>
     <mat-form-field>
@@ -16,14 +16,14 @@
       <mat-label>{{'books.isbn' | translate }}</mat-label>
       <input matInput formControlName="isbn" />
       <mat-error *ngIf="errorHandling('isbn', 'required')">
-        {{'books.errorMsg_required' | translate: {title: 'books.isbn' | translate} }}
+        {{'errorMsg.required' | translate: {title: 'books.isbn' | translate} }}
       </mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{'books.pageCount' | translate }}</mat-label>
       <input matInput formControlName="pageCount" type="number"/>
       <mat-error *ngIf="errorHandling('pageCount', 'min')">
-        Pages Count must more than 1.
+        {{'errorMsg.min' | translate: {title: 'code.pageCount' | translate, min: "1"} }}
       </mat-error>
     </mat-form-field>
     <mat-form-field>
@@ -91,7 +91,7 @@
       </mat-chip-list>
     </mat-form-field>
   </div>
-  <div mat-dialog-actions>
+  <div mat-dialog-actions align="center">
     <button mat-button (click)="onCancel()">{{'books.btnCancel' | translate }}</button>
     <button mat-button (click)="onSubmit()" [disabled]="form.invalid" color="primary">{{'books.btnSubmit' | translate }}</button>
   </div>

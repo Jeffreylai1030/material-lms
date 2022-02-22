@@ -22,7 +22,28 @@
     "remove": "Remove",
     "available": "Available",
     "borrowed": "Borrowed",
-    "broken": "Broken",
-    "errorMsg_required": "{{title}} is required"
+    "broken": "Broken"
+  },
+  "code": {
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "new": "New",
+    "edit": "Edit",
+    "remove": "Remove",
+    "filtering": "Filtering",
+    "insertSample": "Insert Sample Code",
+    "dictCode": "Dict Code",
+    "itemCode": "Item Code",
+    "seqNo": "Sequence No",
+    "description": "Description",
+    "value1": "Value1",
+    "value2": "Value2",
+    "value3": "Value3",
+    "value4": "Value4",
+    "actions": "Actions"
+  },
+  "errorMsg": {
+    "required": "{{title}} is required",
+    "min": "{{title}} must greater than {{min}}"
   }
 }

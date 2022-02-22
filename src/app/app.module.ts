@@ -58,11 +58,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { provideStorage,getStorage } from '@angular/fire/storage';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideStorage, getStorage } from '@angular/fire/storage';
 import { MainComponent } from './views/main/main.component';
 import { DialogComponent } from './views/layout/dialog/dialog.component';
 import { FormComponent } from './views/layout/form/form.component';
@@ -74,6 +74,7 @@ import { LoginComponent } from './views/login/login.component';
 import { BorrowComponent } from './views/borrow/borrow.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { BookFormComponent } from './views/book/book-form/book-form.component';
+import { CodeFormComponent } from './views/code/code-form/code-form.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { BookFormComponent } from './views/book/book-form/book-form.component';
     LoginComponent,
     BorrowComponent,
     DashboardComponent,
-    BookFormComponent
+    BookFormComponent,
+    CodeFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,15 +100,15 @@ import { BookFormComponent } from './views/book/book-form/book-form.component';
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
+      echarts: () => import('echarts'),
     }),
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
         useFactory: httpTranslateLoader,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     BrowserAnimationsModule,
     FormsModule,
@@ -160,14 +162,10 @@ import { BookFormComponent } from './views/book/book-form/book-form.component';
     ScrollingModule,
     FlexLayoutModule,
   ],
-  providers: [
-    DialogComponent,
-    FormComponent,
-    DatePipe
-  ],
-  bootstrap: [AppComponent]
+  providers: [DialogComponent, FormComponent, DatePipe],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
 
 // AOT compilation support
 export function httpTranslateLoader(http: HttpClient) {

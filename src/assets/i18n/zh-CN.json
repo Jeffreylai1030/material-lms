@@ -21,8 +21,29 @@
     "edit": "修改",
     "remove": "删除",
     "available": "空闲",
-    "borrowed": "借出",
-    "broken": "损坏",
-    "errorMsg_required": "{{title}}不能为空"
+    "borrowed": "已借出",
+    "broken": "已损坏"
+  },
+  "code": {
+    "cancel": "取消",
+    "submit": "保存",
+    "new": "新增",
+    "edit": "修改",
+    "remove": "删除",
+    "filtering": "搜索",
+    "insertSample": "新增样本",
+    "dictCode": "字典代码",
+    "itemCode": "项目代码",
+    "seqNo": "顺序",
+    "description": "说明",
+    "value1": "数据1",
+    "value2": "数据2",
+    "value3": "数据3",
+    "value4": "数据4",
+    "actions": "操作"
+  },
+  "errorMsg": {
+    "required": "{{title}}不能为空",
+    "min": "{{title}}需大于{{min}}"
   }
 }
