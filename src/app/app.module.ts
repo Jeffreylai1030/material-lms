@@ -75,6 +75,7 @@ import { BorrowComponent } from './views/borrow/borrow.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { BookFormComponent } from './views/book/book-form/book-form.component';
 import { CodeFormComponent } from './views/code/code-form/code-form.component';
+import { MemberFormComponent } from './views/member/member-form/member-form.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { CodeFormComponent } from './views/code/code-form/code-form.component';
     DashboardComponent,
     BookFormComponent,
     CodeFormComponent,
+    MemberFormComponent,
   ],
   imports: [
     BrowserModule,

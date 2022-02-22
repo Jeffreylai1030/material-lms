@@ -93,13 +93,11 @@ export class MemberService {
 
     memberDto.editDate = date;
 
-    setDoc(doc(this.firestore, this.dbPath, memberDto.id), Object.assign({}, memberDto));
+    return setDoc(doc(this.firestore, this.dbPath, memberDto.id), Object.assign({}, memberDto));
   }
 
   delete(id: string) {
-    if (id) {
-      deleteDoc(doc(this.firestore, this.dbPath, id));
-    }
+    return deleteDoc(doc(this.firestore, this.dbPath, id));
   }
 
   insertSampleMembers() {

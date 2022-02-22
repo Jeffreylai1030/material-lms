@@ -33,7 +33,8 @@ export class CodeComponent implements OnInit {
     private dialog: MatDialog,
     private datepipe: DatePipe,
     private sanitizer: DomSanitizer,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.codeService.get().subscribe((item) => {

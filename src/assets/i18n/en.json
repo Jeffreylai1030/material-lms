@@ -5,6 +5,7 @@
     "btnNew": "New",
     "filtering": "Filtering",
     "insertSample": "Insert Sample Books",
+    "formHeader": "Book Information",
     "title": "Title",
     "title2": "Title2",
     "author": "Author",
@@ -20,9 +21,9 @@
     "actions": "Actions",
     "edit": "Edit",
     "remove": "Remove",
-    "available": "Available",
-    "borrowed": "Borrowed",
-    "broken": "Broken"
+    "Available": "Available",
+    "Borrowed": "Borrowed",
+    "Broken": "Broken"
   },
   "code": {
     "cancel": "Cancel",
@@ -32,6 +33,7 @@
     "remove": "Remove",
     "filtering": "Filtering",
     "insertSample": "Insert Sample Code",
+    "formHeader": "Code Information",
     "dictCode": "Dict Code",
     "itemCode": "Item Code",
     "seqNo": "Sequence No",
@@ -42,8 +44,40 @@
     "value4": "Value4",
     "actions": "Actions"
   },
+  "member": {
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "new": "New",
+    "edit": "Edit",
+    "remove": "Remove",
+    "filtering": "Filtering",
+    "insertSample": "Insert Sample Member",
+    "actions": "Actions",
+    "formHeader": "Member Information",
+    "borrowed": "Borrowed",
+    "totalBorrowed": "Total Borrowed",
+    "fullName": "Full Name",
+    "idType": "ID Type",
+    "idNumber": "ID Number",
+    "issueCountry": "Issue Country",
+    "gender": "Gender",
+    "address": "Address",
+    "contactNo": "Contact No",
+    "email": "Email Address",
+    "effDate": "Effective Date",
+    "expDate": "Expired Date",
+    "privilege": "Loan Privilege",
+    "status": "Status",
+    "Activate": "Activate",
+    "Deactivate": "Deactivate",
+    "Frozen": "Frozen",
+    "Expired": "Expired",
+    "Male": "Male",
+    "Female": "Female"
+  },
   "errorMsg": {
     "required": "{{title}} is required",
-    "min": "{{title}} must greater than {{min}}"
+    "min": "{{title}} must greater than {{min}}",
+    "email": "{{title}} not valid"
   }
 }

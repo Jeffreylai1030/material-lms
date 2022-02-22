@@ -5,6 +5,7 @@
     "btnNew": "新增",
     "filtering": "搜索",
     "insertSample": "新增样本书籍",
+    "formHeader": "书籍资料",
     "title": "书名",
     "title2": "书名2",
     "author": "作者",
@@ -20,9 +21,9 @@
     "actions": "操作",
     "edit": "修改",
     "remove": "删除",
-    "available": "空闲",
-    "borrowed": "已借出",
-    "broken": "已损坏"
+    "Available": "空闲",
+    "Borrowed": "已借出",
+    "Broken": "已损坏"
   },
   "code": {
     "cancel": "取消",
@@ -32,6 +33,7 @@
     "remove": "删除",
     "filtering": "搜索",
     "insertSample": "新增样本",
+    "formHeader": "Code Dictionary 资料",
     "dictCode": "字典代码",
     "itemCode": "项目代码",
     "seqNo": "顺序",
@@ -42,8 +44,40 @@
     "value4": "数据4",
     "actions": "操作"
   },
+  "member": {
+    "cancel": "取消",
+    "submit": "保存",
+    "new": "新增",
+    "edit": "修改",
+    "remove": "删除",
+    "filtering": "搜索",
+    "insertSample": "新增样本",
+    "actions": "操作",
+    "formHeader": "会员资料",
+    "borrowed": "现在借着",
+    "totalBorrowed": "曾经借过",
+    "fullName": "名字",
+    "idType": "ID类型",
+    "idNumber": "ID号码",
+    "issueCountry": "所在国家",
+    "gender": "性别",
+    "address": "住家地址",
+    "contactNo": "联络号码",
+    "email": "电子邮件",
+    "effDate": "有效日期",
+    "expDate": "过期日期",
+    "privilege": "贷款特权",
+    "status": "状态",
+    "Activate": "有效",
+    "Deactivate": "无效",
+    "Frozen": "冻结",
+    "Expired": "逾期",
+    "Male": "男性",
+    "Female": "女性"
+  },
   "errorMsg": {
     "required": "{{title}}不能为空",
-    "min": "{{title}}需大于{{min}}"
+    "min": "{{title}}需大于{{min}}",
+    "email": "{{title}}无效"
   }
 }

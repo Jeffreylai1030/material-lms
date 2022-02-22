@@ -1,4 +1,4 @@
-<h1 mat-dialog-title align="center">Book Information</h1>
+<h1 mat-dialog-title align="center">{{'books.formHeader' | translate }}</h1>
 <form [formGroup]="form" novalidate>
   <div mat-dialog-content>
     <mat-form-field>
@@ -65,7 +65,7 @@
     <div>
       <mat-label>{{'books.status' | translate }}</mat-label>
       <mat-radio-group class="example-radio-group" formControlName="status">
-        <mat-radio-button class="example-radio-button" [value]="status.value" *ngFor="let status of statusOption">{{status.label}}</mat-radio-button>
+        <mat-radio-button class="example-radio-button" [value]="status.value" *ngFor="let status of statusOption">{{'books.' + status.label | translate}}</mat-radio-button>
       </mat-radio-group>
     </div>
     <mat-form-field>

@@ -1,3 +1,5 @@
+import { CodeDto } from './../../models/code-dto';
+import { CodeService } from 'src/app/services/code.service';
 import { BookFormComponent } from './book-form/book-form.component';
 import { DialogComponent } from './../layout/dialog/dialog.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -37,9 +39,11 @@ export class BookComponent implements OnInit {
   paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true })
   sort!: MatSort;
+  statusCode: CodeDto[] = [];
 
   constructor(
     private bookService: BookService,
+    private codeService: CodeService,
     public dialog: MatDialog,
     private sanitizer: DomSanitizer,
     private datepipe: DatePipe,
@@ -52,6 +56,10 @@ export class BookComponent implements OnInit {
       this.dataSource = new MatTableDataSource(item);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+    });
+
+    this.codeService.getByCode('book', 'status').subscribe((item) => {
+      this.statusCode = item;
     });
   }
 
@@ -137,6 +145,14 @@ export class BookComponent implements OnInit {
         );;
       }
     });
+  }
+
+  getStatusChipColor(value: string) {
+    return this.statusCode.find(x => x.value2 === value)?.value3;
+  }
+
+  getStatusText(value: string) {
+    return this.statusCode.find(x => x.value2 === value)?.value1;
   }
 
   insertSampleBooks() {

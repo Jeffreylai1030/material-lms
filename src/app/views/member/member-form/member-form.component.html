@@ -1,0 +1,101 @@
+<h1 mat-dialog-title align="center">{{'member.formHeader' | translate }}</h1>
+<form [formGroup]="form" novalidate>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>{{'member.fullName' | translate }}</mat-label>
+      <input matInput formControlName="fullName" />
+      <mat-error *ngIf="errorHandling('fullName', 'required')">
+        {{'errorMsg.required' | translate: {title: 'member.fullName' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'member.idType' | translate }}</mat-label>
+      <mat-select formControlName="idType">
+        <mat-option [value]="idType.value" *ngFor="let idType of idTypeOption">{{idType.label}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="errorHandling('idType', 'required')">
+        {{'errorMsg.required' | translate: {title: 'member.idType' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'member.idNumber' | translate }}</mat-label>
+      <input matInput formControlName="idNumber" />
+      <mat-error *ngIf="errorHandling('idNumber', 'required')">
+        {{'errorMsg.required' | translate: {title: 'member.idNumber' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'member.issueCountry' | translate }}</mat-label>
+      <mat-select formControlName="issueCountry">
+        <mat-option [value]="issueCountry.value" *ngFor="let issueCountry of countryOption">{{issueCountry.label}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="errorHandling('issueCountry', 'required')">
+        {{'errorMsg.required' | translate: {title: 'member.issueCountry' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'member.gender' | translate }}</mat-label>
+      <mat-select formControlName="gender">
+        <mat-option [value]="gender.value" *ngFor="let gender of genderOption">{{gender.label}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="errorHandling('gender', 'required')">
+        {{'errorMsg.required' | translate: {title: 'member.gender' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'member.address' | translate }}</mat-label>
+      <input matInput formControlName="address" />
+      <mat-error *ngIf="errorHandling('address', 'required')">
+        {{'errorMsg.required' | translate: {title: 'member.address' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'member.contactNo' | translate }}</mat-label>
+      <input matInput formControlName="contactNo" />
+      <mat-error *ngIf="errorHandling('contactNo', 'required')">
+        {{'errorMsg.required' | translate: {title: 'member.contactNo' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'member.email' | translate }}</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="errorHandling('email', 'required')">
+        {{'errorMsg.required' | translate: {title: 'member.email' | translate} }}
+      </mat-error>
+      <mat-error *ngIf="errorHandling('email', 'email')">
+        {{'errorMsg.email' | translate: {title: 'member.email' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'member.effDate' | translate }}</mat-label>
+      <input matInput [matDatepicker]="effDate" formControlName="effDate">
+      <mat-datepicker-toggle matSuffix [for]="effDate"></mat-datepicker-toggle>
+      <mat-datepicker #effDate></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'member.expDate' | translate }}</mat-label>
+      <input matInput [matDatepicker]="expDate" formControlName="expDate">
+      <mat-datepicker-toggle matSuffix [for]="expDate"></mat-datepicker-toggle>
+      <mat-datepicker #expDate></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'member.privilege' | translate }}</mat-label>
+      <mat-select formControlName="privilege">
+        <mat-option [value]="privilege.value" *ngFor="let privilege of privilegesOption">{{privilege.label}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="errorHandling('gender', 'required')">
+        {{'errorMsg.required' | translate: {title: 'member.gender' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <div>
+      <mat-label>{{'member.status' | translate }}</mat-label>
+      <mat-radio-group class="example-radio-group" formControlName="status">
+        <mat-radio-button class="example-radio-button" [value]="status.value" *ngFor="let status of statusOption">{{'member.' + status.label | translate }}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div mat-dialog-actions align="center">
+    <button mat-button (click)="onCancel()">{{'member.cancel' | translate }}</button>
+    <button mat-button (click)="onSubmit()" [disabled]="form.invalid" color="primary">{{'member.submit' | translate }}</button>
+  </div>
+</form>
