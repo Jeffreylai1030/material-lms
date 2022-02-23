@@ -75,9 +75,51 @@
     "Male": "Male",
     "Female": "Female"
   },
+  "employee": {
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "new": "New",
+    "edit": "Edit",
+    "remove": "Remove",
+    "upload": "Upload Picture",
+    "registration": "Registration",
+    "filtering": "Filtering",
+    "insertSample": "Insert Sample Employee",
+    "actions": "Actions",
+    "formHeader": "Employee Information",
+    "Librarian": "Librarian",
+    "Senior_Librarian": "Senior Librarian",
+    "Librarian_Assistant": "Librarian Assistant",
+    "Administrator": "Administrator",
+    "Senior_Administrator": "Senior Administrator",
+    "fullName": "Full Name",
+    "idType": "ID Type",
+    "idNumber": "ID Number",
+    "username": "Username",
+    "gender": "Gender",
+    "address": "Address",
+    "contactNo": "Contact No",
+    "email": "Email Address",
+    "salary": "Salary",
+    "role": "Role",
+    "status": "Status",
+    "Activate": "Activate",
+    "Deactivate": "Deactivate",
+    "Male": "Male",
+    "Female": "Female",
+    "register": {
+      "formHeader": "Register",
+      "email": "Email Address",
+      "password": "Password",
+      "password2": "Repeat Password",
+      "cancel": "Cancel",
+      "submit": "Submit"
+    }
+  },
   "errorMsg": {
     "required": "{{title}} is required",
     "min": "{{title}} must greater than {{min}}",
+    "max": "{{title}} must less than {{max}}",
     "email": "{{title}} not valid"
   }
 }

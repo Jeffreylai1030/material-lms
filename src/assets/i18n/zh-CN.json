@@ -75,9 +75,51 @@
     "Male": "男性",
     "Female": "女性"
   },
+  "employee": {
+    "cancel": "取消",
+    "submit": "保存",
+    "new": "新增",
+    "edit": "修改",
+    "remove": "删除",
+    "filtering": "搜索",
+    "upload": "上传图片",
+    "registration": "注册",
+    "insertSample": "新增样本",
+    "actions": "操作",
+    "formHeader": "员工资料",
+    "Librarian": "图书管理员",
+    "Senior_Librarian": "资深图书管理员",
+    "Librarian_Assistant": "图书管理员助理",
+    "Administrator": "行政人员",
+    "Senior_Administrator": "资深行政人员",
+    "fullName": "名字",
+    "idType": "ID类型",
+    "idNumber": "ID号码",
+    "username": "用户名称",
+    "gender": "性别",
+    "address": "住家地址",
+    "contactNo": "联络号码",
+    "email": "电子邮件",
+    "salary": "薪水",
+    "role": "职位级别",
+    "status": "状态",
+    "Activate": "有效",
+    "Deactivate": "无效",
+    "Male": "男性",
+    "Female": "女性",
+    "register": {
+      "formHeader": "注册",
+      "email": "电子邮件",
+      "password": "密码",
+      "password2": "重复密码",
+      "cancel": "取消",
+      "submit": "保存"
+    }
+  },
   "errorMsg": {
     "required": "{{title}}不能为空",
     "min": "{{title}}需大于{{min}}",
+    "max": "{{title}}需小于{{max}}",
     "email": "{{title}}无效"
   }
 }

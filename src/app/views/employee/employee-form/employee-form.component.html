@@ -1,0 +1,97 @@
+<h1 mat-dialog-title align="center">{{'employee.formHeader' | translate }}</h1>
+<form [formGroup]="form" novalidate>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>{{'employee.fullName' | translate }}</mat-label>
+      <input matInput formControlName="fullName" />
+      <mat-error *ngIf="errorHandling('fullName', 'required')">
+        {{'errorMsg.required' | translate: {title: 'employee.fullName' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'employee.idType' | translate }}</mat-label>
+      <mat-select formControlName="idType">
+        <mat-option [value]="idType.value" *ngFor="let idType of idTypeOption">{{idType.label}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="errorHandling('idType', 'required')">
+        {{'errorMsg.required' | translate: {title: 'employee.idType' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'employee.idNumber' | translate }}</mat-label>
+      <input matInput formControlName="idNumber" />
+      <mat-error *ngIf="errorHandling('idNumber', 'required')">
+        {{'errorMsg.required' | translate: {title: 'employee.idNumber' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'employee.gender' | translate }}</mat-label>
+      <mat-select formControlName="gender">
+        <mat-option [value]="gender.value" *ngFor="let gender of genderOption">{{gender.label}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="errorHandling('gender', 'required')">
+        {{'errorMsg.required' | translate: {title: 'employee.gender' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'employee.address' | translate }}</mat-label>
+      <input matInput formControlName="address" />
+      <mat-error *ngIf="errorHandling('address', 'required')">
+        {{'errorMsg.required' | translate: {title: 'employee.address' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'employee.contactNo' | translate }}</mat-label>
+      <input matInput formControlName="contactNo" />
+      <mat-error *ngIf="errorHandling('contactNo', 'required')">
+        {{'errorMsg.required' | translate: {title: 'employee.contactNo' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'employee.email' | translate }}</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="errorHandling('email', 'required')">
+        {{'errorMsg.required' | translate: {title: 'employee.email' | translate} }}
+      </mat-error>
+      <mat-error *ngIf="errorHandling('email', 'email')">
+        {{'errorMsg.email' | translate: {title: 'employee.email' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'employee.username' | translate }}</mat-label>
+      <input matInput formControlName="username" />
+      <mat-error *ngIf="errorHandling('username', 'required')">
+        {{'errorMsg.required' | translate: {title: 'employee.username' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'employee.salary' | translate }}</mat-label>
+      <input matInput formControlName="salary" type="number" />
+      <mat-error *ngIf="errorHandling('salary', 'min')">
+        {{'errorMsg.min' | translate: {title: 'employee.salary' | translate, min: '0'} }}
+      </mat-error>
+      <mat-error *ngIf="errorHandling('salary', 'max')">
+        {{'errorMsg.max' | translate: {title: 'employee.salary' | translate, max: '9999999'} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{'employee.role' | translate }}</mat-label>
+      <mat-select formControlName="role">
+        <mat-option [value]="role.value" *ngFor="let role of staffRoleOption">{{'employee.' + role.label | translate}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="errorHandling('role', 'required')">
+        {{'errorMsg.required' | translate: {title: 'employee.role' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <div>
+      <mat-label>{{'employee.status' | translate }}</mat-label>
+      <mat-radio-group class="example-radio-group" formControlName="status">
+        <mat-radio-button class="example-radio-button" [value]="status.value" *ngFor="let status of statusOption">{{'employee.' + status.label | translate }}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div mat-dialog-actions align="center">
+    <button mat-button (click)="onCancel()">{{'employee.cancel' | translate }}</button>
+    <button mat-button (click)="onSubmit()" [disabled]="form.invalid" color="primary">{{'employee.submit' | translate }}</button>
+  </div>
+</form>

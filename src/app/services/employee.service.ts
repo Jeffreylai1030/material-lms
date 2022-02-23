@@ -113,7 +113,7 @@ export class EmployeeService {
       employeeDto.email = employeeDto.email.toLowerCase()
     }
 
-    setDoc(doc(this.firestore, this.dbPath, employeeDto.id), Object.assign({}, employeeDto));
+    return setDoc(doc(this.firestore, this.dbPath, employeeDto.id), Object.assign({}, employeeDto));
 
   }
 

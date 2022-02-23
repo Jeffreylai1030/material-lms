@@ -76,6 +76,8 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { BookFormComponent } from './views/book/book-form/book-form.component';
 import { CodeFormComponent } from './views/code/code-form/code-form.component';
 import { MemberFormComponent } from './views/member/member-form/member-form.component';
+import { EmployeeFormComponent } from './views/employee/employee-form/employee-form.component';
+import { EmployeeRegisterFormComponent } from './views/employee/employee-register-form/employee-register-form.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +95,8 @@ import { MemberFormComponent } from './views/member/member-form/member-form.comp
     BookFormComponent,
     CodeFormComponent,
     MemberFormComponent,
+    EmployeeFormComponent,
+    EmployeeRegisterFormComponent,
   ],
   imports: [
     BrowserModule,

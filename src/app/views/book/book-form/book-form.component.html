@@ -23,7 +23,7 @@
       <mat-label>{{'books.pageCount' | translate }}</mat-label>
       <input matInput formControlName="pageCount" type="number"/>
       <mat-error *ngIf="errorHandling('pageCount', 'min')">
-        {{'errorMsg.min' | translate: {title: 'code.pageCount' | translate, min: "1"} }}
+        {{'errorMsg.min' | translate: {title: 'code.pageCount' | translate, min: '1'} }}
       </mat-error>
     </mat-form-field>
     <mat-form-field>
