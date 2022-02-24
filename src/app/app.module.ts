@@ -55,6 +55,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AvatarModule } from 'ngx-avatars';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
@@ -63,7 +64,6 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { MainComponent } from './views/main/main.component';
 import { DialogComponent } from './views/layout/dialog/dialog.component';
-import { FormComponent } from './views/layout/form/form.component';
 import { CodeComponent } from './views/code/code.component';
 import { MemberComponent } from './views/member/member.component';
 import { BookComponent } from './views/book/book.component';
@@ -82,7 +82,6 @@ import { EmployeeRegisterFormComponent } from './views/employee/employee-registe
     AppComponent,
     MainComponent,
     DialogComponent,
-    FormComponent,
     CodeComponent,
     MemberComponent,
     BookComponent,
@@ -163,8 +162,9 @@ import { EmployeeRegisterFormComponent } from './views/employee/employee-registe
     PortalModule,
     ScrollingModule,
     FlexLayoutModule,
+    AvatarModule,
   ],
-  providers: [DialogComponent, FormComponent, DatePipe],
+  providers: [DialogComponent, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
