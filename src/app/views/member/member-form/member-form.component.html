@@ -8,22 +8,28 @@
         {{'errorMsg.required' | translate: {title: 'member.fullName' | translate} }}
       </mat-error>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{'member.idType' | translate }}</mat-label>
-      <mat-select formControlName="idType">
-        <mat-option [value]="idType.value" *ngFor="let idType of idTypeOption">{{idType.label}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="errorHandling('idType', 'required')">
-        {{'errorMsg.required' | translate: {title: 'member.idType' | translate} }}
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{'member.idNumber' | translate }}</mat-label>
-      <input matInput formControlName="idNumber" />
-      <mat-error *ngIf="errorHandling('idNumber', 'required')">
-        {{'errorMsg.required' | translate: {title: 'member.idNumber' | translate} }}
-      </mat-error>
-    </mat-form-field>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="16px" fxFlexFill>
+      <div fxFlex="50">
+        <mat-form-field>
+          <mat-label>{{'member.idType' | translate }}</mat-label>
+          <mat-select formControlName="idType">
+            <mat-option [value]="idType.value" *ngFor="let idType of idTypeOption">{{idType.label}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="errorHandling('idType', 'required')">
+            {{'errorMsg.required' | translate: {title: 'member.idType' | translate} }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50">
+        <mat-form-field>
+          <mat-label>{{'member.idNumber' | translate }}</mat-label>
+          <input matInput formControlName="idNumber" />
+          <mat-error *ngIf="errorHandling('idNumber', 'required')">
+            {{'errorMsg.required' | translate: {title: 'member.idNumber' | translate} }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
     <mat-form-field>
       <mat-label>{{'member.issueCountry' | translate }}</mat-label>
       <mat-select formControlName="issueCountry">

@@ -5,8 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DynamicFormsCoreModule } from '@ng-dynamic-forms/core';
-import { DynamicFormsMaterialUIModule } from '@ng-dynamic-forms/ui-material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -120,8 +118,6 @@ import { EmployeeRegisterFormComponent } from './views/employee/employee-registe
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    DynamicFormsCoreModule,
-    DynamicFormsMaterialUIModule,
     A11yModule,
     CdkStepperModule,
     CdkTableModule,

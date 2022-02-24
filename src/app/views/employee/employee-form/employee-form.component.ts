@@ -32,7 +32,7 @@ export class EmployeeFormComponent implements OnInit {
       downloadURL: [data.downloadURL],
       fullName: [data.fullName, [Validators.required]],
       idType: [data.idType, [Validators.required]],
-      idNumber: [data.idNumber, [Validators.min(1)]],
+      idNumber: [data.idNumber, [Validators.required]],
       username: [data.username, [Validators.required]],
       gender: [data.gender, [Validators.required]],
       address: [data.address, [Validators.required]],
