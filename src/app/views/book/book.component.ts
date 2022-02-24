@@ -122,7 +122,11 @@ export class BookComponent implements OnInit {
 
   onSubmit(book: BookDto) {
     this.bookService.set(book).then(result =>
-      this.snackBar.open('Update successful', 'Close')
+      this.translate.get(['snackbar.update_success', 'snackbar.close']).subscribe((message: any) => {
+        this.snackBar.open(message['snackbar.update_success'], message['snackbar.close'], {
+          duration: 1500
+        })
+      })
     );
   }
 
@@ -141,8 +145,12 @@ export class BookComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.bookService.delete(id).then(result =>
-          this.snackBar.open('Delete successful', 'Close')
-        );;
+          this.translate.get(['snackbar.delete_success', 'snackbar.close']).subscribe((message: any) => {
+            this.snackBar.open(message['snackbar.delete_success'], message['snackbar.close'], {
+              duration: 1500
+            })
+          })
+        );
       }
     });
   }

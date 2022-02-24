@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DialogComponent } from '../layout/dialog/dialog.component';
 import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -33,6 +34,7 @@ export class CodeComponent implements OnInit {
     private dialog: MatDialog,
     private datepipe: DatePipe,
     private sanitizer: DomSanitizer,
+    public translate: TranslateService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -99,7 +101,11 @@ export class CodeComponent implements OnInit {
 
   onSubmit(codeDto: CodeDto) {
     this.codeService.set(codeDto).then(result =>
-      this.snackBar.open('Update successful', 'Close')
+      this.translate.get(['snackbar.update_success', 'snackbar.close']).subscribe((message: any) => {
+        this.snackBar.open(message['snackbar.update_success'], message['snackbar.close'], {
+          duration: 1500
+        })
+      })
     );
   }
 
@@ -118,7 +124,11 @@ export class CodeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.codeService.delete(id).then(result =>
-          this.snackBar.open('Delete successful', 'Close')
+          this.translate.get(['snackbar.delete', 'snackbar.close']).subscribe((message: any) => {
+            this.snackBar.open(message['snackbar.delete'], message['snackbar.close'], {
+              duration: 1500
+            })
+          })
         );
       }
     });

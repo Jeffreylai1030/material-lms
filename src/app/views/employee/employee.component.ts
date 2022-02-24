@@ -13,6 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 import { CodeDto } from 'src/app/models/code-dto';
 
 @Component({
@@ -24,6 +25,7 @@ export class EmployeeComponent implements OnInit {
 
   displayedColumns = [
     '#',
+    'downloadURL',
     'fullName',
     'username',
     'gender',
@@ -51,6 +53,7 @@ export class EmployeeComponent implements OnInit {
     public dialog: MatDialog,
     private sanitizer: DomSanitizer,
     private datepipe: DatePipe,
+    public translate: TranslateService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -152,7 +155,11 @@ export class EmployeeComponent implements OnInit {
 
   onSubmit(emp: EmployeeDto) {
     this.employeeService.set(emp).then(result =>
-      this.snackBar.open('Update successful', 'Close')
+      this.translate.get(['snackbar.update_success', 'snackbar.close']).subscribe((message: any) => {
+        this.snackBar.open(message['snackbar.update_success'], message['snackbar.close'], {
+          duration: 1500
+        })
+      })
     );
   }
 

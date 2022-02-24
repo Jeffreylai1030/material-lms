@@ -26,13 +26,17 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
         <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
       </ng-container>
+      <ng-container matColumnDef="downloadURL">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let row">
+          <!-- <img *ngIf="row.downloadURL !== ''" [src]="row.downloadURL"/>
+          <img *ngIf="row.downloadURL === ''" [src]="row.gender === 'M' ? 'assets/images/male.png' : 'assets/images/female.png'" /> -->
+          <ngx-avatars size="40" [round]="true" [src]="row.downloadURL" [name]="row.fullName"></ngx-avatars>
+        </td>
+      </ng-container>
       <ng-container matColumnDef="fullName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'employee.fullName' | translate }}</th>
-        <td mat-cell *matCellDef="let row">
-          <img *ngIf="row.downloadURL !== ''" [src]="row.downloadURL"/>
-          <img *ngIf="row.downloadURL === ''" [src]="row.gender === 'M' ? 'assets/images/male.png' : 'assets/images/female.png'" />
-          {{ row.fullName }}
-        </td>
+        <td mat-cell *matCellDef="let row">{{ row.fullName }}</td>
       </ng-container>
       <ng-container matColumnDef="username">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'employee.username' | translate }}</th>

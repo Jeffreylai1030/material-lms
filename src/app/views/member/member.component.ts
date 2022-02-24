@@ -9,6 +9,7 @@ import { CodeService } from 'src/app/services/code.service';
 import { MemberService } from 'src/app/services/member.service';
 import { CodeDto } from 'src/app/models/code-dto';
 import { MemberFormComponent } from './member-form/member-form.component';
+import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -42,6 +43,7 @@ export class MemberComponent implements OnInit {
     private memberService: MemberService,
     private codeService: CodeService,
     public dialog: MatDialog,
+    public translate: TranslateService,
     private snackBar: MatSnackBar
     ) {}
 
@@ -81,7 +83,11 @@ export class MemberComponent implements OnInit {
 
   onSubmit(member: MemberDto) {
     this.memberService.set(member).then(result =>
-      this.snackBar.open('Update successful', 'Close')
+      this.translate.get(['snackbar.update_success', 'snackbar.close']).subscribe((message: any) => {
+        this.snackBar.open(message['snackbar.update_success'], message['snackbar.close'], {
+          duration: 1500
+        })
+      })
     );;
   }
 
@@ -104,7 +110,11 @@ export class MemberComponent implements OnInit {
       if (result) {
         memberDto.status = newStatus;
         this.memberService.set(memberDto).then(result =>
-          this.snackBar.open('Update successful', 'Close')
+          this.translate.get(['snackbar.update_success', 'snackbar.close']).subscribe((message: any) => {
+            this.snackBar.open(message['snackbar.update_success'], message['snackbar.close'], {
+              duration: 1500
+            })
+          })
         );
       }
     });
@@ -125,7 +135,11 @@ export class MemberComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.memberService.delete(id).then(result =>
-          this.snackBar.open('Delete successful', 'Close')
+          this.translate.get(['snackbar.delete', 'snackbar.close']).subscribe((message: any) => {
+            this.snackBar.open(message['snackbar.delete'], message['snackbar.close'], {
+              duration: 1500
+            })
+          })
         );
       }
     });
