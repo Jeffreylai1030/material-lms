@@ -121,5 +121,33 @@
     "min": "{{title}} must greater than {{min}}",
     "max": "{{title}} must less than {{max}}",
     "email": "{{title}} not valid"
+  },
+  "snackbar": {
+    "update_success": "Update successful",
+    "update_fail": "Update fail",
+    "delete_success": "Delete successful",
+    "delete_fail": "Delete fail",
+    "close": "Close"
+  },
+  "borrow": {
+    "header": "New Borrowed",
+    "subtitle": "Please select the books",
+    "filtering": "Filtering",
+    "book": "Book",
+    "member": "Member",
+    "submit": "Submit",
+    "borrowed": "Borrowed",
+    "history": "History",
+    "bookId": "Book ID",
+    "bookTitle1": "Book Title",
+    "memberId": "Member ID",
+    "borrowedDate": "Borrowed Date",
+    "dueDate": "Due Date",
+    "overdue": "Overdue",
+    "action": "Actions",
+    "yes": "Yes",
+    "no": "No",
+    "no_macthing_found": "No matching found",
+    "search_by": "Search by {{title}} or {{title2}}"
   }
 }

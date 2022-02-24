@@ -6,8 +6,8 @@
     "filtering": "搜索",
     "insertSample": "新增样本书籍",
     "formHeader": "书籍资料",
-    "title": "书名",
-    "title2": "书名2",
+    "title": "书籍名称",
+    "title2": "书籍名称2",
     "author": "作者",
     "isbn": "国际标准书号",
     "language": "书籍语言",
@@ -121,5 +121,33 @@
     "min": "{{title}}需大于{{min}}",
     "max": "{{title}}需小于{{max}}",
     "email": "{{title}}无效"
+  },
+  "snackbar": {
+    "update_success": "更新成功",
+    "update_fail": "更新失败",
+    "delete_success": "删除成功",
+    "delete_fail": "删除失败",
+    "close": "关闭"
+  },
+  "borrow": {
+    "header": "借书",
+    "subtitle": "请选择书籍",
+    "filtering": "搜索",
+    "book": "书籍",
+    "member": "会员",
+    "submit": "保存",
+    "borrowed": "借出记录",
+    "history": "历史记录",
+    "bookId": "书号",
+    "bookTitle1": "书籍名称",
+    "memberId": "会员ID",
+    "borrowedDate": "借用日期",
+    "dueDate": "截止日期",
+    "overdue": "过期",
+    "action": "操作",
+    "yes": "是",
+    "no": "否",
+    "no_macthing_found": "未找到匹配的项资料",
+    "search_by": "按{{title}}或{{title2}}搜索"
   }
 }
