@@ -124,7 +124,7 @@ export class BorrowService {
     bookDto.status = '0';
     this.bookService.set(bookDto);
 
-    memberDto.borrowed -= 1;
+    memberDto.borrowed = memberDto.borrowed >= 1 ? memberDto.borrowed - 1 : memberDto.borrowed;
     this.memberService.set(memberDto);
   }
 

@@ -13,6 +13,7 @@ import { BorrowService } from 'src/app/services/borrow.service';
 import { CodeService } from 'src/app/services/code.service';
 import { DialogComponent } from '../layout/dialog/dialog.component';
 import { MemberDto } from 'src/app/models/member-dto';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-borrow',
@@ -56,7 +57,8 @@ export class BorrowComponent implements OnInit {
     public memberService: MemberService,
     public codeService: CodeService,
     public dialog: MatDialog,
-  ) {}
+    public translate: TranslateService,
+    ) {}
 
   ngOnInit() {
     this.borrowService.getByStatus('0').subscribe((item: BorrowDto[]) => {
@@ -74,11 +76,13 @@ export class BorrowComponent implements OnInit {
     this.bookService.get().subscribe((item: BookDto[]) => {
       this.books = item.filter(x => x.status === '0');
       this.Allbooks = item;
+      this.filteredBooks = this.books;
     });
 
     // Get active members
     this.memberService.getByStatus('9').subscribe((item: MemberDto[]) => {
       this.members = item;
+      this.filteredMembers = item;
     });
 
     this.codeService.getByCode('book', 'fine').subscribe((item: CodeDto[]) => {

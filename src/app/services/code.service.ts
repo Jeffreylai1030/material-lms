@@ -85,13 +85,11 @@ export class CodeService {
     }
     codeDto.editDate = date;
 
-    setDoc(doc(this.firestore, this.dbPath, codeDto.id), Object.assign({}, codeDto));
+    return setDoc(doc(this.firestore, this.dbPath, codeDto.id), Object.assign({}, codeDto));
   }
 
   delete(id: string) {
-    if (id) {
-      deleteDoc(doc(this.firestore, this.dbPath, id));
-    }
+    return deleteDoc(doc(this.firestore, this.dbPath, id));
   }
 
   getCountries() {
@@ -107,18 +105,18 @@ export class CodeService {
     this.set(new CodeDto('C90020211021180000005', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'level', 'staff_role', 5, 'Position level', 'Senior Manager', '', '', ''));
     this.set(new CodeDto('C90020211021180000006', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'level', 'staff_role', 6, 'Position level', 'Entry Level', '', '', ''));
     this.set(new CodeDto('C90020211021180000007', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'role', 'staff_role', 1, 'Position name', 'Librarian','', '', ''));
-    this.set(new CodeDto('C90020211021180000008', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'role', 'staff_role', 2, 'Position name', 'Senior Librarian', '', '', ''));
-    this.set(new CodeDto('C90020211021180000009', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'role', 'staff_role', 3, 'Position name', 'Librarian Assistant', '', '', ''));
+    this.set(new CodeDto('C90020211021180000008', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'role', 'staff_role', 2, 'Position name', 'Senior_Librarian', '', '', ''));
+    this.set(new CodeDto('C90020211021180000009', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'role', 'staff_role', 3, 'Position name', 'Librarian_Assistant', '', '', ''));
     this.set(new CodeDto('C90020211021180000010', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'role', 'staff_role', 4, 'Position name', 'Administrator', '', '', ''));
-    this.set(new CodeDto('C90020211021180000011', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'role', 'staff_role', 5, 'Position name', 'Senior Administrator', '', '', ''));
+    this.set(new CodeDto('C90020211021180000011', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'role', 'staff_role', 5, 'Position name', 'Senior_Administrator', '', '', ''));
     this.set(new CodeDto('C90020211021180000012', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'idType', 'staff_role', 1, 'Staff id type', 'IdCard', '', '', ''));
     this.set(new CodeDto('C90020211021180000013', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'idType', 'staff_role', 2, 'Staff id type', 'Passport', '', '', ''));
-    this.set(new CodeDto('C90020211021180000014', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'staff_role', 1, 'Staff status', 'Activate', '9', '', ''));
-    this.set(new CodeDto('C90020211021180000015', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'staff_role', 2, 'Staff status', 'Deactivate', '0', '', ''));
+    this.set(new CodeDto('C90020211021180000014', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'staff_role', 1, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Activate', '9', 'primary', ''));
+    this.set(new CodeDto('C90020211021180000015', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'staff_role', 2, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Deactivate', '0', 'warn', ''));
 
     this.set(new CodeDto('C90020211021180000016', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'language', 'book', 1, 'Book language', 'English', '', '', ''));
-    this.set(new CodeDto('C90020211021180000017', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'language', 'book', 2, 'Book language', 'Simplified Chinese', '', '', ''));
-    this.set(new CodeDto('C90020211021180000018', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'language', 'book', 3, 'Book language', 'Traditional Chinese', '', '', ''));
+    this.set(new CodeDto('C90020211021180000017', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'language', 'book', 2, 'Book language', 'Simplified_Chinese', '', '', ''));
+    this.set(new CodeDto('C90020211021180000018', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'language', 'book', 3, 'Book language', 'Traditional_Chinese', '', '', ''));
     this.set(new CodeDto('C90020211021180000019', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'language', 'book', 4, 'Book language', 'Malay', '', '', ''));
     this.set(new CodeDto('C90020211021180000020', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'language', 'book', 5, 'Book language', 'Other', '', '', ''));
 
@@ -146,16 +144,23 @@ export class CodeService {
     this.set(new CodeDto('C90020211021180000041', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'category', 'book', 22, 'Book category', 'True Crime', '', '', ''));
     this.set(new CodeDto('C90020211021180000043', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'category', 'book', 23, 'Book category', 'Technology', '', '', ''));
 
-    this.set(new CodeDto('C90020211021180000044', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'privileges', 'member', 1, 'Value1: Level, Value2: Max number items to borrowed, Value3: Loan period (days)', 'Undergraduate Student', '15', '14', ''));
-    this.set(new CodeDto('C90020211021180000045', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'privileges', 'member', 2, 'Value1: Level, Value2: Max number items to borrowed, Value3: Loan period (days)', 'Graduate Student', '30', '30', ''));
-    this.set(new CodeDto('C90020211021180000046', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'privileges', 'member', 3, 'Value1: Level, Value2: Max number items to borrowed, Value3: Loan period (days)', 'Staff Member', '30', '30', ''));
-    this.set(new CodeDto('C90020211021180000047', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'privileges', 'member', 4, 'Value1: Level, Value2: Max number items to borrowed, Value3: Loan period (days)', 'Alumni Member', '5', '14', ''));
+    this.set(new CodeDto('C90020211021180000044', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'book', 24, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Available', '0', 'primary', ''));
+    this.set(new CodeDto('C90020211021180000045', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'book', 25, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Borrowed', '9', 'warn', ''));
+    this.set(new CodeDto('C90020211021180000046', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'book', 26, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Broken', '5', 'accent', ''));
 
-    this.set(new CodeDto('C90020211021180000049', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'member', 1, 'Member status', 'Activate', '9', '', ''));
-    this.set(new CodeDto('C90020211021180000050', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'member', 2, 'Member status', 'Deactivate', '0', '', ''));
-    this.set(new CodeDto('C90020211021180000051', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'member', 3, 'Member status', 'Frozen', '1', '', ''));
-    this.set(new CodeDto('C90020211021180000052', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'member', 4, 'Member status', 'Expried', '2', '', ''));
-    this.set(new CodeDto('C90020211021180000053', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'idType', 'member', 1, 'Member id type', 'IdCard', '', '', ''));
-    this.set(new CodeDto('C90020211021180000054', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'idType', 'member', 2, 'Member id type', 'Passport', '', '', ''));
+    this.set(new CodeDto('C90020211021180000047', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'privileges', 'member', 1, 'Value1: Level, Value2: Max number items to borrowed, Value3: Loan period (days)', 'Undergraduate_Student', '15', '14', ''));
+    this.set(new CodeDto('C90020211021180000048', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'privileges', 'member', 2, 'Value1: Level, Value2: Max number items to borrowed, Value3: Loan period (days)', 'Graduate_Student', '30', '30', ''));
+    this.set(new CodeDto('C90020211021180000049', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'privileges', 'member', 3, 'Value1: Level, Value2: Max number items to borrowed, Value3: Loan period (days)', 'Staff_Member', '30', '30', ''));
+    this.set(new CodeDto('C90020211021180000050', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'privileges', 'member', 4, 'Value1: Level, Value2: Max number items to borrowed, Value3: Loan period (days)', 'Alumni_Member', '5', '14', ''));
+
+    this.set(new CodeDto('C90020211021180000051', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'member', 1, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Activate', '9', 'primary', ''));
+    this.set(new CodeDto('C90020211021180000052', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'member', 2, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Deactivate', '0', 'warn', ''));
+    this.set(new CodeDto('C90020211021180000053', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'member', 3, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Frozen', '1', 'accent', ''));
+    this.set(new CodeDto('C90020211021180000054', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'member', 4, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Expired', '2', 'accent', ''));
+    this.set(new CodeDto('C90020211021180000055', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'idType', 'member', 1, 'Member id type', 'IdCard', '', '', ''));
+    this.set(new CodeDto('C90020211021180000056', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'idType', 'member', 2, 'Member id type', 'Passport', '', '', ''));
+
+    this.set(new CodeDto('C90020211021180000057', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'gender', 'general', 1, 'Value1: Gender, Value2: Gender Code', 'Male', '1', '', ''));
+    this.set(new CodeDto('C90020211021180000058', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'gender', 'general', 2, 'Value1: Gender, Value2: Gender Code', 'Female', '0', '', ''));
   }
 }

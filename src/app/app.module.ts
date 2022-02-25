@@ -5,8 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DynamicFormsCoreModule } from '@ng-dynamic-forms/core';
-import { DynamicFormsMaterialUIModule } from '@ng-dynamic-forms/ui-material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -53,17 +51,19 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AvatarModule } from 'ngx-avatars';
 
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { provideStorage,getStorage } from '@angular/fire/storage';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideStorage, getStorage } from '@angular/fire/storage';
 import { MainComponent } from './views/main/main.component';
 import { DialogComponent } from './views/layout/dialog/dialog.component';
-import { FormComponent } from './views/layout/form/form.component';
 import { CodeComponent } from './views/code/code.component';
 import { MemberComponent } from './views/member/member.component';
 import { BookComponent } from './views/book/book.component';
@@ -71,20 +71,31 @@ import { EmployeeComponent } from './views/employee/employee.component';
 import { LoginComponent } from './views/login/login.component';
 import { BorrowComponent } from './views/borrow/borrow.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { BookFormComponent } from './views/book/book-form/book-form.component';
+import { CodeFormComponent } from './views/code/code-form/code-form.component';
+import { MemberFormComponent } from './views/member/member-form/member-form.component';
+import { EmployeeFormComponent } from './views/employee/employee-form/employee-form.component';
+import { EmployeeRegisterFormComponent } from './views/employee/employee-register-form/employee-register-form.component';
+import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     DialogComponent,
-    FormComponent,
     CodeComponent,
     MemberComponent,
     BookComponent,
     EmployeeComponent,
     LoginComponent,
     BorrowComponent,
-    DashboardComponent
+    DashboardComponent,
+    BookFormComponent,
+    CodeFormComponent,
+    MemberFormComponent,
+    EmployeeFormComponent,
+    EmployeeRegisterFormComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,14 +105,20 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
+      echarts: () => import('echarts'),
+    }),
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient],
+      },
     }),
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    DynamicFormsCoreModule,
-    DynamicFormsMaterialUIModule,
     A11yModule,
     CdkStepperModule,
     CdkTableModule,
@@ -147,12 +164,14 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
     PortalModule,
     ScrollingModule,
     FlexLayoutModule,
+    AvatarModule,
   ],
-  providers: [
-    DialogComponent,
-    FormComponent,
-    DatePipe
-  ],
-  bootstrap: [AppComponent]
+  providers: [DialogComponent, DatePipe],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
+
+// AOT compilation support
+export function httpTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}

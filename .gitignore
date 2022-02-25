@@ -48,3 +48,5 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+
+/.angular

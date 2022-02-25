@@ -7,9 +7,23 @@
     <h1 class="example-app-name" fxHide fxShow.gt-xs>Library Management System</h1>
     <h1 class="example-app-name" fxHide.gt-xs>LMS</h1>
     <span class="example-spacer"></span>
-    <button mat-icon-button (click)="onLogout()">
-      <mat-icon class="example-icon">exit_to_app</mat-icon>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <!-- <mat-icon>person</mat-icon> -->
+      <ngx-avatars size="40" [round]="true" [src]="loginUser.downloadURL" [name]="loginUser.fullName"></ngx-avatars>
     </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onChangeLanguage('en')">
+        <span>English</span>
+      </button>
+      <button mat-menu-item (click)="onChangeLanguage('zh-CN')">
+        <span>Simplified Chinese</span>
+      </button>
+      <hr style="border-top: 1px solid grey;"/>
+      <button mat-menu-item (click)="onLogout()">
+        <mat-icon class="example-icon">logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
   </mat-toolbar>
 
   <mat-sidenav-container

@@ -93,13 +93,11 @@ export class MemberService {
 
     memberDto.editDate = date;
 
-    setDoc(doc(this.firestore, this.dbPath, memberDto.id), Object.assign({}, memberDto));
+    return setDoc(doc(this.firestore, this.dbPath, memberDto.id), Object.assign({}, memberDto));
   }
 
   delete(id: string) {
-    if (id) {
-      deleteDoc(doc(this.firestore, this.dbPath, id));
-    }
+    return deleteDoc(doc(this.firestore, this.dbPath, id));
   }
 
   insertSampleMembers() {
@@ -108,7 +106,7 @@ export class MemberService {
 
     for (let i = 0; i < 20; i++) {
       let gender = i % 2 === 0 ? 'Female' : 'Male';
-      this.set(new MemberDto('M20020211021180000' + i.toString().padStart(3, '0'), effDate, 'Administrator', effDate, 'Administrator', 'No ' + (i + 1).toString() + ', Jalan ABC, 25100, Kuantan, Pahang', '012-34567' + i.toString().padStart(2, '0'), 'test.email.' + i + '@hotmail.com', 'Test User ' + i, gender, 0, 0, '9', effDate, expDate, 'Undergraduate Student', '951010-10-100' + i, 'IdCard', 'Malaysia'));
+      this.set(new MemberDto('M20020211021180000' + i.toString().padStart(3, '0'), effDate, 'Administrator', effDate, 'Administrator', 'No ' + (i + 1).toString() + ', Jalan ABC, 25100, Kuantan, Pahang', '012-34567' + i.toString().padStart(2, '0'), 'test.email.' + i + '@hotmail.com', 'Test User ' + i, gender, 0, 0, '9', effDate, expDate, 'Undergraduate_Student', '951010-10-100' + i, 'IdCard', 'Malaysia'));
     }
   }
 

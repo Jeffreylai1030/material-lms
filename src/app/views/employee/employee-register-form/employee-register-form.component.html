@@ -1,0 +1,23 @@
+<h1 mat-dialog-title align="center">{{ 'employee.register.formHeader' | translate }}</h1>
+<form [formGroup]="form" novalidate>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>{{ 'employee.register.email' | translate }}</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="errorHandling('email', 'required')">
+        {{ 'errorMsg.required' | translate: {title: 'employee.email' | translate} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ 'employee.register.password' | translate }}</mat-label>
+      <input matInput formControlName="password" type="password" />
+      <mat-error *ngIf="errorHandling('password', 'required')">
+        {{ 'errorMsg.required' | translate: {title: 'employee.register.password' | translate} }}
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions align="center">
+    <button mat-button (click)="onCancel()">{{ 'employee.register.cancel' | translate }}</button>
+    <button mat-button (click)="onSubmit()" [disabled]="form.invalid" color="primary">{{ 'employee.register.submit' | translate }}</button>
+  </div>
+</form>

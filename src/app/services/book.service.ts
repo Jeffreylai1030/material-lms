@@ -97,13 +97,11 @@ export class BookService {
     }
     bookDto.editDate = date;
 
-    setDoc(doc(this.firestore, this.dbPath, bookDto.id), Object.assign({}, bookDto));
+    return setDoc(doc(this.firestore, this.dbPath, bookDto.id), Object.assign({}, bookDto));
   }
 
   delete(id: string) {
-    if (id) {
-      deleteDoc(doc(this.firestore, this.dbPath, id));
-    }
+    return deleteDoc(doc(this.firestore, this.dbPath, id));
   }
 
   insertSampleBooks() {

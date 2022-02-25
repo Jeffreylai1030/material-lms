@@ -1,3 +1,4 @@
+import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BookComponent } from './views/book/book.component';
@@ -19,12 +20,14 @@ const routes: Routes = [
       // { path: '', redirectTo: 'book', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'book', component: BookComponent },
+      // { path: 'book/:id', component: BookComponent },
       { path: 'employee', component: EmployeeComponent },
       { path: 'code', component: CodeComponent },
       { path: 'member', component: MemberComponent },
-      { path: 'borrow', component: BorrowComponent }
+      { path: 'borrow', component: BorrowComponent },
     ],
   },
+  { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
 @NgModule({

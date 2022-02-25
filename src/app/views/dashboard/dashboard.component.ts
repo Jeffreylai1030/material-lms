@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { BorrowDto } from 'src/app/models/borrow-dto';
 import { BorrowService } from 'src/app/services/borrow.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -20,6 +21,7 @@ export class DashboardComponent implements OnInit {
     private bookService: BookService,
     private borrowService: BorrowService,
     private datePipe: DatePipe,
+    private translate: TranslateService
   ) {}
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -27,7 +29,7 @@ export class DashboardComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
 
   today = new Date();
-  chartTitle = 'New Borrowed Last 7 Days';
+  chartTitle = '7';
   totalBooksNumber = 0;
   totalBorrowsNumber = 0;
   totalTodayBorrowsNumber = 0;
@@ -59,6 +61,7 @@ export class DashboardComponent implements OnInit {
   getByBorrowedDateRange(startDate: Date, endDate: Date) {
     this.borrowService.getByBorrowedDateRange(startDate, endDate).subscribe(item => {
       this.borrows = item;
+      this.generateLineChart(startDate, endDate);
     })
   }
 
@@ -67,11 +70,11 @@ export class DashboardComponent implements OnInit {
     const endDate = new Date();
 
     if (value === 'lastWeek') {
-      this.chartTitle = 'New Borrowed Last 7 Days';
+      this.chartTitle = '7';
       const startDate = new Date(new Date().setDate(new Date().getDate() - 6));
       this.generateLineChart(startDate, endDate);
     } else if (value === 'lastMonth') {
-      this.chartTitle = 'New Borrowed Last 30 Days';
+      this.chartTitle = '30';
       const startDate = new Date(new Date().setDate(new Date().getDate() - 29));
       this.generateLineChart(startDate, endDate);
     }
@@ -81,29 +84,25 @@ export class DashboardComponent implements OnInit {
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     this.selectedTab = '';
-    this.chartTitle = `New Borrowed ${this.datePipe.transform(startDate, 'mediumDate')} ~ ${this.datePipe.transform(endDate, 'mediumDate')}`;
-
-    console.log(startDate, endDate);
-
-    this.generateLineChart(startDate, endDate);
+    this.chartTitle = `${this.datePipe.transform(startDate, 'mediumDate')} ~ ${this.datePipe.transform(endDate, 'mediumDate')}`;
+    this.getByBorrowedDateRange(startDate, endDate);
   }
 
   generateLineChart(startDate: Date, endDate: Date) {
-    this.getByBorrowedDateRange(startDate, endDate);
-
     let data: any = [];
     let xAxis: string[] = [];
     let yAxis: number[] = [];
     let count = 0;
 
-    let startDateStr = this.datePipe.transform(startDate, 'yyyy-MM-dd');
-    let endDateStr = this.datePipe.transform(endDate, 'yyyy-MM-dd');
-
-    console.log(`start: ${startDateStr}, end: ${endDateStr}`);
+    // let startDateStr = this.datePipe.transform(startDate, 'yyyy-MM-dd');
+    // let endDateStr = this.datePipe.transform(endDate, 'yyyy-MM-dd');
+    // console.log(`start: ${startDateStr}, end: ${endDateStr}`);
 
     while (startDate <= endDate) {
       const pastDate = this.datePipe.transform(startDate, 'yyyy-MM-dd') || '';
       const pastData = this.borrows.filter(x => this.datePipe.transform(x.borrowedDate.toDate(), 'yyyy-MM-dd') === pastDate).length;
+
+      console.log(pastData);
 
       xAxis.push(pastDate);
       yAxis.push(pastData);
@@ -119,37 +118,39 @@ export class DashboardComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
-    this.chartOption = {
-      legend: {
-        data: ['Books']
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'line',
-          label: {
-            backgroundColor: '#6a7985'
-          }
-        }
-      },
-      xAxis: {
-        type: 'category',
-        data: xAxis, // Past 7 days Date
-        axisTick: {
-          alignWithLabel: true
-        }
-      },
-      yAxis: {
-        type: 'value',
-      },
-      series: [
-        {
-          name: 'Books',
-          data: yAxis, // Number of books
-          type: 'line',
+    this.translate.get('dashboard.book').subscribe(result => {
+      this.chartOption = {
+        legend: {
+          data: [result]
         },
-      ],
-    };
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'line',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: xAxis, // Past 7 days Date
+          axisTick: {
+            alignWithLabel: true
+          }
+        },
+        yAxis: {
+          type: 'value',
+        },
+        series: [
+          {
+            name: result,
+            data: yAxis, // Number of books
+            type: 'line',
+          },
+        ],
+      };
+    })
   }
 
 }

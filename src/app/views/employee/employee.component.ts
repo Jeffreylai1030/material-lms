@@ -1,17 +1,20 @@
+import { EmployeeRegisterFormComponent } from './employee-register-form/employee-register-form.component';
 import { EmployeeDto } from './../../models/employee-dto';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DynamicFormModel, DynamicInputModel, DynamicRadioGroupModel, DynamicSelectModel, DynamicSwitchModel } from '@ng-dynamic-forms/core';
 import { CodeService } from 'src/app/services/code.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogComponent } from '../layout/dialog/dialog.component';
-import { FormComponent } from '../layout/form/form.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
+import { EmployeeFormComponent } from './employee-form/employee-form.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
+import { CodeDto } from 'src/app/models/code-dto';
 
 @Component({
   selector: 'app-employee',
@@ -22,6 +25,7 @@ export class EmployeeComponent implements OnInit {
 
   displayedColumns = [
     '#',
+    'downloadURL',
     'fullName',
     'username',
     'gender',
@@ -33,16 +37,14 @@ export class EmployeeComponent implements OnInit {
     'action'
   ];
   dataSource!: MatTableDataSource<EmployeeDto>;
-  title = '';
-  staffRoleOption: any = [];
-  idTypeOption: any = []
-  statusOption: any = []
 
   @ViewChild(MatPaginator, { static: true })
   paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true })
   sort!: MatSort;
   selectedEmployee: EmployeeDto = new EmployeeDto();
+
+  statusCode: CodeDto[] = [];
 
   constructor(
     private employeeService: EmployeeService,
@@ -51,6 +53,8 @@ export class EmployeeComponent implements OnInit {
     public dialog: MatDialog,
     private sanitizer: DomSanitizer,
     private datepipe: DatePipe,
+    public translate: TranslateService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -59,17 +63,8 @@ export class EmployeeComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
-
-    this.codeService.getByCode('staff_role', 'role').subscribe((item) => {
-      this.staffRoleOption = item.map(x => ({ label: x.value1, value: x.value1 }));
-    });
-
-    this.codeService.getByCode('staff_role', 'idType').subscribe((item) => {
-      this.idTypeOption = item.map(x => ({ label: x.value1, value: x.value1 }));
-    });
-
     this.codeService.getByCode('staff_role', 'status').subscribe((item) => {
-      this.statusOption = item.map(x => ({ label: x.value1, value: x.value2 }));
+      this.statusCode = item;
     });
   }
 
@@ -81,189 +76,10 @@ export class EmployeeComponent implements OnInit {
     }
   }
 
-  openDialog(emp: EmployeeDto = new EmployeeDto()) {
-    const formModel: DynamicFormModel = [
-      new DynamicInputModel({
-        id: 'id',
-        label: 'id',
-        value: emp.id,
-        hidden: true
-      }),
-      new DynamicInputModel({
-        id: 'addDate',
-        label: 'addDate',
-        value: emp.addDate,
-        hidden: true
-      }),
-      new DynamicInputModel({
-        id: 'addWho',
-        label: 'addWho',
-        value: emp.addWho,
-        hidden: true
-      }),
-      new DynamicInputModel({
-        id: 'downloadURL',
-        label: 'downloadURL',
-        value: emp.downloadURL,
-        hidden: true
-      }),
-      new DynamicInputModel({
-        id: 'status',
-        label: 'status',
-        value: emp.status,
-        hidden: true
-      }),
-      new DynamicInputModel({
-        id: 'fullName',
-        label: 'Full Name',
-        value: emp.fullName,
-        validators: {
-          required: null
-        },
-        errorMessages: {
-          required: '{{ label }} is required'
-        }
-      }),
-      new DynamicInputModel({
-        id: 'username',
-        label: 'Username',
-        value: emp.username,
-        validators: {
-          required: null
-        },
-        errorMessages: {
-          required: '{{ label }} is required'
-        }
-      }),
-      new DynamicSelectModel({
-        id: 'gender',
-        label: 'Gender',
-        value: emp.gender,
-        options: [{ label: 'Male', value: 'M' }, { label: 'Female', value: 'F' }],
-        validators: {
-          required: null
-        },
-        errorMessages: {
-          required: '{{ label }} is required'
-        }
-      }),
-      new DynamicSelectModel({
-        id: 'idType',
-        label: 'ID Type',
-        value: emp.idType,
-        options: this.idTypeOption,
-        validators: {
-          required: null,
-        },
-        errorMessages: {
-          required: '{{ label }} is required',
-        },
-      }),
-      new DynamicInputModel({
-        id: 'idNumber',
-        label: 'ID Number',
-        value: emp.idNumber,
-        validators: {
-          required: null,
-        },
-        errorMessages: {
-          required: '{{ label }} is required',
-        },
-      }),
-      new DynamicInputModel({
-        id: 'address',
-        label: 'Address',
-        value: emp.address,
-        validators: {
-          required: null
-        },
-        errorMessages: {
-          required: '{{ label }} is required'
-        }
-      }),
-      new DynamicInputModel({
-        id: 'contactNo',
-        label: 'ContactNo',
-        value: emp.contactNo,
-        validators: {
-          required: null,
-          pattern: '^[0-9]{2,3}-[0-9]{7,9}$'
-        },
-        errorMessages: {
-          required: '{{ label }} is required',
-          pattern: 'Invalid {{ label }}. Example: xxx-xxxxxxx'
-        }
-      }),
-      new DynamicInputModel({
-        id: 'email',
-        label: 'Email Address',
-        value: emp.email,
-        inputType: 'email',
-        validators: {
-          required: null,
-          pattern: '^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'
-        },
-        errorMessages: {
-          required: '{{ label }} is required',
-          pattern: 'Invalid {{ label }}. Example: jane.dose@example.com'
-        }
-      }),
-      // new DynamicInputModel({
-      //   id: 'profileImage',
-      //   label: 'Profile Image',
-      //   value: emp.profileImage,
-      //   inputType: 'file',
-      //   accept: 'image/*',
-      // }),
-      new DynamicInputModel({
-        id: 'salary',
-        label: 'Salary',
-        inputType: 'number',
-        value: emp.salary,
-        validators: {
-          required: null,
-          min: 0,
-          max: 99999999
-        },
-        errorMessages: {
-          required: '{{ label }} is required',
-          min: '{{ label }} cannot be negative number.',
-          max: '{{ label }} number too larger.'
-        }
-      }),
-      new DynamicSelectModel({
-        id: 'role',
-        label: 'Role',
-        value: emp.role,
-        options: this.staffRoleOption,
-        validators: {
-          required: null
-        },
-        errorMessages: {
-          required: '{{ label }} is required'
-        }
-      }),
-      new DynamicRadioGroupModel({
-        id: 'status',
-        legend: "Status",
-        value: emp.status,
-        options: this.statusOption
-      }),
-      new DynamicSwitchModel({
-        id: 'loginProfile',
-        label: 'Create login account',
-        value: emp.loginProfile,
-        onLabel: 'Yes',
-        offLabel: 'No'
-      }),
-    ];
-
-    this.title = emp.email ? 'Update Employee Information' : 'New Employee Information';
-
-    const dialogRef = this.dialog.open(FormComponent, {
+  openDialog(employeeDto: EmployeeDto = new EmployeeDto()) {
+    const dialogRef = this.dialog.open(EmployeeFormComponent, {
       width: '450px',
-      panelClass: 'confirm-dialog-container',
-      data: { title: this.title, formModel }
+      data: employeeDto,
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -300,53 +116,19 @@ export class EmployeeComponent implements OnInit {
   }
 
   onRegister(email: string, password = '') {
-    const formModel: DynamicFormModel = [
-      new DynamicInputModel({
-        id: 'email',
-        label: 'Email',
-        value: email,
-        inputType: 'email',
-        validators: {
-          required: null
-        },
-        errorMessages: {
-          required: '{{ label }} is required'
-        }
-      }),
-      new DynamicInputModel({
-        id: 'password',
-        label: 'Password',
-        value: password,
-        inputType: 'password',
-        validators: {
-          required: null
-        },
-        errorMessages: {
-          required: '{{ label }} is required'
-        }
-      })
-    ];
-
-    const dialogRef = this.dialog.open(FormComponent, {
+    const dialogRef = this.dialog.open(EmployeeRegisterFormComponent, {
       width: '450px',
-      panelClass: 'confirm-dialog-container',
-      data: { title: 'Reset Password / Register', formModel }
+      data: { email, password },
     });
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         const msg = await this.loginService.register(result.email, result.password);
-        this.dialog.open(DialogComponent, {
-          width: '350px',
-          panelClass: 'confirm-dialog-container',
-          data: {
-            title: 'Registration',
-            html: msg,
-            theme: `${msg === 'Register Successful' ? 'dialog-blue' : 'dialog-red'}`
-          }
-        });
+        this.snackBar.open(msg, 'Close')
       }
     });
+
+
   }
 
   onShowAllData(emp: EmployeeDto) {
@@ -372,7 +154,13 @@ export class EmployeeComponent implements OnInit {
   }
 
   onSubmit(emp: EmployeeDto) {
-    this.employeeService.set(emp);
+    this.employeeService.set(emp).then(result =>
+      this.translate.get(['snackbar.update_success', 'snackbar.close']).subscribe((message: any) => {
+        this.snackBar.open(message['snackbar.update_success'], message['snackbar.close'], {
+          duration: 1500
+        })
+      })
+    );
   }
 
   onStatusToggle(id: string, status: string) {
@@ -411,6 +199,14 @@ export class EmployeeComponent implements OnInit {
         this.employeeService.delete(emp);
       }
     });
+  }
+
+  getStatusChipColor(value: string) {
+    return this.statusCode.find(x => x.value2 === value)?.value3;
+  }
+
+  getStatusText(value: string) {
+    return this.statusCode.find(x => x.value2 === value)?.value1;
   }
 
 }
