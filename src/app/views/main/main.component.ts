@@ -1,5 +1,5 @@
 import { AuthService } from 'src/app/services/auth.service';
-import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -8,8 +8,9 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css'],
 })
-export class MainComponent implements OnDestroy {
+export class MainComponent implements OnDestroy, OnInit {
   mobileQuery: MediaQueryList;
+  loginUser: any;
   private mobileQueryListener: () => void;
 
   constructor(
@@ -27,6 +28,9 @@ export class MainComponent implements OnDestroy {
     if (language) {
       this.translate.use(language);
     }
+  }
+  ngOnInit(): void {
+    this.loginUser = this.auth.getCurrentLoginUser();
   }
 
   ngOnDestroy(): void {

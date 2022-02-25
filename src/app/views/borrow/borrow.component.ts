@@ -76,11 +76,13 @@ export class BorrowComponent implements OnInit {
     this.bookService.get().subscribe((item: BookDto[]) => {
       this.books = item.filter(x => x.status === '0');
       this.Allbooks = item;
+      this.filteredBooks = this.books;
     });
 
     // Get active members
     this.memberService.getByStatus('9').subscribe((item: MemberDto[]) => {
       this.members = item;
+      this.filteredMembers = item;
     });
 
     this.codeService.getByCode('book', 'fine').subscribe((item: CodeDto[]) => {

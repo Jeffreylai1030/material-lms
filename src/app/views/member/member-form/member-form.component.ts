@@ -1,8 +1,9 @@
 import { CodeService } from 'src/app/services/code.service';
 import { MemberDto } from './../../../models/member-dto';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-member-form',
@@ -17,12 +18,16 @@ export class MemberFormComponent implements OnInit {
   genderOption: any;
   privilegesOption: any;
   statusOption: any;
+  language = this.translate.currentLang;
+  filterCtrl = new FormControl();
+  filteredData: any;
 
   constructor(
     public fb: FormBuilder,
     public dialogRef: MatDialogRef<MemberFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: MemberDto,
-    private codeService: CodeService
+    private codeService: CodeService,
+    public translate: TranslateService
   ) {
     this.form = this.fb.group({
       id: [data.id],
@@ -53,13 +58,30 @@ export class MemberFormComponent implements OnInit {
       this.genderOption = item.map(x => ({ label: x.value1, value: x.value1 }));
     });
     this.codeService.getCountries().subscribe((item: any) => {
-      this.countryOption = item.map((x: any) => ({ label: x.name.common, value: x.name.common }));
+      this.countryOption = item.map((x: any) => {
+        if (this.language === 'en') {
+          return { label: x.name.common, name: x.name.common, value: x.name.common, flag: x.flags.svg }
+        } else if (this.language === 'zh-CN') {
+          if (x.translations?.zho?.common) {
+            return { label: x.translations?.zho?.common, name: x.name.common, value: x.name.common, flag: x.flags.svg }
+          } else {
+            return { label: x.name.nativeName?.zho?.common, name: x.name.common, value: x.name.common, flag: x.flags.svg }
+          }
+        }
+        return {};
+      })
+      this.filteredData = this.countryOption;
     });
     this.codeService.getByCode('member', 'privileges').subscribe((item) => {
       this.privilegesOption = item.map(x => ({ label: x.value1, value: x.value1 }));
     });
     this.codeService.getByCode('member', 'status').subscribe((item) => {
       this.statusOption = item.map(x => ({ label: x.value1, value: x.value2 }));
+    });
+
+    this.filterCtrl.valueChanges.pipe().subscribe(() => {
+      const search = this.filterCtrl.value?.toLowerCase();
+      this.filteredData = this.countryOption.filter((item: any) => item.name.toLowerCase().indexOf(search) > -1);
     });
   }
 

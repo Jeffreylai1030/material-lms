@@ -76,6 +76,7 @@ import { CodeFormComponent } from './views/code/code-form/code-form.component';
 import { MemberFormComponent } from './views/member/member-form/member-form.component';
 import { EmployeeFormComponent } from './views/employee/employee-form/employee-form.component';
 import { EmployeeRegisterFormComponent } from './views/employee/employee-register-form/employee-register-form.component';
+import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { EmployeeRegisterFormComponent } from './views/employee/employee-registe
     MemberFormComponent,
     EmployeeFormComponent,
     EmployeeRegisterFormComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

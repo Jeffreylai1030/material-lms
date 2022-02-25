@@ -106,7 +106,7 @@ export class MemberService {
 
     for (let i = 0; i < 20; i++) {
       let gender = i % 2 === 0 ? 'Female' : 'Male';
-      this.set(new MemberDto('M20020211021180000' + i.toString().padStart(3, '0'), effDate, 'Administrator', effDate, 'Administrator', 'No ' + (i + 1).toString() + ', Jalan ABC, 25100, Kuantan, Pahang', '012-34567' + i.toString().padStart(2, '0'), 'test.email.' + i + '@hotmail.com', 'Test User ' + i, gender, 0, 0, '9', effDate, expDate, 'Undergraduate Student', '951010-10-100' + i, 'IdCard', 'Malaysia'));
+      this.set(new MemberDto('M20020211021180000' + i.toString().padStart(3, '0'), effDate, 'Administrator', effDate, 'Administrator', 'No ' + (i + 1).toString() + ', Jalan ABC, 25100, Kuantan, Pahang', '012-34567' + i.toString().padStart(2, '0'), 'test.email.' + i + '@hotmail.com', 'Test User ' + i, gender, 0, 0, '9', effDate, expDate, 'Undergraduate_Student', '951010-10-100' + i, 'IdCard', 'Malaysia'));
     }
   }
 

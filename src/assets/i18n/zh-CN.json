@@ -1,4 +1,9 @@
 {
+  "login": {
+    "login": "登录",
+    "email": "电子邮件",
+    "password": "密码"
+  },
   "books": {
     "btnCancel": "取消",
     "btnSubmit": "保存",
@@ -23,7 +28,12 @@
     "remove": "删除",
     "Available": "空闲",
     "Borrowed": "已借出",
-    "Broken": "已损坏"
+    "Broken": "已损坏",
+    "English": "英语",
+    "Simplified_Chinese": "简体中文",
+    "Traditional_Chinese": "繁体中文",
+    "Malay": "马来文",
+    "Other": "其他"
   },
   "code": {
     "cancel": "取消",
@@ -73,7 +83,13 @@
     "Frozen": "冻结",
     "Expired": "逾期",
     "Male": "男性",
-    "Female": "女性"
+    "Female": "女性",
+    "Undergraduate_Student": "本科生",
+    "Graduate_Student": "研究生",
+    "Staff_Member": "工作人员",
+    "Alumni_Member": "校友会员",
+    "no_macthing_found": "未找到匹配的项资料",
+    "search_by": "按{{title}}搜索"
   },
   "employee": {
     "cancel": "取消",
@@ -120,6 +136,8 @@
     "required": "{{title}}不能为空",
     "min": "{{title}}需大于{{min}}",
     "max": "{{title}}需小于{{max}}",
+    "minLength": "{{title}}需大于{{min}}字符",
+    "maxLength": "{{title}}需小于{{max}}字符",
     "email": "{{title}}无效"
   },
   "snackbar": {
@@ -149,5 +167,22 @@
     "no": "否",
     "no_macthing_found": "未找到匹配的项资料",
     "search_by": "按{{title}}或{{title2}}搜索"
+  },
+  "dashboard": {
+    "totalTodayBorrowsNumber": "今天借出",
+    "totalBorrowsNumber": "总数借出",
+    "totalBorrowsExpiredNumber": "总数过期",
+    "totalBooksNumber": "总数书籍",
+    "lastWeek": "上周",
+    "lastMonth": "上个月",
+    "enterDateRange": "输入日期范围",
+    "startDate": "开始日期",
+    "endDate": "结束日期",
+    "search": "搜索",
+    "information": "详情信息",
+    "date": "日期",
+    "number": "书籍数量",
+    "chartTitle": "最近 {{value}} 天借出",
+    "book": "书籍"
   }
 }

@@ -1,50 +1,50 @@
-<h1 mat-dialog-title align="center">{{'code.formHeader' | translate }}</h1>
+<h1 mat-dialog-title align="center">{{ 'code.formHeader' | translate }}</h1>
 <form [formGroup]="form" novalidate>
   <div mat-dialog-content>
     <mat-form-field>
-      <mat-label>{{'code.dictCode' | translate }}</mat-label>
+      <mat-label>{{ 'code.dictCode' | translate }}</mat-label>
       <input matInput formControlName="dictCode" />
       <mat-error *ngIf="errorHandling('dictCode', 'required')">
-        {{'errorMsg.required' | translate: {title: 'code.dictCode' | translate} }}
+        {{ 'errorMsg.required' | translate: {title: 'code.dictCode' | translate} }}
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>{{'code.itemCode' | translate }}</mat-label>
+      <mat-label>{{ 'code.itemCode' | translate }}</mat-label>
       <input matInput formControlName="itemCode" />
       <mat-error *ngIf="errorHandling('itemCode', 'required')">
-        {{'errorMsg.required' | translate: {title: 'code.itemCode' | translate} }}
+        {{ 'errorMsg.required' | translate: {title: 'code.itemCode' | translate} }}
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>{{'code.seqNo' | translate }}</mat-label>
+      <mat-label>{{ 'code.seqNo' | translate }}</mat-label>
       <input matInput formControlName="seqNo" type="number" />
       <mat-error *ngIf="errorHandling('seqNo', 'min')">
-        {{'errorMsg.min' | translate: {title: 'code.seqNo' | translate, min: "1"} }}
+        {{ 'errorMsg.min' | translate: {title: 'code.seqNo' | translate, min: "1"} }}
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>{{'code.description' | translate }}</mat-label>
+      <mat-label>{{ 'code.description' | translate }}</mat-label>
       <input matInput formControlName="description" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>{{'code.value1' | translate }}</mat-label>
+      <mat-label>{{ 'code.value1' | translate }}</mat-label>
       <input matInput formControlName="value1" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>{{'code.value2' | translate }}</mat-label>
+      <mat-label>{{ 'code.value2' | translate }}</mat-label>
       <input matInput formControlName="value2" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>{{'code.value3' | translate }}</mat-label>
+      <mat-label>{{ 'code.value3' | translate }}</mat-label>
       <input matInput formControlName="value3" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>{{'code.value4' | translate }}</mat-label>
+      <mat-label>{{ 'code.value4' | translate }}</mat-label>
       <input matInput formControlName="value4" />
     </mat-form-field>
   </div>
   <div mat-dialog-actions align="center">
-    <button mat-button (click)="onCancel()">{{'code.cancel' | translate }}</button>
-    <button mat-button (click)="onSubmit()" [disabled]="form.invalid" color="primary">{{'code.submit' | translate }}</button>
+    <button mat-button (click)="onCancel()">{{ 'code.cancel' | translate }}</button>
+    <button mat-button (click)="onSubmit()" [disabled]="form.invalid" color="primary">{{ 'code.submit' | translate }}</button>
   </div>
 </form>

@@ -34,12 +34,14 @@ export class BookComponent implements OnInit {
   ];
   dataSource!: MatTableDataSource<BookDto>;
   numberLimit = 3;
+  bookId = '';
 
   @ViewChild(MatPaginator, { static: true })
   paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true })
   sort!: MatSort;
   statusCode: CodeDto[] = [];
+  searchText = '';
 
   constructor(
     private bookService: BookService,
@@ -48,7 +50,7 @@ export class BookComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private datepipe: DatePipe,
     public translate: TranslateService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -64,6 +66,7 @@ export class BookComponent implements OnInit {
   }
 
   applyFilter(filterValue: any) {
+    console.log(filterValue)
     this.dataSource.filter = filterValue.target.value.trim().toLowerCase();
 
     if (this.dataSource.paginator) {

@@ -7,3 +7,9 @@
 .example-radio-button {
   margin: 5px;
 }
+
+img {
+  height: 1rem;
+  width: 2rem;
+  margin-right: .5rem;
+}

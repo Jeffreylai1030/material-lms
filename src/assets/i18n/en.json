@@ -1,4 +1,9 @@
 {
+  "login": {
+    "login": "Login",
+    "email": "Email Address",
+    "password": "Password"
+  },
   "books": {
     "btnCancel": "Cancel",
     "btnSubmit": "Submit",
@@ -23,7 +28,11 @@
     "remove": "Remove",
     "Available": "Available",
     "Borrowed": "Borrowed",
-    "Broken": "Broken"
+    "English": "English",
+    "Simplified_Chinese": "Simplified Chinese",
+    "Traditional_Chinese": "Traditional Chinese",
+    "Malay": "Malay",
+    "Other": "Other"
   },
   "code": {
     "cancel": "Cancel",
@@ -73,7 +82,13 @@
     "Frozen": "Frozen",
     "Expired": "Expired",
     "Male": "Male",
-    "Female": "Female"
+    "Female": "Female",
+    "Undergraduate_Student": "Undergraduate Student",
+    "Graduate_Student": "Graduate Student",
+    "Staff_Member": "Staff Member",
+    "Alumni_Member": "Alumni Member",
+    "no_macthing_found": "No matching found",
+    "search_by": "Search by {{title}}"
   },
   "employee": {
     "cancel": "Cancel",
@@ -120,6 +135,8 @@
     "required": "{{title}} is required",
     "min": "{{title}} must greater than {{min}}",
     "max": "{{title}} must less than {{max}}",
+    "minLength": "{{title}} must greater than {{min}} characters",
+    "maxLength": "{{title}} must less than {{max}} characters",
     "email": "{{title}} not valid"
   },
   "snackbar": {
@@ -149,5 +166,22 @@
     "no": "No",
     "no_macthing_found": "No matching found",
     "search_by": "Search by {{title}} or {{title2}}"
+  },
+  "dashboard": {
+    "totalTodayBorrowsNumber": "TODAY BORROWED",
+    "totalBorrowsNumber": "TOTAL BORROWED",
+    "totalBorrowsExpiredNumber": "TOTAL EXPIRED",
+    "totalBooksNumber": "TOTAL BOOKS",
+    "lastWeek": "Last Week",
+    "lastMonth": "Last Month",
+    "enterDateRange": "Enter a date range",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "search": "Search",
+    "information": "Information",
+    "date": "Date",
+    "number": "Number",
+    "chartTitle": "New Borrowed Last {{value}} Days",
+    "book": "Book"
   }
 }

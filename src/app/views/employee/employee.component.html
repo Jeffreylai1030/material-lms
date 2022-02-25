@@ -1,7 +1,7 @@
 <div style="margin: 1rem">
   <div style="height: 5rem">
     <mat-form-field appearance="outline" style="width: 15rem;">
-      <mat-label>{{'employee.filtering' | translate }}</mat-label>
+      <mat-label>{{ 'employee.filtering' | translate }}</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Search" />
     </mat-form-field>
 
@@ -11,7 +11,7 @@
       style="float: right; margin-top: 1.2rem; width: 7rem;"
       (click)="openDialog()"
       >
-      <mat-icon>add_circle</mat-icon> {{'employee.new' | translate }}
+      <mat-icon>add_circle</mat-icon> {{ 'employee.new' | translate }}
     </button>
 <!--
     <button
@@ -35,45 +35,45 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="fullName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'employee.fullName' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'employee.fullName' | translate }}</th>
         <td mat-cell *matCellDef="let row">{{ row.fullName }}</td>
       </ng-container>
       <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'employee.username' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'employee.username' | translate }}</th>
         <td mat-cell *matCellDef="let row">{{ row.username }}</td>
       </ng-container>
       <ng-container matColumnDef="gender">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'employee.gender' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'employee.gender' | translate }}</th>
         <td mat-cell *matCellDef="let row">
           <img [src]="row.gender === 'M' ? 'assets/images/user-male.png' : 'assets/images/user-female.png'" class="img-gender">
         </td>
       </ng-container>
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'employee.email' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'employee.email' | translate }}</th>
         <td mat-cell *matCellDef="let row">{{ row.email }}</td>
       </ng-container>
       <ng-container matColumnDef="contactNo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'employee.contactNo' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'employee.contactNo' | translate }}</th>
         <td mat-cell *matCellDef="let row">{{ row.contactNo }}</td>
       </ng-container>
       <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'employee.role' | translate }}</th>
-        <td mat-cell *matCellDef="let row">{{ row.role }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'employee.role'| translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ 'employee.' + row.role | translate }}</td>
       </ng-container>
       <ng-container matColumnDef="salary">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'employee.salary' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'employee.salary' | translate }}</th>
         <td mat-cell *matCellDef="let row">{{ row.salary }}</td>
       </ng-container>
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'employee.status' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'employee.status' | translate }}</th>
         <td mat-cell *matCellDef="let row">
           <mat-chip-list>
-            <mat-chip [color]="getStatusChipColor(row.status)" selected>{{'member.' + getStatusText(row.status) | translate}}</mat-chip>
+            <mat-chip [color]="getStatusChipColor(row.status)" selected>{{ 'member.' + getStatusText(row.status) | translate}}</mat-chip>
           </mat-chip-list>
         </td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef style="text-align:center">{{'employee.actions' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef style="text-align:center">{{ 'employee.actions' | translate }}</th>
         <td mat-cell *matCellDef="let row" style="text-align:center">
           <button mat-icon-button (click)="onShowAllData(row)">
             <mat-icon>remove_red_eye</mat-icon>
@@ -82,10 +82,10 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="openDialog(row)">{{'employee.edit' | translate }}</button>
-            <button mat-menu-item (click)="onDelete(row)">{{'employee.remove' | translate }}</button>
-            <button mat-menu-item (click)="onUpload(row)">{{'employee.upload' | translate }}</button>
-            <button mat-menu-item (click)="onRegister(row.email, row.password)">{{'employee.registration' | translate }}</button>
+            <button mat-menu-item (click)="openDialog(row)">{{ 'employee.edit' | translate }}</button>
+            <button mat-menu-item (click)="onDelete(row)">{{ 'employee.remove' | translate }}</button>
+            <button mat-menu-item (click)="onUpload(row)">{{ 'employee.upload' | translate }}</button>
+            <button mat-menu-item (click)="onRegister(row.email, row.password)">{{ 'employee.registration' | translate }}</button>
           </mat-menu>
         </td>
       </ng-container>
