@@ -94,15 +94,9 @@ export class DashboardComponent implements OnInit {
     let yAxis: number[] = [];
     let count = 0;
 
-    // let startDateStr = this.datePipe.transform(startDate, 'yyyy-MM-dd');
-    // let endDateStr = this.datePipe.transform(endDate, 'yyyy-MM-dd');
-    // console.log(`start: ${startDateStr}, end: ${endDateStr}`);
-
     while (startDate <= endDate) {
       const pastDate = this.datePipe.transform(startDate, 'yyyy-MM-dd') || '';
       const pastData = this.borrows.filter(x => this.datePipe.transform(x.borrowedDate.toDate(), 'yyyy-MM-dd') === pastDate).length;
-
-      console.log(pastData);
 
       xAxis.push(pastDate);
       yAxis.push(pastData);

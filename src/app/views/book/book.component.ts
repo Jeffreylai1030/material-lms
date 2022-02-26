@@ -66,7 +66,6 @@ export class BookComponent implements OnInit {
   }
 
   applyFilter(filterValue: any) {
-    console.log(filterValue)
     this.dataSource.filter = filterValue.target.value.trim().toLowerCase();
 
     if (this.dataSource.paginator) {

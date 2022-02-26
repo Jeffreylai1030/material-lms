@@ -123,12 +123,32 @@ export class EmployeeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        const msg = await this.loginService.register(result.email, result.password);
-        this.snackBar.open(msg, 'Close')
+        this.loginService.register(result.email, result.password)
+          .then(result => {
+            // Open snack bar
+            this.translate.get(['snackbar.create_account_success', 'snackbar.close']).subscribe((message: any) => {
+              this.snackBar.open(message['snackbar.create_account_success'], message['snackbar.close'], {
+                duration: 1500
+              })
+            });
+          })
+          .catch(error => {
+            console.warn(error);
+            // Display error message
+            this.translate.get(['errorMsg.genericErrorMsg', 'errorMsg.error']).subscribe((message: any) => {
+              this.dialog.open(DialogComponent, {
+                width: '350px',
+                panelClass: 'confirm-dialog-container',
+                data: {
+                  title: message['errorMsg.error'],
+                  content:  message['errorMsg.genericErrorMsg'],
+                  theme: 'dialog-red'
+                }
+              });
+            })
+          })
       }
     });
-
-
   }
 
   onShowAllData(emp: EmployeeDto) {
@@ -183,22 +203,24 @@ export class EmployeeComponent implements OnInit {
   }
 
   onDelete(emp: EmployeeDto) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '350px',
-      panelClass: 'confirm-dialog-container',
-      data: {
-        title: 'Confirmation',
-        content: 'Do you want to delete this employee?',
-        btnType: 'form',
-        theme: 'dialog-red'
-      }
-    });
+    this.translate.get(['employee.confirmation', 'employee.confirmMsg']).subscribe((message: any) => {
+      const dialogRef = this.dialog.open(DialogComponent, {
+        width: '350px',
+        panelClass: 'confirm-dialog-container',
+        data: {
+          title: message['employee.confirmation'],
+          content: message['employee.confirmMsg'],
+          btnType: 'form',
+          theme: 'dialog-red'
+        }
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.employeeService.delete(emp);
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.employeeService.delete(emp);
+        }
+      });
+    })
   }
 
   getStatusChipColor(value: string) {

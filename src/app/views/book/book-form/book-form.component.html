@@ -21,10 +21,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ 'books.pageCount' | translate }}</mat-label>
-      <input matInput formControlName="pageCount" type="number"/>
-      <mat-error *ngIf="errorHandling('pageCount', 'min')">
-        {{ 'errorMsg.min' | translate: {title: 'code.pageCount' | translate, min: '1'} }}
-      </mat-error>
+      <input matInput formControlName="pageCount" type="number" min="0" max="999999"/>
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ 'books.publishedDate' | translate }}</mat-label>
@@ -49,8 +46,7 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
-        <input placeholder="authors"
-               [matChipInputFor]="authors"
+        <input [matChipInputFor]="authors"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                [matChipInputAddOnBlur]="addOnBlur"
                (matChipInputTokenEnd)="add(data.authors, $event)">
@@ -59,19 +55,19 @@
     <mat-form-field>
       <mat-label>{{ 'books.language' | translate }}</mat-label>
       <mat-select formControlName="language">
-        <mat-option [value]="language.value" *ngFor="let language of languageOption">{{ 'books.' + language.label | translate}}</mat-option>
+        <mat-option [value]="language.value" *ngFor="let language of languageOption">{{ 'books.' + language.label | translate }}</mat-option>
       </mat-select>
     </mat-form-field>
     <div>
       <mat-label>{{ 'books.status' | translate }}</mat-label>
       <mat-radio-group class="example-radio-group" formControlName="status">
-        <mat-radio-button class="example-radio-button" [value]="status.value" *ngFor="let status of statusOption">{{ 'books.' + status.label | translate}}</mat-radio-button>
+        <mat-radio-button class="example-radio-button" [value]="status.value" *ngFor="let status of statusOption">{{ 'books.' + status.label | translate }}</mat-radio-button>
       </mat-radio-group>
     </div>
     <mat-form-field>
       <mat-label>{{ 'books.categories' | translate }}</mat-label>
       <mat-select formControlName="categories">
-        <mat-option [value]="category.value" *ngFor="let category of categoriesOption">{{category.label}}</mat-option>
+        <mat-option [value]="category.value" *ngFor="let category of categoriesOption">{{ category.label }}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
@@ -83,8 +79,7 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
-        <input placeholder="tags"
-               [matChipInputFor]="tags"
+        <input [matChipInputFor]="tags"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                [matChipInputAddOnBlur]="addOnBlur"
                (matChipInputTokenEnd)="add(data.tags, $event)">

@@ -123,6 +123,8 @@
     "Deactivate": "无效",
     "Male": "男性",
     "Female": "女性",
+    "confirmation": "确认信息",
+    "confirmMsg": "你想删除这个员工吗?",
     "register": {
       "formHeader": "注册",
       "email": "电子邮件",
@@ -138,9 +140,15 @@
     "max": "{{title}}需小于{{max}}",
     "minLength": "{{title}}需大于{{min}}字符",
     "maxLength": "{{title}}需小于{{max}}字符",
-    "email": "{{title}}无效"
+    "email": "{{title}}无效",
+    "genericErrorMsg": "哎呀! 有些不对劲! 请联系您的 IT 管理员。",
+    "btnCancel": "取消",
+    "btnOk": "好的",
+    "error": "错误",
+    "information": "信息"
   },
   "snackbar": {
+    "create_account_success": "成功创建登录账号",
     "update_success": "更新成功",
     "update_fail": "更新失败",
     "delete_success": "删除成功",

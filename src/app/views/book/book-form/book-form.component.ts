@@ -33,7 +33,7 @@ export class BookFormComponent implements OnInit {
       title: [data.title, [Validators.required]],
       title2: [data.title2],
       isbn: [data.isbn, [Validators.required]],
-      pageCount: [data.pageCount, [Validators.min(1)]],
+      pageCount: [data.pageCount, [Validators.min(0), Validators.max(999999)]],
       publishedDate: [data.publishedDate?.toDate()],
       publisher: [data.publisher],
       thumbnailUrl: [data.thumbnailUrl],

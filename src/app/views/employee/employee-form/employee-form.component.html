@@ -74,7 +74,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ 'employee.salary' | translate }}</mat-label>
-      <input matInput formControlName="salary" type="number" />
+      <input matInput formControlName="salary" type="number" min="0" />
       <mat-error *ngIf="errorHandling('salary', 'min')">
         {{ 'errorMsg.min' | translate: {title: 'employee.salary' | translate, min: '0'} }}
       </mat-error>
@@ -85,7 +85,7 @@
     <mat-form-field>
       <mat-label>{{ 'employee.role' | translate }}</mat-label>
       <mat-select formControlName="role">
-        <mat-option [value]="role.value" *ngFor="let role of staffRoleOption">{{ 'employee.' + role.label | translate}}</mat-option>
+        <mat-option [value]="role.value" *ngFor="let role of staffRoleOption">{{ 'employee.' + role.label | translate }}</mat-option>
       </mat-select>
       <mat-error *ngIf="errorHandling('role', 'required')">
         {{ 'errorMsg.required' | translate: {title: 'employee.role' | translate} }}

@@ -34,7 +34,7 @@ export class EmployeeFormComponent implements OnInit {
       idType: [data.idType, [Validators.required]],
       idNumber: [data.idNumber, [Validators.required]],
       username: [data.username, [Validators.required]],
-      gender: [data.gender, [Validators.required]],
+      gender: [data.gender.toLowerCase(), [Validators.required]],
       address: [data.address, [Validators.required]],
       contactNo: [data.contactNo, [Validators.required]],
       email: [data.email, [Validators.required, Validators.email]],
@@ -47,7 +47,7 @@ export class EmployeeFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.codeService.getByCode('general', 'gender').subscribe((item) => {
-      this.genderOption = item.map(x => ({ label: x.value1, value: x.value1 }));
+      this.genderOption = item.map(x => ({ label: x.value1, value: x.value1.toLowerCase() }));
     });
     this.codeService.getByCode('staff_role', 'role').subscribe((item) => {
       this.staffRoleOption = item.map(x => ({ label: x.value1, value: x.value1 }));
