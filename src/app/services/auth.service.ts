@@ -14,8 +14,6 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  private localStorageUser = localStorage.getItem('lms_emp') ?? '';
-
   constructor(
     private auth: Auth,
     private router: Router,
@@ -23,58 +21,48 @@ export class AuthService {
   ) {}
 
   authState() {
-    if (this.localStorageUser !== '') {
-      onAuthStateChanged(this.auth, (user) => {
-        if (user) {
-          // User is signed in
-          const user = JSON.parse(this.localStorageUser);
-
-          this.employeeService
-            .getByEmail(user.email.toLowerCase())
-            .subscribe((x: EmployeeDto[]) => {
-              localStorage.setItem(
-                'lms_emp',
-                JSON.stringify({
-                  email: user.email,
-                  username: x[0].username,
-                  fullName: x[0].fullName,
-                  downloadURL: x[0].downloadURL,
-                })
-              );
-            });
-        }
-      });
-    } else {
-      // this.logout();
-    }
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        // User is signed in
+        const email = user?.email?.toLowerCase() || '';
+        this.employeeService
+          .getByEmail(email)
+          .subscribe((x: EmployeeDto[]) => {
+            localStorage.setItem('lms_emp', JSON.stringify({
+                email: user.email,
+                username: x[0].username,
+                fullName: x[0].fullName,
+                downloadURL: x[0].downloadURL,
+              })
+            );
+          });
+      } else {
+        // User not signed in
+        this.router.navigate(['login']);
+      }
+    })
   }
 
   login(email: string, password: string) {
-    try {
-      signInWithEmailAndPassword(this.auth, email, password)
-        .then((userCredential) => {
-          // Signed in
-          this.employeeService
-            .getByEmail(email.toLowerCase())
-            .subscribe((x: EmployeeDto[]) => {
-              localStorage.setItem(
-                'lms_emp',
-                JSON.stringify({
-                  email,
-                  username: x[0].username,
-                  fullName: x[0].fullName,
-                  downloadURL: x[0].downloadURL,
-                })
-              );
-              this.router.navigate(['main']);
-            });
-        })
-        .catch((e) => {
-          alert(e.message);
-        });
-    } catch (e: any) {
-      alert(e.message);
-    }
+    signInWithEmailAndPassword(this.auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        this.employeeService
+          .getByEmail(email.toLowerCase())
+          .subscribe((x: EmployeeDto[]) => {
+            localStorage.setItem('lms_emp', JSON.stringify({
+                email,
+                username: x[0].username,
+                fullName: x[0].fullName,
+                downloadURL: x[0].downloadURL,
+              })
+            );
+            this.router.navigate(['main']);
+          });
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
   }
 
   logout() {
@@ -84,18 +72,6 @@ export class AuthService {
   }
 
   register(email: string, password: string) {
-    try {
-      createUserWithEmailAndPassword(this.auth, email.toLowerCase(), password);
-      return 'Register Successful';
-    } catch (e: any) {
-      alert(e.message);
-      return e.message;
-    }
-  }
-
-  getCurrentLoginUser() {
-    const user = localStorage.getItem('lms_emp');
-
-    return user ? JSON.parse(user) : {};
+    return createUserWithEmailAndPassword(this.auth, email.toLowerCase(), password);
   }
 }

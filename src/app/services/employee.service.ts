@@ -2,7 +2,8 @@ import { EmployeeDto } from './../models/employee-dto';
 import { Injectable } from '@angular/core';
 import { Storage, uploadBytesResumable, ref, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import { Firestore, collectionData, collection, doc, setDoc, deleteDoc, query, where, orderBy, limit } from '@angular/fire/firestore';
-
+import { CommonService } from './common.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -65,7 +66,11 @@ export class EmployeeService {
     }
   };
 
-  constructor(private firestore: Firestore, private storage: Storage) { }
+  constructor(
+    private firestore: Firestore,
+    private commonService: CommonService,
+    private storage: Storage
+  ) { }
 
   get() {
     const data = collection(this.firestore, this.dbPath).withConverter(this.converter);
@@ -83,38 +88,19 @@ export class EmployeeService {
   }
 
   set(employeeDto: EmployeeDto) {
-    const date = new Date();
+    const date = moment();
 
     if (!employeeDto.id) {
-      employeeDto.id = 'E100'
-        + date.getFullYear().toString()
-        + (date.getMonth() + 1).toString().padStart(2, '0')
-        + date.getDate().toString().padStart(2, '0')
-        + date.getHours().toString().padStart(2, '0')
-        + date.getMinutes().toString().padStart(2, '0')
-        + date.getSeconds().toString().padStart(2, '0')
+      employeeDto.id = 'E100' + date.format('YYYYMMDDhhmmss')
     }
 
-    if (!employeeDto.addDate) {
-      employeeDto.addDate = date;
-    }
-
-    if (!employeeDto.status) {
-      employeeDto.status = '9';
-    }
-
-    employeeDto.editDate = date;
-
-    if (!employeeDto.loginProfile) {
-      employeeDto.loginProfile = false
-    }
-
-    if (employeeDto.email) {
-      employeeDto.email = employeeDto.email.toLowerCase()
-    }
+    employeeDto.email = employeeDto?.email?.toLowerCase()
+    employeeDto.addDate = employeeDto.addDate || date.toDate();
+    employeeDto.addWho = employeeDto.addWho || this.commonService.getCurrentUserName();
+    employeeDto.editDate = date.toDate();
+    employeeDto.editWho = this.commonService.getCurrentUserName();
 
     return setDoc(doc(this.firestore, this.dbPath, employeeDto.id), Object.assign({}, employeeDto));
-
   }
 
   uploadProfilePicture(employeeDto: EmployeeDto) {

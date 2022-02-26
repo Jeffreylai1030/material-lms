@@ -31,7 +31,7 @@ export class BorrowDto {
     memberFullName: string = '',
     bookId: string = '',
     bookTitle1: string = '',
-    ) {
+  ) {
     this.id = id;
     this.addDate = addDate;
     this.addWho = addWho;

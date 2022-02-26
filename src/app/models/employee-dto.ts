@@ -37,7 +37,7 @@ export class EmployeeDto {
     profileImage: any = null,
     role: string = '',
     salary: number = 0,
-    status: string = '',
+    status: string = '9',
     username: string = '',
     password: string = '',
     loginProfile: boolean = false,

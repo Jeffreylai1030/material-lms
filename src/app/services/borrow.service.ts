@@ -6,13 +6,12 @@ import { CommonService } from './common.service';
 import { Injectable } from '@angular/core';
 import { Firestore, collection, where, setDoc, doc, deleteDoc, query, orderBy, collectionData, limit } from '@angular/fire/firestore';
 import { BorrowDto } from '../models/borrow-dto';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BorrowService {
-
-  private username = this.commonService.getCurrentUserName;
   private dbPath = 'borrows';
 
   // Firestore data converter
@@ -58,10 +57,12 @@ export class BorrowService {
     }
   };
 
-  constructor(private firestore: Firestore,
+  constructor(
+    private firestore: Firestore,
     private commonService: CommonService,
     private memberService: MemberService,
-    private bookService: BookService) { }
+    private bookService: BookService
+  ) { }
 
   get() {
     const data = collection(this.firestore, this.dbPath).withConverter(this.converter);
@@ -81,30 +82,21 @@ export class BorrowService {
   }
 
   set(borrowDto: BorrowDto) {
-    const date = new Date();
+    const date = moment();
 
     if (!borrowDto.id) {
       borrowDto.id = 'B900'
-        + date.getFullYear().toString()
-        + (date.getMonth() + 1).toString().padStart(2, '0')
-        + date.getDate().toString().padStart(2, '0')
-        + date.getHours().toString().padStart(2, '0')
-        + date.getMinutes().toString().padStart(2, '0')
-        + date.getSeconds().toString().padStart(2, '0')
+        + date.format('YYYYMMDDhhmmss')
         + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
     }
 
-    if (!borrowDto.addDate) {
-      borrowDto.addDate = date;
-    }
-    borrowDto.editDate = date;
-
-    if (!borrowDto.addWho) {
-      borrowDto.addWho = this.commonService.getCurrentUserName();
-    }
+    borrowDto.addDate = borrowDto.addDate || date.toDate();
+    borrowDto.addWho = borrowDto.addWho || this.commonService.getCurrentUserName();
+    borrowDto.editDate = date.toDate();
     borrowDto.editWho = this.commonService.getCurrentUserName();
 
-    setDoc(doc(this.firestore, this.dbPath, borrowDto.id), Object.assign({}, borrowDto));
+    const ref = doc(this.firestore, this.dbPath, borrowDto.id).withConverter(this.converter);
+    setDoc(ref, borrowDto);
   }
 
   borrowBook(borrowDto: BorrowDto, bookDto: BookDto, memberDto: MemberDto) {

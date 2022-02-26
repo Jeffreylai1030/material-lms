@@ -1,12 +1,24 @@
 import { MemberDto } from './../models/member-dto';
 import { Injectable } from '@angular/core';
-import { Firestore, collectionData, collection, doc, setDoc, deleteDoc, query, where, orderBy } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collectionData,
+  collection,
+  doc,
+  setDoc,
+  deleteDoc,
+  query,
+  where,
+  orderBy,
+} from '@angular/fire/firestore';
+import { CommonService } from './common.service';
+import * as moment from 'moment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MemberService {
-
   private dbPath = 'members';
 
   // Firestore data converter
@@ -24,7 +36,7 @@ export class MemberService {
         fullName: item.fullName,
         gender: item.gender,
         borrowed: item.borrowed,
-        totalBorrowed: item .totalBorrowed,
+        totalBorrowed: item.totalBorrowed,
         status: item.status,
         effDate: item.effDate,
         expDate: item.expDate,
@@ -35,63 +47,68 @@ export class MemberService {
       };
     },
     fromFirestore: (snapshot: any, options: any) => {
-        const item = snapshot.data(options);
-        return new MemberDto(
-          item.id,
-          item.addDate,
-          item.addWho,
-          item.editDate,
-          item.editWho,
-          item.address,
-          item.contactNo,
-          item.email,
-          item.fullName,
-          item.gender,
-          item.borrowed,
-          item.totalBorrowed,
-          item.status,
-          item.effDate,
-          item.expDate,
-          item.privilege,
-          item.idNumber,
-          item.idType,
-          item.issueCountry,
-        );
-    }
+      const item = snapshot.data(options);
+      return new MemberDto(
+        item.id,
+        item.addDate,
+        item.addWho,
+        item.editDate,
+        item.editWho,
+        item.address,
+        item.contactNo,
+        item.email,
+        item.fullName,
+        item.gender,
+        item.borrowed,
+        item.totalBorrowed,
+        item.status,
+        item.effDate,
+        item.expDate,
+        item.privilege,
+        item.idNumber,
+        item.idType,
+        item.issueCountry
+      );
+    },
   };
 
-  constructor(private firestore: Firestore) { }
+  constructor(
+    private firestore: Firestore,
+    private httpClient: HttpClient,
+    private commonService: CommonService
+  ) {}
 
   get() {
-    const data = collection(this.firestore, this.dbPath).withConverter(this.converter);
+    const data = collection(this.firestore, this.dbPath).withConverter(
+      this.converter
+    );
     return collectionData(data);
   }
 
   getByStatus(status: string) {
-    const myQuery = query(collection(this.firestore, this.dbPath), where('status', '==', status));
+    const myQuery = query(
+      collection(this.firestore, this.dbPath),
+      where('status', '==', status)
+    );
     const data = myQuery.withConverter(this.converter);
     return collectionData(data);
   }
 
   set(memberDto: MemberDto) {
-    const date = new Date();
+    const date = moment();
 
     if (!memberDto.id) {
-      memberDto.id = 'M200'
-        + date.getFullYear().toString()
-        + (date.getMonth() + 1).toString().padStart(2, '0')
-        + date.getDate().toString().padStart(2, '0')
-        + date.getHours().toString().padStart(2, '0')
-        + date.getMinutes().toString().padStart(2, '0')
-        + date.getSeconds().toString().padStart(2, '0')
-        + Math.floor(Math.random() * 1000).toString().padStart(3, '0')
+      memberDto.id =
+        'M200' +
+        date.format('YYYYMMDDhhmmss') +
+        Math.floor(Math.random() * 1000).toString().padStart(3, '0');
     }
 
-    if (!memberDto.addDate) {
-      memberDto.addDate = date;
-    }
-
-    memberDto.editDate = date;
+    memberDto.email = memberDto?.email?.toLowerCase();
+    memberDto.addDate = memberDto.addDate || date.toDate();
+    memberDto.addWho = memberDto.addWho || this.commonService.getCurrentUserName();
+    memberDto.editDate = date.toDate();
+    memberDto.editWho = this.commonService.getCurrentUserName();
 
     return setDoc(doc(this.firestore, this.dbPath, memberDto.id), Object.assign({}, memberDto));
   }
@@ -100,14 +117,49 @@ export class MemberService {
     return deleteDoc(doc(this.firestore, this.dbPath, id));
   }
 
-  insertSampleMembers() {
-    const effDate = new Date('2021-10-21');
-    const expDate = new Date('2022-10-20');
+  insertSampleMembers(number = 20) {
+    this.httpClient.get(`https://randomuser.me/api?results=${number}`).subscribe((result: any) => {
+      const results = result.results;
+      let count = 0;
 
-    for (let i = 0; i < 20; i++) {
-      let gender = i % 2 === 0 ? 'Female' : 'Male';
-      this.set(new MemberDto('M20020211021180000' + i.toString().padStart(3, '0'), effDate, 'Administrator', effDate, 'Administrator', 'No ' + (i + 1).toString() + ', Jalan ABC, 25100, Kuantan, Pahang', '012-34567' + i.toString().padStart(2, '0'), 'test.email.' + i + '@hotmail.com', 'Test User ' + i, gender, 0, 0, '9', effDate, expDate, 'Undergraduate_Student', '951010-10-100' + i, 'IdCard', 'Malaysia'));
-    }
+      for (const data of results) {
+        const id = 'M20020211021180000' + count.toString().padStart(3, '0');
+        const effDate = new Date('2021-10-21');
+        const expDate = new Date('2022-10-20');
+        const username = 'Administrator';
+        const ic = `${moment(data.dob.date).format('YYMMDD')}-01-${count.toString().padStart(4, '0')}`;
+        const address = `${data.location.street.number}, ${data.location.street.name}, ${data.location.street.name}, ${data.location.postcode}, ${data.location.city}, ${data.location.state}`
+        const addDate = moment(data.registered.date).toDate();
+        const fullName = `${data.name.first} ${data.name.last}`;
+        const privileges = 'Undergraduate_Student';
+        const gender = data.gender[0].toUpperCase() + data.gender.slice(1);
+
+        const memberDto = new MemberDto(
+          id,
+          addDate,
+          username,
+          addDate,
+          username,
+          address,
+          data.phone,
+          data.email,
+          fullName,
+          gender,
+          0,
+          0,
+          '9',
+          effDate,
+          expDate,
+          privileges,
+          ic,
+          'IdCard',
+          data.location.country
+        );
+
+        this.set(memberDto);
+        count++;
+      }
+
+    })
   }
-
 }
