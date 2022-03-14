@@ -6,6 +6,7 @@ import { CommonService } from './common.service';
 import { Injectable } from '@angular/core';
 import { Firestore, collection, where, setDoc, doc, deleteDoc, query, orderBy, collectionData, limit } from '@angular/fire/firestore';
 import { BorrowDto } from '../models/borrow-dto';
+import { ReturnService } from './return.service';
 import * as moment from 'moment';
 
 @Injectable({
@@ -61,6 +62,7 @@ export class BorrowService {
     private firestore: Firestore,
     private commonService: CommonService,
     private memberService: MemberService,
+    private returnService: ReturnService,
     private bookService: BookService
   ) { }
 
@@ -111,19 +113,22 @@ export class BorrowService {
   }
 
   returnBook(borrowDto: BorrowDto, bookDto: BookDto, memberDto: MemberDto) {
-    this.set(borrowDto);
 
+    // Move record to return table
+    this.returnService.set(borrowDto)
+    this.delete(borrowDto.id);
+
+    // Update book status
     bookDto.status = '0';
     this.bookService.set(bookDto);
 
+    // Update member borrowed record
     memberDto.borrowed = memberDto.borrowed >= 1 ? memberDto.borrowed - 1 : memberDto.borrowed;
     this.memberService.set(memberDto);
   }
 
   delete(id: string) {
-    if (id) {
-      deleteDoc(doc(this.firestore, this.dbPath, id));
-    }
+    deleteDoc(doc(this.firestore, this.dbPath, id));
   }
 
   insertSampleBorrows() {

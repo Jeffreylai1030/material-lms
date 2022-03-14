@@ -14,6 +14,7 @@ import { CodeService } from 'src/app/services/code.service';
 import { DialogComponent } from '../layout/dialog/dialog.component';
 import { MemberDto } from 'src/app/models/member-dto';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-borrow',
@@ -114,35 +115,35 @@ export class BorrowComponent implements OnInit {
 
   onReturn(borrowDto: BorrowDto) {
     const dueDate = new Date(borrowDto.dueDate.toDate());
-    const diffDay = DaysBetween(dueDate, new Date());
-    const fine = this.finePerDay * diffDay;
-    const content = diffDay < 0 ? `Return this book?` : `Return this book? The fine is RM ${fine.toFixed(2)}.`;
+    const totalFine = CalculateFine(dueDate, this.finePerDay);
 
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '350px',
-      panelClass: 'confirm-dialog-container',
-      data: {
-        title: 'Confirmation',
-        content,
-        btnType: 'form',
-        theme: 'dialog-red'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        borrowDto.fine = fine;
-        borrowDto.returnedDate = new Date();
-        borrowDto.status = '9';
-        borrowDto.overdue = borrowDto.dueDate.toDate() <= this.today
-        const member = this.members.find((x: MemberDto) => x.id === borrowDto.memberId);
-        const book = this.Allbooks.find(x => x.id === borrowDto.bookId);
-
-        if (book && member) {
-          this.borrowService.returnBook(borrowDto, book, member);
+    this.translate.get(['borrow.confirmation', 'borrow.returnContent'], { value: totalFine.toFixed(2) }).subscribe((message: any) => {
+      const dialogRef = this.dialog.open(DialogComponent, {
+        width: '350px',
+        panelClass: 'confirm-dialog-container',
+        data: {
+          title: message['borrow.confirmation'],
+          content: message['borrow.returnContent'],
+          btnType: 'form',
+          theme: 'dialog-red'
         }
-      }
-    });
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          borrowDto.fine = totalFine;
+          borrowDto.returnedDate = new Date();
+          borrowDto.status = '9';
+          borrowDto.overdue = totalFine > 0
+          const member = this.members.find((x: MemberDto) => x.id === borrowDto.memberId);
+          const book = this.Allbooks.find(x => x.id === borrowDto.bookId);
+
+          if (book && member) {
+            this.borrowService.returnBook(borrowDto, book, member);
+          }
+        }
+      });
+    })
   }
 
   onBorrow() {
@@ -152,20 +153,24 @@ export class BorrowComponent implements OnInit {
 
     this.codeService.getByCode('member', 'privileges').subscribe((item: CodeDto[]) => {
       const member = this.members.find((x: MemberDto) => x.id === this.memberCtrl.value);
-      const memberPrivileges = item.find(x => x.value1 === member?.privilege);
+      const privilege = item.find(x => x.value1 === member?.privilege);
+      const maxCanBorrowed = parseInt(privilege?.value2 || '0');
+      const daysCanBorrowed = parseInt(privilege?.value3 || '0');
       const totalBorrowed = member?.borrowed + this.bookCtrl.value.length;
-      const dueDate = new Date(Date.now() + parseInt(memberPrivileges?.value3 ?? '0') * 86400000);
+      const dueDate = moment().add(daysCanBorrowed, 'days').toDate();
 
-      if (totalBorrowed > parseInt(memberPrivileges?.value2 ?? '0')) {
-        this.dialog.open(DialogComponent, {
-          width: '350px',
-          panelClass: 'confirm-dialog-container',
-          data: {
-            title: 'Notices',
-            content: `Reach the ${memberPrivileges?.value2} limit number of borrowed`,
-            theme: 'dialog-red'
-          }
-        });
+      if (totalBorrowed > maxCanBorrowed) {
+        this.translate.get(['borrow.confirmation', 'borrow.reach_max_borrow'], { value: maxCanBorrowed }).subscribe((message: any) => {
+          this.dialog.open(DialogComponent, {
+            width: '350px',
+            panelClass: 'confirm-dialog-container',
+            data: {
+              title: message['borrow.confirmation'],
+              content: message['borrow.reach_max_borrow'],
+              theme: 'dialog-red'
+            }
+          });
+        })
         return;
       }
 
@@ -190,30 +195,32 @@ export class BorrowComponent implements OnInit {
 
         if (book && member) {
           this.borrowService.borrowBook(borrowDto, book, member);
-          this.bookCtrl.reset();
-          this.memberCtrl.reset();
         }
-
       });
+
+      this.bookCtrl.reset();
+      this.memberCtrl.reset();
     });
   }
 
   onDelete(id: string) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '350px',
-      panelClass: 'confirm-dialog-container',
-      data: {
-        title: 'Confirmation',
-        content: 'Do you want to delete this borrow instead of return?',
-        btnType: 'form',
-        theme: 'dialog-red'
-      }
-    });
+    this.translate.get(['borrow.confirmation', 'borrow.delete_message']).subscribe((message: any) => {
+      const dialogRef = this.dialog.open(DialogComponent, {
+        width: '350px',
+        panelClass: 'confirm-dialog-container',
+        data: {
+          title: message['borrow.confirmation'],
+          content: message['borrow.delete_message'],
+          btnType: 'form',
+          theme: 'dialog-red'
+        }
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.borrowService.delete(id);
-      }
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.borrowService.delete(id);
+        }
+      });
     });
   }
 
@@ -230,11 +237,11 @@ export class BorrowComponent implements OnInit {
   }
 }
 
-function DaysBetween(StartDate: Date, EndDate: Date) {
-  const oneDay = 1000 * 60 * 60 * 24;
+function CalculateFine(dueDate: Date, finePerDay: number) {
+  const due_Date = moment(dueDate);
+  const date = moment();
 
-  const start = Date.UTC(EndDate.getFullYear(), EndDate.getMonth(), EndDate.getDate());
-  const end = Date.UTC(StartDate.getFullYear(), StartDate.getMonth(), StartDate.getDate());
+  const days = date.diff(due_Date, 'days');
 
-  return (start - end) / oneDay;
+  return (days >= 0 ? days : 0) * finePerDay;
 }
