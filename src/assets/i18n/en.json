@@ -173,13 +173,17 @@
     "yes": "Yes",
     "no": "No",
     "no_macthing_found": "No matching found",
-    "search_by": "Search by {{title}} or {{title2}}"
+    "search_by": "Search by {{title}} or {{title2}}",
+    "confirmation": "Confirmation",
+    "returnContent": "Return this book? The overdue fine is RM {{value}}.",
+    "reach_max_borrow": "You are reach the maximum {{value}} limits number of borrowed.",
+    "delete_message": "Do you want to delete this record instead of return?"
   },
   "dashboard": {
     "totalTodayBorrowsNumber": "TODAY BORROWED",
-    "totalBorrowsNumber": "TOTAL BORROWED",
+    "totalNotReturnNumber": "TOTAL BORROWED (NOT RETURN)",
     "totalBorrowsExpiredNumber": "TOTAL EXPIRED",
-    "totalBooksNumber": "TOTAL BOOKS",
+    "thisWeekBorrowNumber": "THIS WEEK BORROW NUMBER",
     "lastWeek": "Last Week",
     "lastMonth": "Last Month",
     "enterDateRange": "Enter a date range",
