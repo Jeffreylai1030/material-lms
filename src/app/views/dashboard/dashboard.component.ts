@@ -1,3 +1,4 @@
+import { ReturnService } from './../../services/return.service';
 import { TranslateService } from '@ngx-translate/core';
 import { BorrowDto } from 'src/app/models/borrow-dto';
 import { BorrowService } from 'src/app/services/borrow.service';
@@ -8,7 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +21,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private borrowService: BorrowService,
-    private datePipe: DatePipe,
+    private returnService: ReturnService,
     private translate: TranslateService
   ) {}
 
@@ -30,8 +31,8 @@ export class DashboardComponent implements OnInit {
 
   today = new Date();
   chartTitle = '7';
-  totalBooksNumber = 0;
-  totalBorrowsNumber = 0;
+  thisWeekBorrowNumber = 0;
+  totalNotReturnNumber = 0;
   totalTodayBorrowsNumber = 0;
   totalBorrowsExpiredNumber = 0;
   borrows: BorrowDto[] = [];
@@ -44,17 +45,19 @@ export class DashboardComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.bookService.get().subscribe(item => {
-      this.totalBooksNumber = item.length;
-    })
-
     this.borrowService.get().subscribe(item => {
       this.borrows = item;
-      this.totalBorrowsNumber = item.length;
-      this.totalTodayBorrowsNumber = item.filter(x => this.datePipe.transform(x.addDate.toDate(), 'yyyy-MM-dd') === this.datePipe.transform(new Date(), 'yyyy-MM-dd'))?.length;
-      this.totalBorrowsExpiredNumber = item.filter(x => x.dueDate.toDate().toISOString().substring(0, 10) <= new Date().toISOString().substring(0, 10)).length;
+      this.totalNotReturnNumber = item.length;
+      this.totalTodayBorrowsNumber += item.filter(x => moment(x.addDate.toDate()).isSame(moment(), 'day'))?.length;
+      this.totalBorrowsExpiredNumber = item.filter(x => moment().isAfter(moment(x.dueDate.toDate()))).length;
+      this.thisWeekBorrowNumber += item.filter(x => moment().isSameOrAfter(moment().startOf('isoWeek')) && moment().isSameOrBefore(moment().endOf('isoWeek')))?.length;
 
       this.onTabChange('lastWeek');
+    })
+
+    this.returnService.getByBorrowedDateRange(new Date(), moment().add(6, 'days').toDate()).subscribe(item => {
+      this.totalTodayBorrowsNumber += item.filter(x => moment(x.addDate.toDate()).isSame(moment(), 'day'))?.length;
+      this.thisWeekBorrowNumber += item.filter(x => moment().isSameOrAfter(moment().clone().startOf('isoWeek')) && moment().isSameOrBefore(moment().clone().endOf('isoWeek')))?.length;
     })
   }
 
@@ -71,11 +74,11 @@ export class DashboardComponent implements OnInit {
 
     if (value === 'lastWeek') {
       this.chartTitle = '7';
-      const startDate = new Date(new Date().setDate(new Date().getDate() - 6));
+      const startDate = moment().subtract(6, 'days').toDate();
       this.generateLineChart(startDate, endDate);
     } else if (value === 'lastMonth') {
       this.chartTitle = '30';
-      const startDate = new Date(new Date().setDate(new Date().getDate() - 29));
+      const startDate = moment().subtract(29, 'days').toDate();
       this.generateLineChart(startDate, endDate);
     }
   }
@@ -84,7 +87,7 @@ export class DashboardComponent implements OnInit {
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     this.selectedTab = '';
-    this.chartTitle = `${this.datePipe.transform(startDate, 'mediumDate')} ~ ${this.datePipe.transform(endDate, 'mediumDate')}`;
+    this.chartTitle = `${moment(startDate).format('MMM DD, YYYY')} ~ ${moment(endDate).format('MMM DD, YYYY')}`;
     this.getByBorrowedDateRange(startDate, endDate);
   }
 
@@ -95,8 +98,8 @@ export class DashboardComponent implements OnInit {
     let count = 0;
 
     while (startDate <= endDate) {
-      const pastDate = this.datePipe.transform(startDate, 'yyyy-MM-dd') || '';
-      const pastData = this.borrows.filter(x => this.datePipe.transform(x.borrowedDate.toDate(), 'yyyy-MM-dd') === pastDate).length;
+      const pastDate = moment(startDate).format('YYYY-MM-DD');
+      const pastData = this.borrows.filter(x => moment(x.borrowedDate.toDate()).format('YYYY-MM-DD') === pastDate).length;
 
       xAxis.push(pastDate);
       yAxis.push(pastData);
