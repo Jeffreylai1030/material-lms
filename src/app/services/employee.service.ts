@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Storage, uploadBytesResumable, ref, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import { Firestore, collectionData, collection, doc, setDoc, deleteDoc, query, where, orderBy, limit } from '@angular/fire/firestore';
 import { CommonService } from './common.service';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 
 @Injectable({
   providedIn: 'root'
@@ -88,10 +88,10 @@ export class EmployeeService {
   }
 
   set(employeeDto: EmployeeDto) {
-    const date = moment();
+    const date = dayjs();
 
     if (!employeeDto.id) {
-      employeeDto.id = 'E100' + date.format('YYYYMMDDhhmmss')
+      employeeDto.id = 'E100' + date.format('YYYYMMDDHHmmss')
     }
 
     employeeDto.email = employeeDto?.email?.toLowerCase()

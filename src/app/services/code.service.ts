@@ -2,8 +2,8 @@ import { CodeDto } from './../models/code-dto';
 import { Injectable } from '@angular/core';
 import { Firestore, collectionData, collection, doc, setDoc, deleteDoc, query, where, orderBy } from '@angular/fire/firestore';
 import { HttpClient } from '@angular/common/http';
-import * as moment from 'moment';
 import { CommonService } from './common.service';
+import * as dayjs from 'dayjs';
 
 @Injectable({
   providedIn: 'root'
@@ -70,11 +70,11 @@ export class CodeService {
   }
 
   set(codeDto: CodeDto) {
-    const date = moment();
+    const date = dayjs();
 
     if (!codeDto.id) {
       codeDto.id = 'C900'
-        + date.format('YYYYMMDDhhmmss')
+        + date.format('YYYYMMDDHHmmss')
         + codeDto.seqNo.toString().padStart(3, '0')
     }
 

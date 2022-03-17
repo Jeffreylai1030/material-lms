@@ -14,7 +14,7 @@ import { CodeService } from 'src/app/services/code.service';
 import { DialogComponent } from '../layout/dialog/dialog.component';
 import { MemberDto } from 'src/app/models/member-dto';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 
 @Component({
   selector: 'app-borrow',
@@ -157,7 +157,7 @@ export class BorrowComponent implements OnInit {
       const maxCanBorrowed = parseInt(privilege?.value2 || '0');
       const daysCanBorrowed = parseInt(privilege?.value3 || '0');
       const totalBorrowed = member?.borrowed + this.bookCtrl.value.length;
-      const dueDate = moment().add(daysCanBorrowed, 'days').toDate();
+      const dueDate = dayjs().add(daysCanBorrowed, 'days').toDate();
 
       if (totalBorrowed > maxCanBorrowed) {
         this.translate.get(['borrow.confirmation', 'borrow.reach_max_borrow'], { value: maxCanBorrowed }).subscribe((message: any) => {
@@ -238,10 +238,9 @@ export class BorrowComponent implements OnInit {
 }
 
 function CalculateFine(dueDate: Date, finePerDay: number) {
-  const due_Date = moment(dueDate);
-  const date = moment();
+  const due_Date = dayjs(dueDate);
 
-  const days = date.diff(due_Date, 'days');
+  const days = dayjs().diff(due_Date, 'day');
 
   return (days >= 0 ? days : 0) * finePerDay;
 }

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Firestore, collectionData, collection, doc, setDoc, deleteDoc, query, where, orderBy, limit } from '@angular/fire/firestore';
 import { BookDto } from '../models/book-dto';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 
 @Injectable({
   providedIn: 'root'
@@ -83,11 +83,11 @@ export class BookService {
   }
 
   set(bookDto: BookDto) {
-    const date = moment();
+    const date = dayjs();
 
     if (!bookDto.id) {
       bookDto.id = 'B100'
-        + date.format('YYYYMMDDhhmmss')
+        + date.format('YYYYMMDDHHmmss')
         + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
     }
 

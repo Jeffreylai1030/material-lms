@@ -9,10 +9,9 @@ import {
   deleteDoc,
   query,
   where,
-  orderBy,
 } from '@angular/fire/firestore';
 import { CommonService } from './common.service';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -95,12 +94,12 @@ export class MemberService {
   }
 
   set(memberDto: MemberDto) {
-    const date = moment();
+    const date = dayjs();
 
     if (!memberDto.id) {
       memberDto.id =
         'M200' +
-        date.format('YYYYMMDDhhmmss') +
+        date.format('YYYYMMDDHHmmss') +
         Math.floor(Math.random() * 1000).toString().padStart(3, '0');
     }
 
@@ -127,9 +126,9 @@ export class MemberService {
         const effDate = new Date('2021-10-21');
         const expDate = new Date('2022-10-20');
         const username = 'Administrator';
-        const ic = `${moment(data.dob.date).format('YYMMDD')}-01-${count.toString().padStart(4, '0')}`;
+        const ic = `${dayjs(data.dob.date).format('YYMMDD')}-01-${count.toString().padStart(4, '0')}`;
         const address = `${data.location.street.number}, ${data.location.street.name}, ${data.location.street.name}, ${data.location.postcode}, ${data.location.city}, ${data.location.state}`
-        const addDate = moment(data.registered.date).toDate();
+        const addDate = dayjs(data.registered.date).toDate();
         const fullName = `${data.name.first} ${data.name.last}`;
         const privileges = 'Undergraduate_Student';
         const gender = data.gender[0].toUpperCase() + data.gender.slice(1);

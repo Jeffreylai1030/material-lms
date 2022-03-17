@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, collection, where, setDoc, doc, deleteDoc, query, orderBy, collectionData, limit } from '@angular/fire/firestore';
 import { BorrowDto } from '../models/borrow-dto';
 import { ReturnService } from './return.service';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 
 @Injectable({
   providedIn: 'root'
@@ -84,11 +84,11 @@ export class BorrowService {
   }
 
   set(borrowDto: BorrowDto) {
-    const date = moment();
+    const date = dayjs();
 
     if (!borrowDto.id) {
       borrowDto.id = 'B900'
-        + date.format('YYYYMMDDhhmmss')
+        + date.format('YYYYMMDDHHmmss')
         + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
     }
 
