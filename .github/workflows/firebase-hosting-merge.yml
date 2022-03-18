@@ -8,9 +8,11 @@ on:
       - main
 jobs:
   codeql:
-    - uses: ./.github/workflows/codeql.yml
-      with:
-        language: javascript
+    name: CodeQL code scanning
+    steps:
+      - uses: ./.github/workflows/codeql.yml
+        with:
+          language: javascript
 
   build_and_deploy:
     needs: codeql
