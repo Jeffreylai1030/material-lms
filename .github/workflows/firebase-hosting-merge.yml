@@ -9,6 +9,7 @@ on:
 jobs:
   codeql:
     name: CodeQL code scanning
+    runs-on: ubuntu-latest
     steps:
       - uses: ./.github/workflows/codeql.yml
         with:
