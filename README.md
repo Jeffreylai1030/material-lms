@@ -1,8 +1,8 @@
-<h1 align="center">Library Management System</h1>
+![APM](https://img.shields.io/apm/l/vim-mode)
 
-<p align="center">It only for demo and learning purpose.</p>
+# Library Management System
 
-<hr>
+It only for demo and learning purpose.
 
 ## Demo
 
