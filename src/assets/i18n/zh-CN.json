@@ -123,6 +123,8 @@
     "Deactivate": "无效",
     "Male": "男性",
     "Female": "女性",
+    "confirmation": "确认信息",
+    "confirmMsg": "你想删除这个员工吗?",
     "register": {
       "formHeader": "注册",
       "email": "电子邮件",
@@ -138,9 +140,15 @@
     "max": "{{title}}需小于{{max}}",
     "minLength": "{{title}}需大于{{min}}字符",
     "maxLength": "{{title}}需小于{{max}}字符",
-    "email": "{{title}}无效"
+    "email": "{{title}}无效",
+    "genericErrorMsg": "哎呀! 有些不对劲! 请联系您的 IT 管理员。",
+    "btnCancel": "取消",
+    "btnOk": "好的",
+    "error": "错误",
+    "information": "信息"
   },
   "snackbar": {
+    "create_account_success": "成功创建登录账号",
     "update_success": "更新成功",
     "update_fail": "更新失败",
     "delete_success": "删除成功",
@@ -166,13 +174,17 @@
     "yes": "是",
     "no": "否",
     "no_macthing_found": "未找到匹配的项资料",
-    "search_by": "按{{title}}或{{title2}}搜索"
+    "search_by": "按{{title}}或{{title2}}搜索",
+    "confirmation": "确认信息",
+    "returnContent": "确定归还这本书? 逾期罚款是 RM {{value}}。",
+    "reach_max_borrow": "您已达最大 {{value}} 本书的借用上限。",
+    "delete_message": "你想删除这条记录而不是归还这本书吗?"
   },
   "dashboard": {
-    "totalTodayBorrowsNumber": "今天借出",
-    "totalBorrowsNumber": "总数借出",
-    "totalBorrowsExpiredNumber": "总数过期",
-    "totalBooksNumber": "总数书籍",
+    "totalTodayBorrowsNumber": "今日借出",
+    "totalNotReturnNumber": "借出未还",
+    "totalBorrowsExpiredNumber": "总数逾期",
+    "thisWeekBorrowNumber": "这周借出",
     "lastWeek": "上周",
     "lastMonth": "上个月",
     "enterDateRange": "输入日期范围",

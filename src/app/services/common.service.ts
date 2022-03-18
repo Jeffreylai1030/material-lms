@@ -5,23 +5,25 @@ import { Injectable } from '@angular/core';
 })
 export class CommonService {
 
+  lms_emp = 'lms_emp'
+
   constructor() { }
 
+  getCurrentUser() {
+    const user = localStorage.getItem(this.lms_emp);
+
+    return user ? JSON.parse(user) : {};
+  }
+
   getCurrentUserName() {
-    const user = localStorage.getItem('lms_emp');
+    const user = localStorage.getItem(this.lms_emp);
 
-    if (user) {
-      return JSON.parse(user)?.username;
-    }
-
-    return null;
+    return user ? JSON.parse(user)?.username : {};
   }
 
   getCurrentUserEmail() {
-    const user = localStorage.getItem('lms_emp');
+    const user = localStorage.getItem(this.lms_emp);
 
-    if (user) {
-      return JSON.parse(user)?.email;
-    }
+    return user ? JSON.parse(user)?.email : {};
   }
 }

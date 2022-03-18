@@ -1,7 +1,9 @@
+import { CommonService } from './common.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Firestore, collectionData, collection, doc, setDoc, deleteDoc, query, where, orderBy, limit } from '@angular/fire/firestore';
 import { BookDto } from '../models/book-dto';
+import * as dayjs from 'dayjs';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +61,9 @@ export class BookService {
 
   constructor(
     private firestore: Firestore,
-    private httpClient: HttpClient) { }
+    private httpClient: HttpClient,
+    private commonService: CommonService
+  ) { }
 
   get() {
     const data = collection(this.firestore, this.dbPath).withConverter(this.converter);
@@ -79,45 +83,58 @@ export class BookService {
   }
 
   set(bookDto: BookDto) {
-    const date = new Date();
+    const date = dayjs();
 
     if (!bookDto.id) {
       bookDto.id = 'B100'
-        + date.getFullYear().toString()
-        + (date.getMonth() + 1).toString().padStart(2, '0')
-        + date.getDate().toString().padStart(2, '0')
-        + date.getHours().toString().padStart(2, '0')
-        + date.getMinutes().toString().padStart(2, '0')
-        + date.getSeconds().toString().padStart(2, '0')
+        + date.format('YYYYMMDDHHmmss')
         + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
     }
 
-    if (!bookDto.addDate) {
-      bookDto.addDate = date;
-    }
-    bookDto.editDate = date;
+    bookDto.addDate = bookDto.addDate || date.toDate();
+    bookDto.addWho = bookDto.addWho || this.commonService.getCurrentUserName();
+    bookDto.editDate = date.toDate();
+    bookDto.editWho = this.commonService.getCurrentUserName();
 
-    return setDoc(doc(this.firestore, this.dbPath, bookDto.id), Object.assign({}, bookDto));
+    const ref = doc(this.firestore, this.dbPath, bookDto.id).withConverter(this.converter);
+    return setDoc(ref, bookDto);
   }
 
   delete(id: string) {
     return deleteDoc(doc(this.firestore, this.dbPath, id));
   }
 
-  insertSampleBooks() {
+  insertSampleBooks(number = 20) {
     this.httpClient.get('https://raw.githubusercontent.com/bvaughn/infinite-list-reflow-examples/master/books.json').subscribe((result: any) => {
-      let count = 0;
-      for (const data of result) {
-        const date = new Date();
-        const id = 'B10020211021180000' + count.toString().padStart(3, '0');
 
-        let publishedDate = data?.publishedDate?.$date || '2021-10-21 18:00:00';
+      for (let i = 0; i < number; i++) {
+        const data = result[i];
+        const id = 'B10020211021180000' + number.toString().padStart(3, '0');
+        const publishedDate = new Date(data?.publishedDate?.$date || '2021-10-21 18:00:00');
+        const date = new Date('2021-10-21 18:00:00');
+        const username = 'Administrator';
 
-        this.set(new BookDto(id, new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', data.title, '', data.isbn, data.pageCount, new Date(publishedDate), '', data.thumbnailUrl, data.authors.filter((e: any) => e), 'English', '0', [], data.categories));
+        const book = new BookDto(
+          id,
+          date,
+          username,
+          date,
+          username,
+          data.title,
+          '',
+          data.isbn,
+          data.pageCount,
+          publishedDate,
+          '',
+          data.thumbnailUrl,
+          data.authors.filter((e: any) => e),
+          'English', // Language
+          '0', // Status
+          [], // Categories
+          data.categories // Tags
+        )
 
-        count++;
-
-        if (count > 20) break;
+        this.set(book);
       }
     })
   }

@@ -9,8 +9,8 @@
     </div>
     <div fxFlex="25" fxFlex.sm="50">
       <mat-card class="mat-elevation-z4" style="background: linear-gradient(to right, #7956ec, #2fb9f8);">
-          <div class="dash-title">{{ 'dashboard.totalBorrowsNumber' | translate }}</div>
-          <div class="dash-value">{{ totalBorrowsNumber }}</div>
+          <div class="dash-title">{{ 'dashboard.totalNotReturnNumber' | translate }}</div>
+          <div class="dash-value">{{ totalNotReturnNumber }}</div>
           <img src="assets/svg/open-book.svg" class="icon">
       </mat-card>
     </div>
@@ -23,8 +23,8 @@
     </div>
     <div fxFlex="25" fxFlex.sm="50">
       <mat-card class="mat-elevation-z4" style="background: linear-gradient(to right, #5134b2, #b175eb);">
-        <div class="dash-title">{{ 'dashboard.totalBooksNumber' | translate }}</div>
-        <div class="dash-value">{{ totalBooksNumber }}</div>
+        <div class="dash-title">{{ 'dashboard.thisWeekBorrowNumber' | translate }}</div>
+        <div class="dash-value">{{ thisWeekBorrowNumber }}</div>
         <img src="assets/svg/bookcase.svg" class="icon">
       </mat-card>
     </div>
@@ -42,7 +42,7 @@
     <div>
        <mat-form-field appearance="fill" >
         <mat-label>{{ 'dashboard.enterDateRange' | translate }}</mat-label>
-        <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker" [max]="today">
+        <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker" max="today">
           <input matStartDate formControlName="start" placeholder="{{ 'dashboard.startDate' | translate }}">
           <input matEndDate formControlName="end" placeholder="{{ 'dashboard.endDate' | translate }}">
         </mat-date-range-input>

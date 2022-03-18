@@ -1,4 +1,4 @@
-export class BorrowDto {
+export class ReturnDto {
   id: string;
   addDate: any;
   addWho: string;
@@ -25,7 +25,7 @@ export class BorrowDto {
     dueDate: any,
     returnedDate: any,
     fine: number = 0,
-    status: string = '0',
+    status: string = '9',
     overdue: boolean = false,
     memberId: string = '',
     memberFullName: string = '',

@@ -2,7 +2,8 @@ import { CodeDto } from './../models/code-dto';
 import { Injectable } from '@angular/core';
 import { Firestore, collectionData, collection, doc, setDoc, deleteDoc, query, where, orderBy } from '@angular/fire/firestore';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { CommonService } from './common.service';
+import * as dayjs from 'dayjs';
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +53,9 @@ export class CodeService {
 
   constructor(
     private firestore: Firestore,
-    private httpClient: HttpClient) { }
+    private commonService: CommonService,
+    private httpClient: HttpClient
+  ) { }
 
   get() {
     const myQuery = query(collection(this.firestore, this.dbPath), orderBy('dictCode'), orderBy('itemCode'), orderBy('seqNo'));
@@ -67,23 +70,18 @@ export class CodeService {
   }
 
   set(codeDto: CodeDto) {
-    const date = new Date();
+    const date = dayjs();
 
     if (!codeDto.id) {
       codeDto.id = 'C900'
-        + date.getFullYear().toString()
-        + (date.getMonth() + 1).toString().padStart(2, '0')
-        + date.getDate().toString().padStart(2, '0')
-        + date.getHours().toString().padStart(2, '0')
-        + date.getMinutes().toString().padStart(2, '0')
-        + date.getSeconds().toString().padStart(2, '0')
+        + date.format('YYYYMMDDHHmmss')
         + codeDto.seqNo.toString().padStart(3, '0')
     }
 
-    if (!codeDto.addDate) {
-      codeDto.addDate = date;
-    }
-    codeDto.editDate = date;
+    codeDto.addDate = codeDto.addDate || date.toDate();
+    codeDto.addWho = codeDto.addWho || this.commonService.getCurrentUserName();
+    codeDto.editDate = date.toDate();
+    codeDto.editWho = this.commonService.getCurrentUserName();
 
     return setDoc(doc(this.firestore, this.dbPath, codeDto.id), Object.assign({}, codeDto));
   }

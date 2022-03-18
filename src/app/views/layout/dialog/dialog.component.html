@@ -17,7 +17,9 @@
   </div>
 </div>
 <div mat-dialog-actions align="end">
-  <button mat-button (click)="onConfirm(false)">CANCEL</button>
+  <button mat-button (click)="onConfirm(false)">
+    {{ 'errorMsg.btnCancel' | translate }}
+  </button>
   <button
     mat-raised-button
     color="warn"
@@ -25,6 +27,6 @@
     *ngIf="data.btnType === 'form'"
     cdkFocusInitial
   >
-    YES
+    {{ 'errorMsg.btnOk' | translate }}
   </button>
 </div>

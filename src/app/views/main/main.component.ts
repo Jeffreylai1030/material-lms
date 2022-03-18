@@ -2,6 +2,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateService } from '@ngx-translate/core';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-main',
@@ -14,10 +15,11 @@ export class MainComponent implements OnDestroy, OnInit {
   private mobileQueryListener: () => void;
 
   constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher,
+    public changeDetectorRef: ChangeDetectorRef,
+    public media: MediaMatcher,
     private auth: AuthService,
-    public translate: TranslateService
+    private commonService: CommonService,
+    private translate: TranslateService
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 990px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -30,7 +32,7 @@ export class MainComponent implements OnDestroy, OnInit {
     }
   }
   ngOnInit(): void {
-    this.loginUser = this.auth.getCurrentLoginUser();
+    this.loginUser = this.commonService.getCurrentUser();
   }
 
   ngOnDestroy(): void {

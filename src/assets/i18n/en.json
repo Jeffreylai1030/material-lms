@@ -122,6 +122,8 @@
     "Deactivate": "Deactivate",
     "Male": "Male",
     "Female": "Female",
+    "confirmation": "Confirmation",
+    "confirmMsg": "Do you want to delete this employee?",
     "register": {
       "formHeader": "Register",
       "email": "Email Address",
@@ -137,9 +139,15 @@
     "max": "{{title}} must less than {{max}}",
     "minLength": "{{title}} must greater than {{min}} characters",
     "maxLength": "{{title}} must less than {{max}} characters",
-    "email": "{{title}} not valid"
+    "email": "{{title}} not valid",
+    "genericErrorMsg": "Oops! Something went wrong! Please contact your IT administrator.",
+    "btnCancel": "Cancel",
+    "btnOk": "Yes",
+    "error": "Error",
+    "information": "Information"
   },
   "snackbar": {
+    "create_account_success": "Create login account successful",
     "update_success": "Update successful",
     "update_fail": "Update fail",
     "delete_success": "Delete successful",
@@ -165,13 +173,17 @@
     "yes": "Yes",
     "no": "No",
     "no_macthing_found": "No matching found",
-    "search_by": "Search by {{title}} or {{title2}}"
+    "search_by": "Search by {{title}} or {{title2}}",
+    "confirmation": "Confirmation",
+    "returnContent": "Return this book? The overdue fine is RM {{value}}.",
+    "reach_max_borrow": "You are reach the maximum {{value}} limits number of borrowed.",
+    "delete_message": "Do you want to delete this record instead of return?"
   },
   "dashboard": {
     "totalTodayBorrowsNumber": "TODAY BORROWED",
-    "totalBorrowsNumber": "TOTAL BORROWED",
+    "totalNotReturnNumber": "TOTAL BORROWED (NOT RETURN)",
     "totalBorrowsExpiredNumber": "TOTAL EXPIRED",
-    "totalBooksNumber": "TOTAL BOOKS",
+    "thisWeekBorrowNumber": "THIS WEEK BORROW NUMBER",
     "lastWeek": "Last Week",
     "lastMonth": "Last Month",
     "enterDateRange": "Enter a date range",

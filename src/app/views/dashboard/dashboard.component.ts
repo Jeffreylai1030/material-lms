@@ -1,14 +1,16 @@
+import { ReturnService } from './../../services/return.service';
 import { TranslateService } from '@ngx-translate/core';
 import { BorrowDto } from 'src/app/models/borrow-dto';
 import { BorrowService } from 'src/app/services/borrow.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EChartsOption } from 'echarts';
-import { BookService } from 'src/app/services/book.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import * as dayjs from 'dayjs';
+import * as isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import * as isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,9 +20,8 @@ import { DatePipe } from '@angular/common';
 export class DashboardComponent implements OnInit {
 
   constructor(
-    private bookService: BookService,
     private borrowService: BorrowService,
-    private datePipe: DatePipe,
+    private returnService: ReturnService,
     private translate: TranslateService
   ) {}
 
@@ -30,8 +31,8 @@ export class DashboardComponent implements OnInit {
 
   today = new Date();
   chartTitle = '7';
-  totalBooksNumber = 0;
-  totalBorrowsNumber = 0;
+  thisWeekBorrowNumber = 0;
+  totalNotReturnNumber = 0;
   totalTodayBorrowsNumber = 0;
   totalBorrowsExpiredNumber = 0;
   borrows: BorrowDto[] = [];
@@ -44,17 +45,23 @@ export class DashboardComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.bookService.get().subscribe(item => {
-      this.totalBooksNumber = item.length;
-    })
+    // Add extend function for dayjs
+    dayjs.extend(isSameOrAfter);
+    dayjs.extend(isSameOrBefore);
 
     this.borrowService.get().subscribe(item => {
       this.borrows = item;
-      this.totalBorrowsNumber = item.length;
-      this.totalTodayBorrowsNumber = item.filter(x => this.datePipe.transform(x.addDate.toDate(), 'yyyy-MM-dd') === this.datePipe.transform(new Date(), 'yyyy-MM-dd'))?.length;
-      this.totalBorrowsExpiredNumber = item.filter(x => x.dueDate.toDate().toISOString().substring(0, 10) <= new Date().toISOString().substring(0, 10)).length;
+      this.totalNotReturnNumber = item.length;
+      this.totalTodayBorrowsNumber += item.filter(x => dayjs(x.addDate.toDate()).isSame(dayjs(), 'day'))?.length;
+      this.totalBorrowsExpiredNumber = item.filter(x => dayjs().isAfter(dayjs(x.dueDate.toDate()))).length;
+      this.thisWeekBorrowNumber += item.filter(x => dayjs().isSameOrAfter(dayjs().startOf('week')) && dayjs().isSameOrBefore(dayjs().endOf('week')))?.length;
 
       this.onTabChange('lastWeek');
+    })
+
+    this.returnService.getByBorrowedDateRange(new Date(), dayjs().add(6, 'days').toDate()).subscribe(item => {
+      this.totalTodayBorrowsNumber += item.filter(x => dayjs(x.addDate.toDate()).isSame(dayjs(), 'day'))?.length;
+      this.thisWeekBorrowNumber += item.filter(x => dayjs().isSameOrAfter(dayjs().startOf('week')) && dayjs().isSameOrBefore(dayjs().endOf('week')))?.length;
     })
   }
 
@@ -71,11 +78,11 @@ export class DashboardComponent implements OnInit {
 
     if (value === 'lastWeek') {
       this.chartTitle = '7';
-      const startDate = new Date(new Date().setDate(new Date().getDate() - 6));
+      const startDate = dayjs().subtract(6, 'days').toDate();
       this.generateLineChart(startDate, endDate);
     } else if (value === 'lastMonth') {
       this.chartTitle = '30';
-      const startDate = new Date(new Date().setDate(new Date().getDate() - 29));
+      const startDate = dayjs().subtract(29, 'days').toDate();
       this.generateLineChart(startDate, endDate);
     }
   }
@@ -84,7 +91,7 @@ export class DashboardComponent implements OnInit {
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     this.selectedTab = '';
-    this.chartTitle = `${this.datePipe.transform(startDate, 'mediumDate')} ~ ${this.datePipe.transform(endDate, 'mediumDate')}`;
+    this.chartTitle = `${dayjs(startDate).format('MMM DD, YYYY')} ~ ${dayjs(endDate).format('MMM DD, YYYY')}`;
     this.getByBorrowedDateRange(startDate, endDate);
   }
 
@@ -94,15 +101,9 @@ export class DashboardComponent implements OnInit {
     let yAxis: number[] = [];
     let count = 0;
 
-    // let startDateStr = this.datePipe.transform(startDate, 'yyyy-MM-dd');
-    // let endDateStr = this.datePipe.transform(endDate, 'yyyy-MM-dd');
-    // console.log(`start: ${startDateStr}, end: ${endDateStr}`);
-
     while (startDate <= endDate) {
-      const pastDate = this.datePipe.transform(startDate, 'yyyy-MM-dd') || '';
-      const pastData = this.borrows.filter(x => this.datePipe.transform(x.borrowedDate.toDate(), 'yyyy-MM-dd') === pastDate).length;
-
-      console.log(pastData);
+      const pastDate = dayjs(startDate).format('YYYY-MM-DD');
+      const pastData = this.borrows.filter(x => dayjs(x.borrowedDate.toDate()).format('YYYY-MM-DD') === pastDate).length;
 
       xAxis.push(pastDate);
       yAxis.push(pastData);

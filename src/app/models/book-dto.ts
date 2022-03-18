@@ -20,9 +20,9 @@ export class BookDto {
   constructor (
     id: string = '',
     addDate: any = null,
-    addWho: string = 'Test User',
+    addWho: string = '',
     editDate: any = null,
-    editWho: string = 'Test User',
+    editWho: string = '',
     title: string = '',
     title2: string = '',
     isbn: string = '',
@@ -32,15 +32,15 @@ export class BookDto {
     thumbnailUrl: string = '',
     authors: string[] = [],
     language: string = '',
-    status: string = '',
+    status: string = '0',
     categories: string[] = [],
     tags: string[] = [],
     ) {
     this.id = id;
     this.addDate = addDate;
-    this.addWho = addWho || 'Test User';
+    this.addWho = addWho;
     this.editDate = editDate;
-    this.editWho = editWho || 'Test User';
+    this.editWho = editWho;
     this.title = title;
     this.title2 = title2;
     this.isbn = isbn;
