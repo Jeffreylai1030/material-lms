@@ -8,7 +8,7 @@ on:
       - main
 jobs:
   codeql:
-    - uses: ./.github/workflows/codeql
+    - uses: ./.github/workflows/codeql.yml
       with:
         language: javascript
 

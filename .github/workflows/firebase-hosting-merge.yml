@@ -8,10 +8,10 @@ on:
       - main
 jobs:
   codeql:
-    - uses: ./.github/workflows/codeql
+    - uses: ./.github/workflows/codeql.yml
       with:
         language: javascript
-        
+
   build_and_deploy:
     needs: codeql
     runs-on: ubuntu-latest
