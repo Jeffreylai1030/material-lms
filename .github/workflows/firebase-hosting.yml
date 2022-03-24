@@ -73,7 +73,7 @@ jobs:
           projectId: lms-20190117
 
   build_and_deploy:
-    if: ${{ github.event.pull_request.merged == 'true' }}
+    if: github.event.pull_request.merged
     needs: analyze
     runs-on: ubuntu-latest
     steps:
