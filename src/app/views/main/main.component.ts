@@ -12,7 +12,13 @@ import { CommonService } from 'src/app/services/common.service';
 export class MainComponent implements OnDestroy, OnInit {
   mobileQuery: MediaQueryList;
   loginUser: any;
-  private mobileQueryListener: () => void;
+  transformation = [{
+    height: '40',
+    width: '40',
+    focus: 'auto',
+    radius: 'max'
+  }];
+  lqip = { active: true, quality: 1 };
 
   constructor(
     public changeDetectorRef: ChangeDetectorRef,
@@ -20,19 +26,26 @@ export class MainComponent implements OnDestroy, OnInit {
     private auth: AuthService,
     private commonService: CommonService,
     private translate: TranslateService
-  ) {
-    this.mobileQuery = media.matchMedia('(max-width: 990px)');
-    this.mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addEventListener('change', this.mobileQueryListener);
+    ) {
+      this.mobileQuery = media.matchMedia('(max-width: 990px)');
+      this.mobileQueryListener = () => changeDetectorRef.detectChanges();
+      this.mobileQuery.addEventListener('change', this.mobileQueryListener);
 
-    const language = localStorage.getItem('lms_language');
+      const language = localStorage.getItem('lms_language');
 
-    if (language) {
-      this.translate.use(language);
+      if (language) {
+        this.translate.use(language);
+      }
     }
-  }
+
+  private mobileQueryListener: () => void;
+
   ngOnInit(): void {
     this.loginUser = this.commonService.getCurrentUser();
+
+    if (Object.keys(this.loginUser).length === 0) {
+      this.onLogout();
+    }
   }
 
   ngOnDestroy(): void {

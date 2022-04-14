@@ -8,8 +8,8 @@
     <h1 class="example-app-name" fxHide.gt-xs>LMS</h1>
     <span class="example-spacer"></span>
     <button mat-icon-button [matMenuTriggerFor]="menu">
-      <!-- <mat-icon>person</mat-icon> -->
-      <ngx-avatars size="40" [round]="true" [src]="loginUser.downloadURL" [name]="loginUser.fullName"></ngx-avatars>
+      <ik-image *ngIf="loginUser.imageKitURL" [src]="loginUser.imageKitURL" [lqip]="lqip" [transformation]="transformation"></ik-image>
+      <ngx-avatars *ngIf="!loginUser.imageKitURL" size="40" [round]="true" [name]="loginUser.fullName"></ngx-avatars>
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="onChangeLanguage('en')">

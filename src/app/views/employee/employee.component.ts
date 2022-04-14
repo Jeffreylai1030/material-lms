@@ -36,14 +36,19 @@ export class EmployeeComponent implements OnInit {
     'status',
     'action'
   ];
+  transformation = [{
+    height: '40',
+    width: '40',
+    focus: 'auto',
+    radius: 'max'
+  }];
+  lqip = { active: true, quality: 1 };
   dataSource!: MatTableDataSource<EmployeeDto>;
-
   @ViewChild(MatPaginator, { static: true })
   paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true })
   sort!: MatSort;
   selectedEmployee: EmployeeDto = new EmployeeDto();
-
   statusCode: CodeDto[] = [];
 
   constructor(
@@ -54,7 +59,7 @@ export class EmployeeComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private datepipe: DatePipe,
     public translate: TranslateService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -94,58 +99,50 @@ export class EmployeeComponent implements OnInit {
     document.getElementById('uploader')?.click();
   }
 
-  onUploaderChange(event: any) {
-    try {
-      if (event.target.files[0].size < 5 * 1024 * 1024) {
-        this.selectedEmployee.profileImage = event.target.files[0]; // Need BLOB
-        this.employeeService.uploadProfilePicture(this.selectedEmployee);
-      } else {
-        this.dialog.open(DialogComponent, {
-          width: '350px',
-          panelClass: 'confirm-dialog-container',
-          data: {
-            title: 'Registration',
-            html: 'Image cannot larger than 5 MB',
-            theme: 'dialog-red'
-          }
-        });
-      }
-    } catch (error) {
-      console.warn("File upload failed.");
+  onUploadProfile(event: any) {
+    const file = event.target.files[0];
+    if (file.size < 5 * 1024 * 1024) {
+      this.selectedEmployee.profileImage = file; // Need BLOB
+      this.employeeService.uploadProfile(this.selectedEmployee);
+    } else {
+      this.dialog.open(DialogComponent, {
+        width: '350px',
+        panelClass: 'confirm-dialog-container',
+        data: {
+          title: this.translate.instant('employee.profile'),
+          html: this.translate.instant('errorMsg.imgExcess'),
+          theme: 'dialog-red'
+        }
+      });
     }
   }
 
   onRegister(email: string, password = '') {
     const dialogRef = this.dialog.open(EmployeeRegisterFormComponent, {
       width: '450px',
-      data: { email, password },
+      data: { email, password }
     });
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         this.loginService.register(result.email, result.password)
           .then(result => {
-            // Open snack bar
-            this.translate.get(['snackbar.create_account_success', 'snackbar.close']).subscribe((message: any) => {
-              this.snackBar.open(message['snackbar.create_account_success'], message['snackbar.close'], {
-                duration: 1500
-              })
-            });
+            const message = this.translate.instant('snackbar.create_account_success');
+            const closeBtn = this.translate.instant('snackbar.close');
+            this.snackBar.open(message, closeBtn, { duration: 1500 })
           })
           .catch(error => {
             console.warn(error);
             // Display error message
-            this.translate.get(['errorMsg.genericErrorMsg', 'errorMsg.error']).subscribe((message: any) => {
-              this.dialog.open(DialogComponent, {
-                width: '350px',
-                panelClass: 'confirm-dialog-container',
-                data: {
-                  title: message['errorMsg.error'],
-                  content:  message['errorMsg.genericErrorMsg'],
-                  theme: 'dialog-red'
-                }
-              });
-            })
+            this.dialog.open(DialogComponent, {
+              width: '350px',
+              panelClass: 'confirm-dialog-container',
+              data: {
+                title: this.translate.instant('errorMsg.error'),
+                content: this.translate.instant('errorMsg.genericErrorMsg'),
+                theme: 'dialog-red'
+              }
+            });
           })
       }
     });
@@ -174,22 +171,31 @@ export class EmployeeComponent implements OnInit {
   }
 
   onSubmit(emp: EmployeeDto) {
-    this.employeeService.set(emp).then(result =>
-      this.translate.get(['snackbar.update_success', 'snackbar.close']).subscribe((message: any) => {
-        this.snackBar.open(message['snackbar.update_success'], message['snackbar.close'], {
-          duration: 1500
-        })
-      })
-    );
+    this.employeeService.set(emp).then(result => {
+      const message = this.translate.instant('snackbar.update_success');
+      const closeBtn = this.translate.instant('snackbar.close');
+      this.snackBar.open(message, closeBtn, { duration: 1500 })
+    });
   }
 
-  onStatusToggle(id: string, status: string) {
+  onStatusToggle(employeeDto: EmployeeDto) {
+    let message = '';
+    let newStatus = '';
+
+    if (employeeDto.status === '9') {
+      message = this.translate.instant('employee.toggleDeactivateMsg');
+      newStatus = '0';
+    } else {
+      message = this.translate.instant('employee.toggleActivateMsg');
+      newStatus = '9';
+    }
+
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '350px',
       panelClass: 'confirm-dialog-container',
       data: {
-        title: 'Confirmation',
-        content: `Do you want to ${status === '1' ? 'deactivate' : 'activate'} this employee?`,
+        title: this.translate.instant('employee.confirmation'),
+        content: message,
         btnType: 'form',
         theme: 'dialog-red'
       }
@@ -197,30 +203,29 @@ export class EmployeeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // this.employeeService.toggleStatus(id, status);
+        employeeDto.status = newStatus;
+        this.employeeService.set(employeeDto);
       }
     });
   }
 
   onDelete(emp: EmployeeDto) {
-    this.translate.get(['employee.confirmation', 'employee.confirmMsg']).subscribe((message: any) => {
-      const dialogRef = this.dialog.open(DialogComponent, {
-        width: '350px',
-        panelClass: 'confirm-dialog-container',
-        data: {
-          title: message['employee.confirmation'],
-          content: message['employee.confirmMsg'],
-          btnType: 'form',
-          theme: 'dialog-red'
-        }
-      });
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '350px',
+      panelClass: 'confirm-dialog-container',
+      data: {
+        title: this.translate.instant('employee.confirmation'),
+        content: this.translate.instant('employee.deleteConfirmMsg'),
+        btnType: 'form',
+        theme: 'dialog-red'
+      }
+    });
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.employeeService.delete(emp);
-        }
-      });
-    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.employeeService.delete(emp);
+      }
+    });
   }
 
   getStatusChipColor(value: string) {

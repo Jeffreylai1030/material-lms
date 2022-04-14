@@ -17,6 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "imagekitio-angular"
+            ],
             "outputPath": "dist/material-lms",
             "index": "src/index.html",
             "main": "src/main.ts",

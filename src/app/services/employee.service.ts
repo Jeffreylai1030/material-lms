@@ -1,6 +1,6 @@
 import { EmployeeDto } from './../models/employee-dto';
 import { Injectable } from '@angular/core';
-import { Storage, uploadBytesResumable, ref, getDownloadURL, deleteObject } from '@angular/fire/storage';
+import { Storage, uploadBytesResumable, ref, getDownloadURL } from '@angular/fire/storage';
 import { Firestore, collectionData, collection, doc, setDoc, deleteDoc, query, where, orderBy, limit } from '@angular/fire/firestore';
 import { CommonService } from './common.service';
 import * as dayjs from 'dayjs';
@@ -11,7 +11,9 @@ import * as dayjs from 'dayjs';
 export class EmployeeService {
 
   private dbPath = 'employees';
-  private profilePath = 'profiles';
+  private profilePath = 'material-lms/employees';
+  private firestorePrefix = 'https://firebasestorage.googleapis.com/v0/b/lms-20190117.appspot.com';
+  private imageKitPrefix = 'https://ik.imagekit.io/jeffreylai1030';
 
   // Firestore data converter
   private converter = {
@@ -30,6 +32,7 @@ export class EmployeeService {
         idNumber: item.idNumber,
         idType: item.idType,
         downloadURL: item.downloadURL,
+        imageKitURL: item.imageKitURL,
         profileImage: item.profileImage,
         role: item.role,
         salary: item.salary,
@@ -55,6 +58,7 @@ export class EmployeeService {
           item.idNumber,
           item.idType,
           item.downloadURL,
+          item.imageKitURL,
           item.profileImage,
           item.role,
           item.salary,
@@ -103,12 +107,12 @@ export class EmployeeService {
     return setDoc(doc(this.firestore, this.dbPath, employeeDto.id), Object.assign({}, employeeDto));
   }
 
-  uploadProfilePicture(employeeDto: EmployeeDto) {
+  uploadProfile(employeeDto: EmployeeDto) {
 
     const storageRef = ref(this.storage, this.profilePath + '/' + employeeDto.id);
 
     const metadata = {
-      contentType: 'image/jpeg'
+      contentType: employeeDto.profileImage.type
     };
 
     const uploadTask = uploadBytesResumable(storageRef, employeeDto.profileImage, metadata);
@@ -133,6 +137,7 @@ export class EmployeeService {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           employeeDto.downloadURL = downloadURL;
+          employeeDto.imageKitURL = downloadURL.replace(this.firestorePrefix, this.imageKitPrefix);
           employeeDto.profileImage = `${this.profilePath}/${employeeDto.id}`;
           this.set(employeeDto);
         });

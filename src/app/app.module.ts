@@ -56,6 +56,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AvatarModule } from 'ngx-avatars';
+import { ImagekitioAngularModule } from 'imagekitio-angular';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
@@ -165,6 +166,7 @@ import { PageNotFoundComponent } from './views/page-not-found/page-not-found.com
     ScrollingModule,
     FlexLayoutModule,
     AvatarModule,
+    ImagekitioAngularModule.forRoot(environment.imagekitio),
   ],
   providers: [DialogComponent, DatePipe],
   bootstrap: [AppComponent],

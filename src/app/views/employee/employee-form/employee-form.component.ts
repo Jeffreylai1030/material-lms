@@ -30,6 +30,7 @@ export class EmployeeFormComponent implements OnInit {
       addDate: [data.addDate],
       addWho: [data.addWho],
       downloadURL: [data.downloadURL],
+      imageKitURL: [data.imageKitURL],
       fullName: [data.fullName, [Validators.required]],
       idType: [data.idType, [Validators.required]],
       idNumber: [data.idNumber, [Validators.required]],

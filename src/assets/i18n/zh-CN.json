@@ -124,7 +124,10 @@
     "Male": "男性",
     "Female": "女性",
     "confirmation": "确认信息",
-    "confirmMsg": "你想删除这个员工吗?",
+    "deleteConfirmMsg": "你想删除这个员工账号吗?",
+    "toggleActivateMsg": "你想激活这个员工账号吗？",
+    "toggleDeactivateMsg": "你想停用这个员工账号吗？",
+    "profile": "个人资料图片",
     "register": {
       "formHeader": "注册",
       "email": "电子邮件",
@@ -145,7 +148,8 @@
     "btnCancel": "取消",
     "btnOk": "好的",
     "error": "错误",
-    "information": "信息"
+    "information": "信息",
+    "imgExcess": "图片不能大于 5 MB"
   },
   "snackbar": {
     "create_account_success": "成功创建登录账号",
