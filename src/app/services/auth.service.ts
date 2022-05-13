@@ -22,22 +22,8 @@ export class AuthService {
 
   authState() {
     onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        // User is signed in
-        const email = user?.email?.toLowerCase() || '';
-        this.employeeService
-          .getByEmail(email)
-          .subscribe((x: EmployeeDto[]) => {
-            localStorage.setItem('lms_emp', JSON.stringify({
-                email: user.email,
-                username: x[0].username,
-                fullName: x[0].fullName,
-                downloadURL: x[0].downloadURL,
-              })
-            );
-          });
-      } else {
-        // User not signed in
+      if (!user) {
+        // User is not signed in
         this.router.navigate(['login']);
       }
     })
@@ -55,6 +41,7 @@ export class AuthService {
                 username: x[0].username,
                 fullName: x[0].fullName,
                 downloadURL: x[0].downloadURL,
+                imageKitURL: x[0].imageKitURL
               })
             );
             this.router.navigate(['main']);

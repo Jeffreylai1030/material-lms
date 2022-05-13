@@ -58,3 +58,7 @@ firebase init hosting:github
 ```
 
 * Follow the CLI prompts, and the command will automatically take care of setting up the GitHub Action.
+
+## License
+
+Released under the MIT license.

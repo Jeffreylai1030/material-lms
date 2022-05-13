@@ -13,6 +13,10 @@ export const environment = {
     authDomain: 'lms-20190117.firebaseapp.com',
     messagingSenderId: '703403526134',
   },
+  imagekitio: {
+    publicKey:"public_p3Ql8OIR5JebDXpVYH1mM6dm3SQ=",
+    urlEndpoint: "https://ik.imagekit.io/jeffreylai1030",
+  },
   production: false
 };
 

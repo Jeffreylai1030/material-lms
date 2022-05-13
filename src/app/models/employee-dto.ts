@@ -12,6 +12,7 @@ export class EmployeeDto {
   idNumber: string;
   idType: string;
   downloadURL: string;
+  imageKitURL: string;
   profileImage: any;
   role: string;
   salary: number;
@@ -34,6 +35,7 @@ export class EmployeeDto {
     idNumber: string = '',
     idType: string = '',
     downloadURL: string = '',
+    imageKitURL: string = '',
     profileImage: any = null,
     role: string = '',
     salary: number = 0,
@@ -55,6 +57,7 @@ export class EmployeeDto {
     this.idNumber = idNumber;
     this.idType = idType;
     this.downloadURL = downloadURL;
+    this.imageKitURL = imageKitURL;
     this.profileImage = profileImage;
     this.role = role;
     this.salary = salary;
