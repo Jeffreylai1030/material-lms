@@ -31,7 +31,7 @@
     "firebase": "^9.9.0",
     "imagekitio-angular": "^1.0.2",
     "ngx-avatars": "^1.4.0",
-    "ngx-echarts": "^8.0.1",
+    "ngx-echarts": "^14.0.0",
     "ngx-mask": "^14.0.3",
     "ngx-mat-select-search": "^4.2.0",
     "rxfire": "^6.0.3",
