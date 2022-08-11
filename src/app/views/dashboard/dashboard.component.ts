@@ -1,3 +1,4 @@
+import { ReturnDto } from './../../models/return-dto';
 import { ReturnService } from './../../services/return.service';
 import { TranslateService } from '@ngx-translate/core';
 import { BorrowDto } from 'src/app/models/borrow-dto';
@@ -11,6 +12,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import * as dayjs from 'dayjs';
 import * as isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import * as isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import LinearGradient from 'zrender/lib/graphic/LinearGradient';
+import { DashboardService } from 'src/app/services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +25,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private borrowService: BorrowService,
     private returnService: ReturnService,
+    private dashboardService: DashboardService,
     private translate: TranslateService
   ) {}
 
@@ -36,6 +40,7 @@ export class DashboardComponent implements OnInit {
   totalTodayBorrowsNumber = 0;
   totalBorrowsExpiredNumber = 0;
   borrows: BorrowDto[] = [];
+  returnBooks: ReturnDto[] = [];
   chartOption: EChartsOption = {};
   displayedColumns = ['date', 'number'];
   selectedTab = 'lastWeek';
@@ -48,20 +53,26 @@ export class DashboardComponent implements OnInit {
     // Add extend function for dayjs
     dayjs.extend(isSameOrAfter);
     dayjs.extend(isSameOrBefore);
+    this.thisWeekBorrowNumber = 0;
 
-    this.borrowService.get().subscribe(item => {
-      this.borrows = item;
-      this.totalNotReturnNumber = item.length;
-      this.totalTodayBorrowsNumber += item.filter(x => dayjs(x.addDate.toDate()).isSame(dayjs(), 'day'))?.length;
-      this.totalBorrowsExpiredNumber = item.filter(x => dayjs().isAfter(dayjs(x.dueDate.toDate()))).length;
-      this.thisWeekBorrowNumber += item.filter(x => dayjs().isSameOrAfter(dayjs().startOf('week')) && dayjs().isSameOrBefore(dayjs().endOf('week')))?.length;
-
+    this.borrowService.get().subscribe(borrowDto => {
+      this.borrows = borrowDto;
+      this.totalNotReturnNumber = borrowDto.length;
+      this.totalBorrowsExpiredNumber = borrowDto.filter(x => dayjs().isAfter(dayjs(x.dueDate.toDate()))).length;
       this.onTabChange('lastWeek');
     })
 
-    this.returnService.getByBorrowedDateRange(new Date(), dayjs().add(6, 'days').toDate()).subscribe(item => {
-      this.totalTodayBorrowsNumber += item.filter(x => dayjs(x.addDate.toDate()).isSame(dayjs(), 'day'))?.length;
-      this.thisWeekBorrowNumber += item.filter(x => dayjs().isSameOrAfter(dayjs().startOf('week')) && dayjs().isSameOrBefore(dayjs().endOf('week')))?.length;
+    this.dashboardService.getTodayBorrowsNumber().subscribe(item => {
+      this.totalTodayBorrowsNumber = item;
+    })
+
+    this.dashboardService.getWeekBorrowsNumber().subscribe(item => {
+      this.thisWeekBorrowNumber = item;
+    })
+
+    this.returnService.getByBorrowedDateRange(dayjs().subtract(6, 'days').toDate(), new Date()).subscribe(returnDto => {
+      this.returnBooks = returnDto;
+      this.onTabChange('lastWeek');
     })
   }
 
@@ -103,7 +114,8 @@ export class DashboardComponent implements OnInit {
 
     while (startDate <= endDate) {
       const pastDate = dayjs(startDate).format('YYYY-MM-DD');
-      const pastData = this.borrows.filter(x => dayjs(x.borrowedDate.toDate()).format('YYYY-MM-DD') === pastDate).length;
+      let pastData = this.borrows.filter(x => dayjs(x.borrowedDate.toDate()).format('YYYY-MM-DD') === pastDate).length;
+      pastData += this.returnBooks.filter(x => dayjs(x.borrowedDate.toDate()).format('YYYY-MM-DD') === pastDate).length;
 
       xAxis.push(pastDate);
       yAxis.push(pastData);
@@ -136,9 +148,6 @@ export class DashboardComponent implements OnInit {
         xAxis: {
           type: 'category',
           data: xAxis, // Past 7 days Date
-          axisTick: {
-            alignWithLabel: true
-          }
         },
         yAxis: {
           type: 'value',
@@ -148,10 +157,25 @@ export class DashboardComponent implements OnInit {
             name: result,
             data: yAxis, // Number of books
             type: 'line',
+            itemStyle: {
+              color: new LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: '#83bff6' },
+                { offset: 0.5, color: '#188df0' },
+                { offset: 1, color: '#188df0' },
+              ]),
+            },
+            emphasis: {
+              itemStyle: {
+                color: new LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: '#2378f7' },
+                  { offset: 0.7, color: '#2378f7' },
+                  { offset: 1, color: '#83bff6' },
+                ]),
+              }
+            },
           },
         ],
       };
     })
   }
-
 }
