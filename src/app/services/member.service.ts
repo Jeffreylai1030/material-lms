@@ -84,10 +84,10 @@ export class MemberService {
     return collectionData(data);
   }
 
-  getByStatus(status: string) {
+  getByStatus(status: number) {
     const myQuery = query(
       collection(this.firestore, this.dbPath),
-      where('status', '==', status)
+      where('status', '==', status.toString())
     );
     const data = myQuery.withConverter(this.converter);
     return collectionData(data);

@@ -15,6 +15,7 @@ import { DialogComponent } from '../layout/dialog/dialog.component';
 import { MemberDto } from 'src/app/models/member-dto';
 import { TranslateService } from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
+import { MemberStatus } from 'src/app/global/constants';
 
 @Component({
   selector: 'app-borrow',
@@ -81,7 +82,7 @@ export class BorrowComponent implements OnInit {
     });
 
     // Get active members
-    this.memberService.getByStatus('9').subscribe((item: MemberDto[]) => {
+    this.memberService.getByStatus(MemberStatus.Activate).subscribe((item: MemberDto[]) => {
       this.members = item;
       this.filteredMembers = item;
     });
@@ -137,7 +138,7 @@ export class BorrowComponent implements OnInit {
           borrowDto.overdue = totalFine > 0
           const member = this.members.find((x: MemberDto) => x.id === borrowDto.memberId);
           const book = this.Allbooks.find(x => x.id === borrowDto.bookId);
-
+          
           if (book && member) {
             this.borrowService.returnBook(borrowDto, book, member);
           }
@@ -241,6 +242,5 @@ function CalculateFine(dueDate: Date, finePerDay: number) {
   const due_Date = dayjs(dueDate);
 
   const days = dayjs().diff(due_Date, 'day');
-
   return (days >= 0 ? days : 0) * finePerDay;
 }

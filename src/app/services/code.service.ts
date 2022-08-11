@@ -144,7 +144,8 @@ export class CodeService {
 
     this.set(new CodeDto('C90020211021180000044', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'book', 24, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Available', '0', 'primary', ''));
     this.set(new CodeDto('C90020211021180000045', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'book', 25, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Borrowed', '9', 'warn', ''));
-    this.set(new CodeDto('C90020211021180000046', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'book', 26, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Broken', '5', 'accent', ''));
+    this.set(new CodeDto('C90020211021180000045', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'book', 26, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Expired', '8', 'accent', ''));
+    this.set(new CodeDto('C90020211021180000046', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'status', 'book', 27, 'Value1: Status Text, Value2: Status Code, Value3: Chip Color', 'Broken', '5', 'accent', ''));
 
     this.set(new CodeDto('C90020211021180000047', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'privileges', 'member', 1, 'Value1: Level, Value2: Max number items to borrowed, Value3: Loan period (days)', 'Undergraduate_Student', '15', '14', ''));
     this.set(new CodeDto('C90020211021180000048', new Date('2021-10-21 18:00:00'), 'Administrator', new Date('2021-10-21 18:00:00'), 'Administrator', 'privileges', 'member', 2, 'Value1: Level, Value2: Max number items to borrowed, Value3: Loan period (days)', 'Graduate_Student', '30', '30', ''));
