@@ -1,3 +1,4 @@
+
 .main-layout {
   height: 100%;
   margin: 0;
@@ -72,10 +73,11 @@
   z-index: -1;
 }
 
-.login-wrapper .example-form {
+.login-wrapper .login-form {
   min-width: 100%;
   max-width: 300px;
   width: 100%;
+  margin-top: 2rem;
 }
 
 .login-wrapper .example-full-width,
@@ -107,4 +109,8 @@
 
 .login-wrapper input.mat-input-element {
   padding: 8px 0;
+}
+
+.errorMsg {
+  color: red;
 }

@@ -1,13 +1,13 @@
-import { DialogComponent } from './../layout/dialog/dialog.component';
-import { MemberDto } from './../../models/member-dto';
+import { DialogComponent } from '../layout/dialog/dialog.component';
+import { MemberDto } from '@models/member-dto';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CodeService } from 'src/app/services/code.service';
-import { MemberService } from 'src/app/services/member.service';
-import { CodeDto } from 'src/app/models/code-dto';
+import { CodeService } from '@services/code.service';
+import { MemberService } from '@services/member.service';
+import { CodeDto } from '@models/code-dto';
 import { MemberFormComponent } from './member-form/member-form.component';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -55,7 +55,7 @@ export class MemberComponent implements OnInit {
       this.count = item.length;
     });
 
-    this.codeService.getByCode('member', 'status').subscribe((item) => {
+    this.codeService.getMemberStatus().subscribe((item) => {
       this.statusCode = item;
     });
   }

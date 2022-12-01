@@ -1,8 +1,8 @@
-import { EmployeeDto } from './../../../models/employee-dto';
+import { EmployeeDto } from '@models/employee-dto';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CodeService } from 'src/app/services/code.service';
+import { CodeService } from '@services/code.service';
 
 @Component({
   selector: 'app-employee-form',
@@ -47,16 +47,16 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.codeService.getByCode('general', 'gender').subscribe((item) => {
+    this.codeService.getGenders().subscribe((item) => {
       this.genderOption = item.map(x => ({ label: x.value1, value: x.value1.toLowerCase() }));
     });
-    this.codeService.getByCode('staff_role', 'role').subscribe((item) => {
+    this.codeService.getStaffRoles().subscribe((item) => {
       this.staffRoleOption = item.map(x => ({ label: x.value1, value: x.value1 }));
     });
-    this.codeService.getByCode('staff_role', 'idType').subscribe((item) => {
+    this.codeService.getStaffIdTypes().subscribe((item) => {
       this.idTypeOption = item.map(x => ({ label: x.value1, value: x.value1 }));
     });
-    this.codeService.getByCode('staff_role', 'status').subscribe((item) => {
+    this.codeService.getStaffStatus().subscribe((item) => {
       this.statusOption = item.map(x => ({ label: x.value1, value: x.value2 }));
     });
   }

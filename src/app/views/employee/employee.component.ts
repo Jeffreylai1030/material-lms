@@ -1,20 +1,20 @@
 import { EmployeeRegisterFormComponent } from './employee-register-form/employee-register-form.component';
-import { EmployeeDto } from './../../models/employee-dto';
+import { EmployeeDto } from '@models/employee-dto';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CodeService } from 'src/app/services/code.service';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { CodeService } from '@services/code.service';
+import { EmployeeService } from '@services/employee.service';
 import { DialogComponent } from '../layout/dialog/dialog.component';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '@services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { CodeDto } from 'src/app/models/code-dto';
+import { CodeDto } from '@models/code-dto';
 
 @Component({
   selector: 'app-employee',
@@ -68,7 +68,7 @@ export class EmployeeComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
-    this.codeService.getByCode('staff_role', 'status').subscribe((item) => {
+    this.codeService.getStaffStatus().subscribe((item) => {
       this.statusCode = item;
     });
   }

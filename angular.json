@@ -117,5 +117,8 @@
       }
     }
   },
-  "defaultProject": "material-lms"
+  "defaultProject": "material-lms",
+  "cli": {
+    "analytics": false
+  }
 }

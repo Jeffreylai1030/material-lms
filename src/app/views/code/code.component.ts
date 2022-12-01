@@ -1,6 +1,6 @@
 import { CodeFormComponent } from './code-form/code-form.component';
-import { CodeDto } from './../../models/code-dto';
-import { CodeService } from './../../services/code.service';
+import { CodeDto } from '@models/code-dto';
+import { CodeService } from '@services/code.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';

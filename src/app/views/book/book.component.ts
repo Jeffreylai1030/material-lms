@@ -1,18 +1,18 @@
-import { CodeDto } from './../../models/code-dto';
-import { CodeService } from 'src/app/services/code.service';
 import { BookFormComponent } from './book-form/book-form.component';
-import { DialogComponent } from './../layout/dialog/dialog.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BookDto } from 'src/app/models/book-dto';
-import { BookService } from 'src/app/services/book.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BookDto } from '@models/book-dto';
+import { CodeDto } from '@models/code-dto';
+import { BookService } from '@services/book.service';
+import { CodeService } from '@services/code.service';
+import { DialogComponent } from '../layout/dialog/dialog.component';
 
 @Component({
   selector: 'app-book',
@@ -60,7 +60,7 @@ export class BookComponent implements OnInit {
       this.dataSource.sort = this.sort;
     });
 
-    this.codeService.getByCode('book', 'status').subscribe((item) => {
+    this.codeService.getBookStatus().subscribe((item) => {
       this.statusCode = item;
     });
   }

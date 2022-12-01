@@ -1,3 +1,4 @@
+import { Observable, of, Subject } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { EmployeeDto } from '../models/employee-dto';
 import { Injectable } from '@angular/core';
@@ -29,7 +30,9 @@ export class AuthService {
     })
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<any> {
+    var errorMsg = new Subject<any>();
+
     signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         // Signed in
@@ -48,8 +51,10 @@ export class AuthService {
           });
       })
       .catch((e) => {
-        alert(e.message);
+        errorMsg.next(e);
       });
+
+    return errorMsg.asObservable();
   }
 
   logout() {

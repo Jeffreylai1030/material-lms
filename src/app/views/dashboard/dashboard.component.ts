@@ -1,8 +1,8 @@
-import { ReturnDto } from './../../models/return-dto';
-import { ReturnService } from './../../services/return.service';
+import { ReturnDto } from '@models/return-dto';
+import { ReturnService } from '@services/return.service';
 import { TranslateService } from '@ngx-translate/core';
-import { BorrowDto } from 'src/app/models/borrow-dto';
-import { BorrowService } from 'src/app/services/borrow.service';
+import { BorrowDto } from '@models/borrow-dto';
+import { BorrowService } from '@services/borrow.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,7 +13,7 @@ import * as dayjs from 'dayjs';
 import * as isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import * as isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import LinearGradient from 'zrender/lib/graphic/LinearGradient';
-import { DashboardService } from 'src/app/services/dashboard.service';
+import { DashboardService } from '@services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
