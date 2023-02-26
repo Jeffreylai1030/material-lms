@@ -1,0 +1,32 @@
+<!-- <h1 mat-dialog-title *ngIf="!data.theme">{{ data.title }}</h1> -->
+<h1 mat-dialog-title [class]="data.theme">{{ data.title }}</h1>
+<div mat-dialog-content>
+  <div *ngIf="!data.displayArray">
+    <p class='dialog-content' *ngIf="data.content">{{ data.content }}</p>
+    <div [innerHTML]="data.html"></div>
+  </div>
+
+  <div *ngIf="data.displayArray">
+    <mat-list>
+      <mat-list-item *ngFor="let array of data.displayArray">
+        <mat-icon matListItemIcon>{{ array.icon }}</mat-icon>
+        <div matListItemTitle>{{ array.data }}</div>
+        <p matListItemLine *ngIf="array.data2">{{ array.data2 }}</p>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onConfirm(false)">
+    {{ 'errorMsg.btnCancel' | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="warn"
+    (click)="onConfirm(true)"
+    *ngIf="data.btnType === 'form'"
+    cdkFocusInitial
+  >
+    {{ 'errorMsg.btnOk' | translate }}
+  </button>
+</div>

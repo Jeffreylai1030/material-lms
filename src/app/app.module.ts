@@ -64,7 +64,7 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { MainComponent } from './views/main/main.component';
-import { DialogComponent } from './views/layout/dialog/dialog.component';
+import { DialogComponent } from './views/widgets/dialog/dialog.component';
 import { CodeComponent } from './views/code/code.component';
 import { MemberComponent } from './views/member/member.component';
 import { BookComponent } from './views/book/book.component';
@@ -78,6 +78,7 @@ import { MemberFormComponent } from './views/member/member-form/member-form.comp
 import { EmployeeFormComponent } from './views/employee/employee-form/employee-form.component';
 import { EmployeeRegisterFormComponent } from './views/employee/employee-register-form/employee-register-form.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
+import { SmallWidgetComponent } from './views/widgets/small-widget/small-widget.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { PageNotFoundComponent } from './views/page-not-found/page-not-found.com
     EmployeeFormComponent,
     EmployeeRegisterFormComponent,
     PageNotFoundComponent,
+    SmallWidgetComponent,
   ],
   imports: [
     BrowserModule,

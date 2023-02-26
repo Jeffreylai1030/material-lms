@@ -11,11 +11,11 @@ import { BorrowDto } from '@models/borrow-dto';
 import { BookService } from '@services/book.service';
 import { BorrowService } from '@services/borrow.service';
 import { CodeService } from '@services/code.service';
-import { DialogComponent } from '../layout/dialog/dialog.component';
+import { DialogComponent } from '../widgets/dialog/dialog.component';
 import { MemberDto } from '@models/member-dto';
 import { TranslateService } from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
-import { MemberStatus } from '@global/constants';
+import { MemberStatus } from '@/app/global/status-constants';
 
 @Component({
   selector: 'app-borrow',

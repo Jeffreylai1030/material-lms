@@ -7,3 +7,7 @@
 .example-radio-button {
   margin: 5px;
 }
+
+.mat-mdc-dialog-actions {
+  padding: 1rem;
+}

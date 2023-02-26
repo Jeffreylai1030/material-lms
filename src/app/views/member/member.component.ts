@@ -1,4 +1,4 @@
-import { DialogComponent } from '../layout/dialog/dialog.component';
+import { DialogComponent } from '../widgets/dialog/dialog.component';
 import { MemberDto } from '@models/member-dto';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';

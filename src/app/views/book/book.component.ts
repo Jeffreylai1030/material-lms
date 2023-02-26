@@ -12,7 +12,7 @@ import { BookDto } from '@models/book-dto';
 import { CodeDto } from '@models/code-dto';
 import { BookService } from '@services/book.service';
 import { CodeService } from '@services/code.service';
-import { DialogComponent } from '../layout/dialog/dialog.component';
+import { DialogComponent } from '../widgets/dialog/dialog.component';
 
 @Component({
   selector: 'app-book',
