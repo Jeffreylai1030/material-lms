@@ -1,0 +1,11 @@
+{
+  "typescript.suggest.paths": false,
+  "javascript.suggest.paths": false,
+  "path-intellisense.mappings": {
+    "@": "${workspaceFolder}/src",
+    "@views": "${workspaceFolder}/src/app/views",
+    "@services": "${workspaceFolder}/src/app/services",
+    "@models": "${workspaceFolder}/src/app/models",
+    "@global": "${workspaceFolder}/src/app/global"
+  },
+}

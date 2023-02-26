@@ -1,17 +1,21 @@
-import { CodeService } from 'src/app/services/code.service';
-import { MemberDto } from './../../../models/member-dto';
+import { CodeService } from '@services/code.service';
+import { MemberDto } from '@models/member-dto';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-member-form',
   templateUrl: './member-form.component.html',
-  styleUrls: ['./member-form.component.css']
+  styleUrls: ['./member-form.component.css'],
 })
 export class MemberFormComponent implements OnInit {
-
   form: FormGroup;
   idTypeOption: any;
   countryOption: any;
@@ -47,41 +51,70 @@ export class MemberFormComponent implements OnInit {
       expDate: [data.expDate?.toDate(), [Validators.required]],
       privilege: [data.privilege, [Validators.required]],
       status: [data.status],
-    })
+    });
   }
 
   ngOnInit(): void {
-    this.codeService.getByCode('member', 'idType').subscribe((item) => {
-      this.idTypeOption = item.map(x => ({ label: x.value1, value: x.value1 }));
+    this.codeService.getMemberIdTypes().subscribe((item) => {
+      this.idTypeOption = item.map((x) => ({
+        label: x.value1,
+        value: x.value1,
+      }));
     });
-    this.codeService.getByCode('general', 'gender').subscribe((item) => {
-      this.genderOption = item.map(x => ({ label: x.value1, value: x.value1 }));
+    this.codeService.getGenders().subscribe((item) => {
+      this.genderOption = item.map((x) => ({
+        label: x.value1,
+        value: x.value1,
+      }));
     });
     this.codeService.getCountries().subscribe((item: any) => {
       this.countryOption = item.map((x: any) => {
         if (this.language === 'en') {
-          return { label: x.name.common, name: x.name.common, value: x.name.common, flag: x.flags.svg }
+          return {
+            label: x.name.common,
+            name: x.name.common,
+            value: x.name.common,
+            flag: x.flags.svg,
+          };
         } else if (this.language === 'zh-CN') {
           if (x.translations?.zho?.common) {
-            return { label: x.translations?.zho?.common, name: x.name.common, value: x.name.common, flag: x.flags.svg }
+            return {
+              label: x.translations?.zho?.common,
+              name: x.name.common,
+              value: x.name.common,
+              flag: x.flags.svg,
+            };
           } else {
-            return { label: x.name.nativeName?.zho?.common, name: x.name.common, value: x.name.common, flag: x.flags.svg }
+            return {
+              label: x.name.nativeName?.zho?.common,
+              name: x.name.common,
+              value: x.name.common,
+              flag: x.flags.svg,
+            };
           }
         }
         return {};
-      })
+      });
       this.filteredData = this.countryOption;
     });
-    this.codeService.getByCode('member', 'privileges').subscribe((item) => {
-      this.privilegesOption = item.map(x => ({ label: x.value1, value: x.value1 }));
+    this.codeService.getMemberPrivileges().subscribe((item) => {
+      this.privilegesOption = item.map((x) => ({
+        label: x.value1,
+        value: x.value1,
+      }));
     });
-    this.codeService.getByCode('member', 'status').subscribe((item) => {
-      this.statusOption = item.map(x => ({ label: x.value1, value: x.value2 }));
+    this.codeService.getMemberStatus().subscribe((item) => {
+      this.statusOption = item.map((x) => ({
+        label: x.value1,
+        value: x.value2,
+      }));
     });
 
     this.filterCtrl.valueChanges.pipe().subscribe(() => {
       const search = this.filterCtrl.value?.toLowerCase();
-      this.filteredData = this.countryOption.filter((item: any) => item.name.toLowerCase().indexOf(search) > -1);
+      this.filteredData = this.countryOption.filter(
+        (item: any) => item.name.toLowerCase().indexOf(search) > -1
+      );
     });
   }
 

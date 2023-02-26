@@ -1,21 +1,21 @@
-import { MemberService } from 'src/app/services/member.service';
-import { CodeDto } from 'src/app/models/code-dto';
+import { MemberService } from '@services/member.service';
+import { CodeDto } from '@models/code-dto';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BookDto } from 'src/app/models/book-dto';
-import { BorrowDto } from 'src/app/models/borrow-dto';
-import { BookService } from 'src/app/services/book.service';
-import { BorrowService } from 'src/app/services/borrow.service';
-import { CodeService } from 'src/app/services/code.service';
-import { DialogComponent } from '../layout/dialog/dialog.component';
-import { MemberDto } from 'src/app/models/member-dto';
+import { BookDto } from '@models/book-dto';
+import { BorrowDto } from '@models/borrow-dto';
+import { BookService } from '@services/book.service';
+import { BorrowService } from '@services/borrow.service';
+import { CodeService } from '@services/code.service';
+import { DialogComponent } from '../widgets/dialog/dialog.component';
+import { MemberDto } from '@models/member-dto';
 import { TranslateService } from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
-import { MemberStatus } from 'src/app/global/constants';
+import { MemberStatus } from '@/app/global/status-constants';
 
 @Component({
   selector: 'app-borrow',
@@ -87,7 +87,7 @@ export class BorrowComponent implements OnInit {
       this.filteredMembers = item;
     });
 
-    this.codeService.getByCode('book', 'fine').subscribe((item: CodeDto[]) => {
+    this.codeService.getBookFines().subscribe((item: CodeDto[]) => {
       this.finePerDay = parseFloat(item[0]?.value1);
     });
 
@@ -138,7 +138,7 @@ export class BorrowComponent implements OnInit {
           borrowDto.overdue = totalFine > 0
           const member = this.members.find((x: MemberDto) => x.id === borrowDto.memberId);
           const book = this.Allbooks.find(x => x.id === borrowDto.bookId);
-          
+
           if (book && member) {
             this.borrowService.returnBook(borrowDto, book, member);
           }
@@ -152,7 +152,7 @@ export class BorrowComponent implements OnInit {
       return;
     }
 
-    this.codeService.getByCode('member', 'privileges').subscribe((item: CodeDto[]) => {
+    this.codeService.getMemberPrivileges().subscribe((item: CodeDto[]) => {
       const member = this.members.find((x: MemberDto) => x.id === this.memberCtrl.value);
       const privilege = item.find(x => x.value1 === member?.privilege);
       const maxCanBorrowed = parseInt(privilege?.value2 || '0');

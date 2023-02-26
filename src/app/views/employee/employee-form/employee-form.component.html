@@ -9,8 +9,8 @@
       </mat-error>
     </mat-form-field>
 
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="16px" fxFlexFill>
-      <div fxFlex="50">
+    <div fxLayout="row" fxLayout.xs="column wrap" fxLayoutGap="1rem" fxLayoutGap.xs="0" fxFlexFill>
+      <div fxFlex="calc(50% - 1rem)">
         <mat-form-field>
           <mat-label>{{ 'employee.idType' | translate }}</mat-label>
           <mat-select formControlName="idType">
@@ -21,7 +21,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div fxFlex="50">
+      <div fxFlex="calc(50% - 1rem)">
         <mat-form-field>
           <mat-label>{{ 'employee.idNumber' | translate }}</mat-label>
           <input matInput formControlName="idNumber" />

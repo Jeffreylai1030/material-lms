@@ -6,7 +6,7 @@
         <mat-card-title>{{ 'login.login' | translate }}</mat-card-title>
       </mat-card-header>
 
-      <form class="example-form" style="margin-top: 2rem;">
+      <form class="login-form">
         <mat-card-content>
           <mat-form-field class="example-full-width" [formGroup]="loginForm">
             <input matInput placeholder="{{ 'login.email' | translate }}" type="email" formControlName="email" />
@@ -19,16 +19,25 @@
           </mat-form-field>
 
           <mat-form-field class="example-full-width" [formGroup]="loginForm">
-            <input matInput placeholder="{{ 'login.password' | translate }}" type="password" formControlName="password"/>
+            <input matInput placeholder="{{ 'login.password' | translate }}" type="password"
+              formControlName="password" />
             <mat-error *ngIf="errorHandling('password','required')">
               {{ 'errorMsg.required' | translate: { title: 'login.password' | translate } }}
             </mat-error>
             <mat-error *ngIf="errorHandling('password','minLength')">
-              {{ 'errorMsg.minLength' | translate: { title: 'login.password' | translate, min: '8' } }}
+              {{ 'errorMsg.minLength' | translate: { title: ('login.password' | translate), min: "8" } }}
             </mat-error>
           </mat-form-field>
+
+          <div class="errorMsg">
+            {{ errorMsg }}
+          </div>
         </mat-card-content>
-        <button mat-stroked-button color="warn" class="btn-block" (click)="login()" [disabled]="loginForm.invalid">{{ 'login.login' | translate }}</button>
+
+
+        <button mat-stroked-button color="warn" class="btn-block" (click)="login()" [disabled]="loginForm.invalid">
+          <span>{{ 'login.login' | translate }}</span>
+        </button>
       </form>
     </mat-card>
   </div>

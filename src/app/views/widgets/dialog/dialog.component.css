@@ -1,0 +1,25 @@
+h1.dialog-red {
+  font: 500 20px/32px Poppins, 'Helvetica Neue', sans-serif;
+  display: block;
+  background: linear-gradient(to left, #eb3349, #f45c43);
+  color: #fff;
+}
+
+h1.dialog-blue {
+  font: 500 20px/32px Poppins, 'Helvetica Neue', sans-serif;
+  display: block;
+  background: linear-gradient(to left, #56ccf2, #2f80ed);
+  color: #fff;
+}
+
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+mat-list-item {
+  height: 3rem !important;
+}
+
+.mat-mdc-dialog-actions {
+  padding: 0 24px 16px 0;
+}

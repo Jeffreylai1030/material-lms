@@ -1,10 +1,10 @@
-import { BookDto } from './../../../models/book-dto';
+import { BookDto } from '@models/book-dto';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MatChipInputEvent } from '@angular/material/chips';
-import { CodeService } from 'src/app/services/code.service';
+import { CodeService } from '@services/code.service';
 
 @Component({
   selector: 'app-book-form',
@@ -46,13 +46,13 @@ export class BookFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.codeService.getByCode('book', 'language').subscribe((item) => {
+    this.codeService.getBookLanguages().subscribe((item) => {
       this.languageOption = item.map(x => ({ label: x.value1, value: x.value1 }));
     });
-    this.codeService.getByCode('book', 'category').subscribe((item) => {
+    this.codeService.getBookCategories().subscribe((item) => {
       this.categoriesOption = item.map(x => ({ label: x.value1, value: x.value1 }));
     });
-    this.codeService.getByCode('book', 'status').subscribe((item) => {
+    this.codeService.getBookStatus().subscribe((item) => {
       this.statusOption = item.map(x => ({ label: x.value1, value: x.value2 }));
     });
   }

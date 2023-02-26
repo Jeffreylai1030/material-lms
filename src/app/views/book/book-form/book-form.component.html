@@ -1,5 +1,5 @@
 <h1 mat-dialog-title align="center">{{ 'books.formHeader' | translate }}</h1>
-<form [formGroup]="form" novalidate>
+<form [formGroup]="form" novalidate class="form">
   <div mat-dialog-content>
     <mat-form-field>
       <mat-label>{{ 'books.title' | translate }}</mat-label>
@@ -39,18 +39,18 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ 'books.author' | translate }}</mat-label>
-      <mat-chip-list #authors aria-label="authors">
-        <mat-chip *ngFor="let author of data.authors" (removed)="remove(data.authors, author)">
+      <mat-chip-grid #authors aria-label="authors">
+        <mat-chip-row *ngFor="let author of data.authors" (removed)="remove(data.authors, author)">
           {{author}}
           <button matChipRemove>
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip>
+        </mat-chip-row>
         <input [matChipInputFor]="authors"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                [matChipInputAddOnBlur]="addOnBlur"
                (matChipInputTokenEnd)="add(data.authors, $event)">
-      </mat-chip-list>
+      </mat-chip-grid>
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ 'books.language' | translate }}</mat-label>
@@ -58,11 +58,15 @@
         <mat-option [value]="language.value" *ngFor="let language of languageOption">{{ 'books.' + language.label | translate }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <div>
+    <div class="mb-1">
       <mat-label>{{ 'books.status' | translate }}</mat-label>
-      <mat-radio-group class="example-radio-group" formControlName="status">
+      <mat-chip-listbox aria-label="Status selection" formControlName="status">
+        <mat-chip-option *ngFor="let status of statusOption" [value]="status.value">{{ 'books.' + status.label | translate }}</mat-chip-option>
+      </mat-chip-listbox>
+
+      <!-- <mat-radio-group class="example-radio-group" formControlName="status">
         <mat-radio-button class="example-radio-button" [value]="status.value" *ngFor="let status of statusOption">{{ 'books.' + status.label | translate }}</mat-radio-button>
-      </mat-radio-group>
+      </mat-radio-group> -->
     </div>
     <mat-form-field>
       <mat-label>{{ 'books.categories' | translate }}</mat-label>
@@ -72,18 +76,18 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ 'books.tags' | translate }}</mat-label>
-      <mat-chip-list #tags aria-label="tags">
-        <mat-chip *ngFor="let tag of data.tags" (removed)="remove(data.tags, tag)">
+      <mat-chip-grid #tags aria-label="tags">
+        <mat-chip-row *ngFor="let tag of data.tags" (removed)="remove(data.tags, tag)">
           {{tag}}
           <button matChipRemove>
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip>
+        </mat-chip-row>
         <input [matChipInputFor]="tags"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                [matChipInputAddOnBlur]="addOnBlur"
                (matChipInputTokenEnd)="add(data.tags, $event)">
-      </mat-chip-list>
+      </mat-chip-grid>
     </mat-form-field>
   </div>
   <div mat-dialog-actions align="center">

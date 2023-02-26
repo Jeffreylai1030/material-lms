@@ -69,6 +69,55 @@ export class CodeService {
     return collectionData(data);
   }
 
+  getCountries() {
+    return this.httpClient.get('https://restcountries.com/v3.1/all');
+  }
+
+  getGenders() {
+    return this.getByCode('general', 'gender');
+  }
+
+
+  getMemberPrivileges() {
+    return this.getByCode('member', 'privileges');
+  }
+
+  getMemberStatus() {
+    return this.getByCode('member', 'status');
+  }
+
+  getMemberIdTypes() {
+    return this.getByCode('member', 'idType');
+  }
+
+  getStaffStatus() {
+    return this.getByCode('staff_role', 'status');
+  }
+
+  getStaffRoles() {
+    return this.getByCode('staff_role', 'role');
+  }
+
+  getStaffIdTypes() {
+    return this.getByCode('staff_role', 'idType');
+  }
+
+  getBookFines() {
+    return this.getByCode('book', 'fine');
+  }
+
+  getBookLanguages() {
+    return this.getByCode('book', 'language');
+  }
+
+  getBookCategories() {
+    return this.getByCode('book', 'category');
+  }
+
+  getBookStatus() {
+    return this.getByCode('book', 'status');
+  }
+
   set(codeDto: CodeDto) {
     const date = dayjs();
 
@@ -88,10 +137,6 @@ export class CodeService {
 
   delete(id: string) {
     return deleteDoc(doc(this.firestore, this.dbPath, id));
-  }
-
-  getCountries() {
-    return this.httpClient.get('https://restcountries.com/v3.1/all');
   }
 
   insertSampleCode() {

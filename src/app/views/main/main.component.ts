@@ -1,8 +1,8 @@
-import { AuthService } from 'src/app/services/auth.service';
 import { Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { TranslateService } from '@ngx-translate/core';
-import { CommonService } from 'src/app/services/common.service';
+import { AuthService } from '@services/auth.service';
+import { CommonService } from '@services/common.service';
 
 @Component({
   selector: 'app-main',

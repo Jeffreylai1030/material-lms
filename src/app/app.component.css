@@ -64,4 +64,3 @@ mat-nav-list > a {
 .active-link:hover, .active-link:hover::after {
   background: linear-gradient(to right, #00b4db, #0083b0);
 }
-

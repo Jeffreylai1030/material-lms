@@ -7,7 +7,7 @@
     </mat-card-header>
     <mat-card-content>
       <div class="container">
-        <mat-form-field appearance="standard">
+        <mat-form-field appearance="fill">
           <mat-select placeholder="{{ 'borrow.member' | translate }}" [formControl]="memberCtrl">
             <mat-option>
               <ngx-mat-select-search
@@ -75,10 +75,10 @@
       <ng-container matColumnDef="overdue">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'borrow.overdue' | translate }}</th>
         <td mat-cell *matCellDef="let row">
-          <mat-chip-list>
+          <mat-chip-listbox>
             <mat-chip *ngIf="!row.overdue" [color]="row.dueDate.toDate() <= today ? 'warn' : 'primary'" selected> {{ row.dueDate.toDate() <= today ? ('borrow.yes' | translate)  : ('borrow.no' | translate) }}</mat-chip>
             <mat-chip *ngIf="row.overdue" [color]="row.overdue ? 'warn' : 'primary'" selected> {{ row.overdue ? ('borrow.yes' | translate)  : ('borrow.no' | translate) }}</mat-chip>
-          </mat-chip-list>
+          </mat-chip-listbox>
         </td>
       </ng-container>
       <ng-container matColumnDef="action">

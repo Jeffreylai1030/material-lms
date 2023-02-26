@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-
 html, body { height: 100%; }
 
 body {
@@ -8,19 +7,13 @@ body {
 }
 
 * {
-  font-family: Poppins;
+  font-family: 'Poppins';
 }
 
-.mat-form-field {
-  width:  100%;
-}
-
-.mat-radio-button {
-  margin-right: 2rem;
-  margin-bottom: 1rem;
+.mat-mdc-form-field {
+  width: 100%;
 }
 
 .mat-slide-toggle {
   margin-left: 1rem;
 }
-

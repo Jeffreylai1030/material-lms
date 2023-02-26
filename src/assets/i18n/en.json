@@ -28,6 +28,7 @@
     "remove": "Remove",
     "Available": "Available",
     "Borrowed": "Borrowed",
+    "Broken": "Broken",
     "English": "English",
     "Simplified_Chinese": "Simplified Chinese",
     "Traditional_Chinese": "Traditional Chinese",
@@ -148,7 +149,8 @@
     "btnOk": "Yes",
     "error": "Error",
     "information": "Information",
-    "imgExcess": "Picture cannot larger than 5 MB"
+    "imgExcess": "Picture cannot larger than 5 MB",
+    "wrong-password": "Wrong email or password"
   },
   "snackbar": {
     "create_account_success": "Create login account successful",

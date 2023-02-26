@@ -1,8 +1,8 @@
-import { ReturnDto } from './../../models/return-dto';
-import { ReturnService } from './../../services/return.service';
+import { ReturnDto } from '@models/return-dto';
+import { ReturnService } from '@services/return.service';
 import { TranslateService } from '@ngx-translate/core';
-import { BorrowDto } from 'src/app/models/borrow-dto';
-import { BorrowService } from 'src/app/services/borrow.service';
+import { BorrowDto } from '@models/borrow-dto';
+import { BorrowService } from '@services/borrow.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,15 +13,14 @@ import * as dayjs from 'dayjs';
 import * as isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import * as isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import LinearGradient from 'zrender/lib/graphic/LinearGradient';
-import { DashboardService } from 'src/app/services/dashboard.service';
+import { DashboardService } from '@services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-
   constructor(
     private borrowService: BorrowService,
     private returnService: ReturnService,
@@ -46,8 +45,9 @@ export class DashboardComponent implements OnInit {
   selectedTab = 'lastWeek';
   dateRange = new FormGroup({
     start: new FormControl(),
-    end: new FormControl()
+    end: new FormControl(),
   });
+  topWidgetsData: any = [];
 
   ngOnInit() {
     // Add extend function for dayjs
@@ -55,32 +55,66 @@ export class DashboardComponent implements OnInit {
     dayjs.extend(isSameOrBefore);
     this.thisWeekBorrowNumber = 0;
 
-    this.borrowService.get().subscribe(borrowDto => {
+    this.borrowService.get().subscribe((borrowDto) => {
       this.borrows = borrowDto;
       this.totalNotReturnNumber = borrowDto.length;
-      this.totalBorrowsExpiredNumber = borrowDto.filter(x => dayjs().isAfter(dayjs(x.dueDate.toDate()))).length;
+      this.totalBorrowsExpiredNumber = borrowDto.filter((x) =>
+        dayjs().isAfter(dayjs(x.dueDate.toDate()))
+      ).length;
       this.onTabChange('lastWeek');
-    })
+    });
 
-    this.dashboardService.getTodayBorrowsNumber().subscribe(item => {
+    this.dashboardService.getTodayBorrowsNumber().subscribe((item) => {
       this.totalTodayBorrowsNumber = item;
-    })
+    });
 
-    this.dashboardService.getWeekBorrowsNumber().subscribe(item => {
+    this.dashboardService.getWeekBorrowsNumber().subscribe((item) => {
       this.thisWeekBorrowNumber = item;
-    })
+    });
 
-    this.returnService.getByBorrowedDateRange(dayjs().subtract(6, 'days').toDate(), new Date()).subscribe(returnDto => {
-      this.returnBooks = returnDto;
-      this.onTabChange('lastWeek');
-    })
+    this.returnService
+      .getByBorrowedDateRange(dayjs().subtract(6, 'days').toDate(), new Date())
+      .subscribe((returnDto) => {
+        this.returnBooks = returnDto;
+        this.onTabChange('lastWeek');
+      });
+
+    // Initial widgets
+    this.topWidgetsData = [
+      {
+        title: 'dashboard.totalTodayBorrowsNumber',
+        content: this.totalTodayBorrowsNumber.toString(),
+        imgSrc: 'assets/svg/book.svg',
+        bgColor: 'background: linear-gradient(to right, #009fc5, #3cecb0)',
+      },
+      {
+        title: 'dashboard.totalNotReturnNumber',
+        content: this.totalNotReturnNumber.toString(),
+        imgSrc: 'assets/svg/open-book.svg',
+        bgColor: 'background: linear-gradient(to right, #7956ec, #2fb9f8)',
+      },
+      {
+        title: 'dashboard.totalBorrowsExpiredNumber',
+        content: this.totalBorrowsExpiredNumber.toString(),
+        imgSrc: 'assets/svg/time.svg',
+        bgColor: 'background: linear-gradient(to right, #f23673, #ffc066)',
+      },
+      {
+        title: 'dashboard.thisWeekBorrowNumber',
+        content: this.thisWeekBorrowNumber.toString(),
+        imgSrc: 'assets/svg/bookcase.svg',
+        bgColor: 'background: linear-gradient(to right, #5134b2, #b175eb)',
+      },
+    ];
   }
 
   getByBorrowedDateRange(startDate: Date, endDate: Date) {
-    this.borrowService.getByBorrowedDateRange(startDate, endDate).subscribe(item => {
-      this.borrows = item;
-      this.generateLineChart(startDate, endDate);
-    })
+    this.borrowService
+      .getByBorrowedDateRange(startDate, endDate)
+      .subscribe((item) => {
+        this.borrows = item;
+        this.generateLineChart(startDate, endDate);
+      });
   }
 
   // Trigger when change the tab for date range reports
@@ -102,7 +136,9 @@ export class DashboardComponent implements OnInit {
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     this.selectedTab = '';
-    this.chartTitle = `${dayjs(startDate).format('MMM DD, YYYY')} ~ ${dayjs(endDate).format('MMM DD, YYYY')}`;
+    this.chartTitle = `${dayjs(startDate).format('MMM DD, YYYY')} ~ ${dayjs(
+      endDate
+    ).format('MMM DD, YYYY')}`;
     this.getByBorrowedDateRange(startDate, endDate);
   }
 
@@ -114,8 +150,12 @@ export class DashboardComponent implements OnInit {
 
     while (startDate <= endDate) {
       const pastDate = dayjs(startDate).format('YYYY-MM-DD');
-      let pastData = this.borrows.filter(x => dayjs(x.borrowedDate.toDate()).format('YYYY-MM-DD') === pastDate).length;
-      pastData += this.returnBooks.filter(x => dayjs(x.borrowedDate.toDate()).format('YYYY-MM-DD') === pastDate).length;
+      let pastData = this.borrows.filter(
+        (x) => dayjs(x.borrowedDate.toDate()).format('YYYY-MM-DD') === pastDate
+      ).length;
+      pastData += this.returnBooks.filter(
+        (x) => dayjs(x.borrowedDate.toDate()).format('YYYY-MM-DD') === pastDate
+      ).length;
 
       xAxis.push(pastDate);
       yAxis.push(pastData);
@@ -131,19 +171,19 @@ export class DashboardComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
-    this.translate.get('dashboard.book').subscribe(result => {
+    this.translate.get('dashboard.book').subscribe((result) => {
       this.chartOption = {
         legend: {
-          data: [result]
+          data: [result],
         },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
             type: 'line',
             label: {
-              backgroundColor: '#6a7985'
-            }
-          }
+              backgroundColor: '#6a7985',
+            },
+          },
         },
         xAxis: {
           type: 'category',
@@ -171,11 +211,11 @@ export class DashboardComponent implements OnInit {
                   { offset: 0.7, color: '#2378f7' },
                   { offset: 1, color: '#83bff6' },
                 ]),
-              }
+              },
             },
           },
         ],
       };
-    })
+    });
   }
 }

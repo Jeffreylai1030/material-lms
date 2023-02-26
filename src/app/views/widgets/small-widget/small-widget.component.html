@@ -1,0 +1,19 @@
+<!-- <mat-card class="mat-elevation-z4 custom-widget" [style]="bgColor">
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title class="dash-title">{{ title }}</mat-card-title>
+      <mat-card-subtitle class="dash-value">{{ smallContent }}</mat-card-subtitle>
+      <img mat-card-sm-image title="" [src]="iconPath" />
+    </mat-card-title-group>
+  </mat-card-header>
+</mat-card> -->
+
+<mat-card class="mat-elevation-z4 custom-widget" [style]="bgColor">
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title class="dash-title">{{ title | translate }}</mat-card-title>
+      <mat-card-subtitle class="dash-value">{{ content }}</mat-card-subtitle>
+      <img mat-card-sm-image title="title" [src]="imgSrc" />
+    </mat-card-title-group>
+  </mat-card-header>
+</mat-card>

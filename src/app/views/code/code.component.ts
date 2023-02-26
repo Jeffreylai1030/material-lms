@@ -1,12 +1,12 @@
 import { CodeFormComponent } from './code-form/code-form.component';
-import { CodeDto } from './../../models/code-dto';
-import { CodeService } from './../../services/code.service';
+import { CodeDto } from '@models/code-dto';
+import { CodeService } from '@services/code.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DialogComponent } from '../layout/dialog/dialog.component';
+import { DialogComponent } from '../widgets/dialog/dialog.component';
 import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
