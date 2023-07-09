@@ -83,25 +83,25 @@ export class DashboardComponent implements OnInit {
     this.topWidgetsData = [
       {
         title: 'dashboard.totalTodayBorrowsNumber',
-        content: this.totalTodayBorrowsNumber.toString(),
+        content: this.totalTodayBorrowsNumber,
         imgSrc: 'assets/svg/book.svg',
         bgColor: 'background: linear-gradient(to right, #009fc5, #3cecb0)',
       },
       {
         title: 'dashboard.totalNotReturnNumber',
-        content: this.totalNotReturnNumber.toString(),
+        content: this.totalNotReturnNumber,
         imgSrc: 'assets/svg/open-book.svg',
         bgColor: 'background: linear-gradient(to right, #7956ec, #2fb9f8)',
       },
       {
         title: 'dashboard.totalBorrowsExpiredNumber',
-        content: this.totalBorrowsExpiredNumber.toString(),
+        content: this.totalBorrowsExpiredNumber,
         imgSrc: 'assets/svg/time.svg',
         bgColor: 'background: linear-gradient(to right, #f23673, #ffc066)',
       },
       {
         title: 'dashboard.thisWeekBorrowNumber',
-        content: this.thisWeekBorrowNumber.toString(),
+        content: this.thisWeekBorrowNumber,
         imgSrc: 'assets/svg/bookcase.svg',
         bgColor: 'background: linear-gradient(to right, #5134b2, #b175eb)',
       },

@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BookComponent } from './book.component';
+import { BookService } from '@services/book.service';
+import { CodeService } from '@services/code.service';
+import { DialogComponent } from '../widgets/dialog/dialog.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('BookComponent', () => {
   let component: BookComponent;
@@ -8,7 +11,14 @@ describe('BookComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BookComponent ]
+      imports: [
+        TranslateModule.forRoot()
+      ],
+      providers: [
+        BookService,
+        CodeService
+      ],
+      declarations: [ BookComponent, DialogComponent ]
     })
     .compileComponents();
   });
@@ -22,4 +32,5 @@ describe('BookComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
