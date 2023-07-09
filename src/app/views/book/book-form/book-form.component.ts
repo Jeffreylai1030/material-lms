@@ -1,18 +1,17 @@
 import { BookDto } from '@models/book-dto';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { CodeService } from '@services/code.service';
 
 @Component({
   selector: 'app-book-form',
   templateUrl: './book-form.component.html',
-  styleUrls: ['./book-form.component.css']
+  styleUrls: ['./book-form.component.css'],
 })
 export class BookFormComponent implements OnInit {
-
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   form: FormGroup;
@@ -24,7 +23,7 @@ export class BookFormComponent implements OnInit {
     public fb: FormBuilder,
     public dialogRef: MatDialogRef<BookFormComponent>,
     private codeService: CodeService,
-    @Inject(MAT_DIALOG_DATA) public data: BookDto,
+    @Inject(MAT_DIALOG_DATA) public data: BookDto
   ) {
     this.form = this.fb.group({
       id: [data.id],
@@ -42,18 +41,27 @@ export class BookFormComponent implements OnInit {
       status: [data.status],
       categories: [data.categories],
       tags: [data.tags],
-    })
+    });
   }
 
   ngOnInit(): void {
     this.codeService.getBookLanguages().subscribe((item) => {
-      this.languageOption = item.map(x => ({ label: x.value1, value: x.value1 }));
+      this.languageOption = item.map((x) => ({
+        label: x.value1,
+        value: x.value1,
+      }));
     });
     this.codeService.getBookCategories().subscribe((item) => {
-      this.categoriesOption = item.map(x => ({ label: x.value1, value: x.value1 }));
+      this.categoriesOption = item.map((x) => ({
+        label: x.value1,
+        value: x.value1,
+      }));
     });
     this.codeService.getBookStatus().subscribe((item) => {
-      this.statusOption = item.map(x => ({ label: x.value1, value: x.value2 }));
+      this.statusOption = item.map((x) => ({
+        label: x.value1,
+        value: x.value2,
+      }));
     });
   }
 
@@ -81,7 +89,6 @@ export class BookFormComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-
   errorHandling(control: string, error: string) {
     return this.form.controls[control].hasError(error);
   }
@@ -89,5 +96,4 @@ export class BookFormComponent implements OnInit {
   onSubmit() {
     this.dialogRef.close(this.form.value);
   }
-
 }
